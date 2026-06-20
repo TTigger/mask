@@ -79,7 +79,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 
 ## Status
 
-Early WIP. The design is frozen in `docs/` (`PRD.md` -> `SPEC.md` -> `PHASES.md`). Implementation follows the phases; Phase 0 (deterministic CLI: init → ingest → reduce → compile → wear, plus the Claude Code adapter) is complete and dogfooded (`docs/DOGFOOD.md`). Traditional Chinese companions live in `docs/zh-TW/`.
+Early WIP. The design is frozen in `docs/` (`PRD.md` -> `SPEC.md` -> `PHASES.md`). Implementation follows the phases. **Phase 0** (deterministic CLI: init → ingest → reduce → compile → wear, Claude Code adapter) and **Phase 1** (AGENTS.md adapter for a second agent + YouTube ingest) are complete and dogfooded against a real blog and a real channel (`docs/DOGFOOD.md`). Traditional Chinese companions live in `docs/zh-TW/`.
 
 ## License
 
