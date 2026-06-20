@@ -15,3 +15,21 @@ export function frameworkRoot(): string {
 export function frameworkFile(...parts: string[]): string {
   return join(frameworkRoot(), ...parts);
 }
+
+/** Absolute path to the voice recipe the agent follows on the digest. */
+export function recipePath(): string {
+  return frameworkFile("recipes", "voice", "RECIPE.md");
+}
+
+/** Absolute path to the skeleton dir (mask.md / knowledge index). */
+export function templatesDir(): string {
+  return frameworkFile("templates");
+}
+
+export function maskTemplatePath(): string {
+  return frameworkFile("templates", "mask.md");
+}
+
+export function knowledgeIndexTemplatePath(): string {
+  return frameworkFile("templates", "knowledge", "index.md");
+}

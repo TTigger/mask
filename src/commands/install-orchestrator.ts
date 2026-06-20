@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { homedir } from "node:os";
-import { frameworkFile } from "../lib/framework.ts";
+import { frameworkFile, recipePath, templatesDir } from "../lib/framework.ts";
 import { upsertBlock } from "../lib/managed-block.ts";
 
 /** Where the Claude Code orchestrator block is installed. Default ~/.claude/CLAUDE.md;
@@ -12,12 +12,25 @@ export function orchestratorTarget(): string {
 }
 
 /**
+ * Resolve framework-asset placeholders to absolute paths so the agent can find
+ * the recipe/skeletons from any working directory. The block lives in the user's
+ * global instructions, where a relative path like `recipes/voice/RECIPE.md` is
+ * meaningless.
+ */
+export function renderOrchestrator(template: string): string {
+  return template
+    .replaceAll("{{recipe}}", recipePath())
+    .replaceAll("{{templates}}", templatesDir());
+}
+
+/**
  * Upsert the Claude Code orchestrator into the user's global instructions.
  * The source already carries `<!-- mask:orchestrator -->` markers, so installing
  * twice replaces in place — never duplicates. Returns the target path.
  */
 export async function installOrchestrator(): Promise<string> {
-  const block = await readFile(frameworkFile("adapters", "claude-code", "orchestrator.md"), "utf8");
+  const raw = await readFile(frameworkFile("adapters", "claude-code", "orchestrator.md"), "utf8");
+  const block = renderOrchestrator(raw);
   const target = orchestratorTarget();
 
   await mkdir(dirname(target), { recursive: true });

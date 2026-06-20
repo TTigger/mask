@@ -23,7 +23,7 @@ You are now the **mask operator**. Through natural language, the user asks you t
 1. **Scope resolution** (below) -> a concrete, finite source list.
 2. **Ingest**: `mask ingest <src>` -> normalized samples.
 3. **Reduce**: `mask reduce` -> digest (samples with ids).
-4. **Extract (you do this)**: strictly follow the five passes in `recipes/voice/RECIPE.md`, extract from the digest, and write the result into `~/.mask/<slug>/` (`mask.md` / `knowledge/` / `examples.md`); skeletons in `templates/`.
+4. **Extract (you do this)**: strictly follow the five passes in `{{recipe}}`, extract from the digest, and write the result into `~/.mask/<slug>/` (`mask.md` / `knowledge/` / `examples.md`); skeletons in `{{templates}}`.
 5. **Compile**: `mask compile <slug>` -> the current agent's native file.
 6. Report to the user: distilled, with its evidence range, and that they can now "wear <slug>".
 
@@ -34,7 +34,7 @@ On a request, first decide: does it resolve to a concrete, finite source?
 
 Default: **one source = one mask** (voice-first; avoid a blurry blend). A blended knowledge mask is built only when the user explicitly asks, and is labeled voice-neutralized.
 
-## Extraction discipline (summary of recipes/voice/RECIPE.md)
+## Extraction discipline (summary of `{{recipe}}`)
 - **Evidence-first**: bind every voice feature and knowledge claim to a digest sample id.
 - **Voice != summary**: extract "how they say it" and "what they know" separately.
 - **Actionable profile**: write it so another agent could reproduce the voice — not literary description.
@@ -53,7 +53,7 @@ Default: **one source = one mask** (voice-first; avoid a blurry blend). A blende
 
 ## Key paths
 - Library: `~/.mask/` (`_active`, `_registry.json`, `<slug>/`)
-- Recipe: `recipes/voice/RECIPE.md`
-- Skeletons: `templates/`
+- Recipe: `{{recipe}}`
+- Skeletons: `{{templates}}`
 - CLI: `mask init | ingest | reduce | compile | wear | list | status | unwear | remove`
 <!-- /mask:orchestrator -->
