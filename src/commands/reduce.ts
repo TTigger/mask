@@ -2,10 +2,12 @@ import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import {
   reduceSamples,
+  buildSources,
   readJson,
   writeJson,
   samplesPath,
   digestPath,
+  sourcesPath,
   type SamplesFile,
 } from "../lib/digest.ts";
 
@@ -26,10 +28,13 @@ async function reduce(dir: string, opts: ReduceOpts): Promise<void> {
     maxChars: opts.maxChars ? Number(opts.maxChars) : undefined,
   });
 
+  const sources = buildSources(samples, digest);
   await writeJson(digestPath(dir), digest);
+  await writeJson(sourcesPath(dir), sources);
 
   const { n_input, n_kept } = digest.meta;
   console.log(`mask: reduced ${n_input} -> ${n_kept} sample(s) -> ${digestPath(dir)}`);
+  console.log(`mask: wrote provenance for ${sources.sources.length} source(s) -> ${sourcesPath(dir)}`);
   for (const note of digest.meta.notes) console.log(`  · ${note}`);
 }
 

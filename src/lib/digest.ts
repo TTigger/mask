@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -41,6 +42,26 @@ export interface DigestMeta {
   dropped: number;
   max_chars: number;
   notes: string[];
+}
+
+/** Provenance for one kept sample: resolves a `[src:id]` citation to its origin. */
+export interface SourceRecord {
+  id: string;
+  url: string;
+  title?: string;
+  /** sha256 of the *original* (pre-truncation) sample text, for integrity. */
+  hash: string;
+  /** Original character length (the digest may carry a truncated copy). */
+  chars: number;
+  /** Whether reduce capped this sample's text in the digest. */
+  truncated: boolean;
+}
+
+/** reduce output: the id→origin map that closes the citation chain (SPEC §4). */
+export interface SourcesFile {
+  source_kind: string;
+  sampling: { max_chars: number };
+  sources: SourceRecord[];
 }
 
 // --- reduce ---
@@ -122,6 +143,32 @@ export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Dig
     meta: { source_kind: input.source_kind, n_input: nInput, n_kept: kept.length, dropped, max_chars: maxChars, notes },
     samples: kept,
   };
+}
+
+function sha256(text: string): string {
+  return "sha256:" + createHash("sha256").update(text, "utf8").digest("hex");
+}
+
+/**
+ * Build the provenance map for a digest (SPEC §3.2 / §4). Each kept sample id
+ * resolves to its original URL, a hash of the *full* source text, and whether
+ * reduce truncated it — closing the source→digest→knowledge→origin chain. Hashes
+ * come from `input` (the pre-truncation samples), so they verify the real source.
+ */
+export function buildSources(input: SamplesFile, digest: Digest): SourcesFile {
+  const original = new Map(input.samples.map((s) => [s.id, s]));
+  const sources: SourceRecord[] = digest.samples.map((kept) => {
+    const src = original.get(kept.id) ?? kept;
+    return {
+      id: kept.id,
+      url: src.src_ref.url,
+      title: src.src_ref.title,
+      hash: sha256(src.text),
+      chars: src.text.length,
+      truncated: kept.text.length < src.text.length,
+    };
+  });
+  return { source_kind: digest.meta.source_kind, sampling: { max_chars: digest.meta.max_chars }, sources };
 }
 
 // --- staging paths ---
