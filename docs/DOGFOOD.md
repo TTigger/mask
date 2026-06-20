@@ -80,3 +80,41 @@ pass fenced satire off from fact: `mask.md`, `knowledge/index.md`, and the examp
 names / dates / "banned model" events as of-the-moment bits, not durable truths, and one-off
 satirical asides were left uncited. The denoise step was essential — without it the digest would be
 mostly repeated caption fragments.
+
+---
+
+# Phase 2 dogfood — a GitHub repo (ponytail) → a code-expert mask
+
+The Phase 2 milestone: prove the **knowledge-first code flavor** end-to-end — repo ingest + the
+code recipe + `type: code` compile. The agent is the borrowed intelligence; the mask lives in a
+scratch library, recorded here.
+
+## What ran
+```
+mask init
+mask ingest https://github.com/DietrichGebert/ponytail -n ponytail -l 20
+#   → shallow git clone; extracted README + tree + configs + source files = 23 samples (~1s)
+mask reduce .work/ponytail                                 # breadth-sampled 23 → 17 within budget
+#   → agent follows recipes/code/RECIPE.md (5 passes) on the digest
+mask compile ponytail && mask wear ponytail                # → ~/.claude/agents/ponytail.md
+```
+
+## Pipeline verification
+- **ingest (repo)** cloned the repo and pulled the conventions signal — README, the directory
+  tree, `package.json`, and a deterministic sample of hooks/benchmarks — as ids `r1…r23`.
+- **reduce** breadth-sampled (23 > 12) so the kept 17 span the repo, not just the first files;
+  provenance hashed each original file.
+- **code recipe** produced a `type: code` `mask.md` (Identity / Conventions / Architecture / APIs /
+  Boundaries / How-to-answer), three knowledge files (`architecture`, `conventions`,
+  `modes-and-config`) tagged `[src:r#]`, `examples.md`, and Pass 1 / Pass 5 checkpoints.
+- **code-flavored compile** rendered the subagent via `subagent-code.hbs` — "You are a code expert
+  on ponytail" (not "Answer in the voice of") — and the roster shows source_kind `repo`.
+- **citation chain** intact: every `[src:r#]` resolves to a real file in `sources.json`.
+
+## Coverage honesty (worked for a partial sample)
+Breadth-sampling kept 17/23 files, so several (the OpenCode plugin, the MCP server, `SKILL.md`'s
+body, most benchmarks) were never read. The faithfulness pass fenced those off explicitly — the
+mask's Boundaries, `knowledge/index.md`, and the examples all say which files were *not* sampled and
+decline to assert their internals, citing only what the read files prove. A nice property fell out:
+the code recipe captured that the repo dogfoods its own philosophy (zero-dependency, `node --test`,
+best-effort hooks, `ponytail:` ceiling comments), and the worn mask reproduces that stance.
