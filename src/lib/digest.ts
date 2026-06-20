@@ -43,6 +43,87 @@ export interface DigestMeta {
   notes: string[];
 }
 
+// --- reduce ---
+
+export interface ReduceOptions {
+  /** Total character budget for the whole digest (must fit the agent's context). */
+  maxChars?: number;
+  /** Per-sample cap so one long post can't dominate the budget. */
+  perSampleCap?: number;
+}
+
+const DEFAULT_MAX_CHARS = 60_000;
+const DEFAULT_PER_SAMPLE_CAP = 8_000;
+
+function normalizeForDedup(text: string): string {
+  return text.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+/** Truncate to `cap`, preferring a word boundary in the last 40%; marks the cut. */
+function truncateAtWord(text: string, cap: number): string {
+  if (text.length <= cap) return text;
+  const slice = text.slice(0, cap);
+  const lastSpace = slice.lastIndexOf(" ");
+  const body = lastSpace > cap * 0.6 ? slice.slice(0, lastSpace) : slice;
+  return body.trimEnd() + " …";
+}
+
+/**
+ * Deterministically shrink raw samples into a context-sized digest (SPEC §6):
+ * dedup (exact, normalized) → per-sample cap (keep the salient lede) → fill the
+ * char budget in input order (recency = "most-recent N"). Sample ids are left
+ * stable, so dropped samples leave gaps the citation chain can still resolve.
+ */
+export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Digest {
+  const maxChars = opts.maxChars ?? DEFAULT_MAX_CHARS;
+  const perSampleCap = opts.perSampleCap ?? DEFAULT_PER_SAMPLE_CAP;
+  const nInput = input.samples.length;
+
+  // 1. dedup — drop exact repeats after whitespace/case normalization, keep first.
+  const seen = new Set<string>();
+  let duplicates = 0;
+  const deduped = input.samples.filter((s) => {
+    const key = normalizeForDedup(s.text);
+    if (seen.has(key)) {
+      duplicates++;
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+
+  // 2. per-sample cap — long posts keep only their lede (where voice lives).
+  let truncated = 0;
+  const capped = deduped.map((s) => {
+    if (s.text.length <= perSampleCap) return s;
+    truncated++;
+    return { ...s, text: truncateAtWord(s.text, perSampleCap) };
+  });
+
+  // 3. budget fill in input order; always keep at least one sample.
+  const kept: Sample[] = [];
+  let total = 0;
+  for (const s of capped) {
+    if (kept.length > 0 && total + s.text.length > maxChars) break;
+    kept.push(s);
+    total += s.text.length;
+  }
+
+  const dropped = nInput - kept.length;
+  const notes: string[] = [];
+  if (duplicates) notes.push(`dropped ${duplicates} duplicate sample(s)`);
+  if (truncated) notes.push(`truncated ${truncated} long sample(s) to ${perSampleCap} chars`);
+  if (kept.length < deduped.length) {
+    notes.push(`kept ${kept.length}/${nInput} samples within ${maxChars}-char budget (recency-ordered)`);
+  }
+  if (kept.length <= 2) notes.push("thin digest — declare voice limits during extraction");
+
+  return {
+    meta: { source_kind: input.source_kind, n_input: nInput, n_kept: kept.length, dropped, max_chars: maxChars, notes },
+    samples: kept,
+  };
+}
+
 // --- staging paths ---
 
 /** Work area for in-progress distillations; gitignored from the mask library. */
