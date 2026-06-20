@@ -1,10 +1,11 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
-import { rm } from "node:fs/promises";
-import { maskDir } from "../lib/paths.ts";
+import { readFile, rm } from "node:fs/promises";
+import { maskDir, maskFile } from "../lib/paths.ts";
+import { toPersonaUnit } from "../lib/compile.ts";
+import { resolveAdapter } from "../adapters/index.ts";
 import { getActive, setActive, clearActive } from "../lib/active.ts";
 import { getMask, listMasks, removeMask, upsertMask } from "../lib/registry.ts";
-import { agentFile } from "./compile.ts";
 
 async function wear(slug: string): Promise<void> {
   const entry = await getMask(slug);
@@ -13,6 +14,17 @@ async function wear(slug: string): Promise<void> {
     process.exitCode = 1;
     return;
   }
+  const src = maskFile(slug);
+  if (!existsSync(src)) {
+    console.error(`mask wear: ${src} is missing — recompile this mask first.`);
+    process.exitCode = 1;
+    return;
+  }
+
+  // Let the adapter make this persona active (subagents: no-op; AGENTS.md: swap block).
+  const adapter = await resolveAdapter();
+  await adapter.activate(toPersonaUnit(await readFile(src, "utf8"), slug));
+
   await upsertMask({ ...entry, last_used: new Date().toISOString() });
   await setActive(slug);
   console.log(`mask: now wearing ${entry.name} (${slug}).`);
@@ -48,6 +60,7 @@ async function unwear(): Promise<void> {
     console.log("No mask worn.");
     return;
   }
+  await (await resolveAdapter()).deactivate();
   await clearActive();
   console.log(`mask: unwore ${active}.`);
 }
@@ -59,11 +72,14 @@ async function remove(slug: string): Promise<void> {
     process.exitCode = 1;
     return;
   }
-  if ((await getActive()) === slug) await clearActive();
+  const adapter = await resolveAdapter();
+  if ((await getActive()) === slug) {
+    await adapter.deactivate();
+    await clearActive();
+  }
 
-  // Strip the compiled subagent (outside the library, not git-tracked).
-  const compiled = agentFile(slug);
-  if (existsSync(compiled)) await rm(compiled);
+  // Strip the agent-native artifact (subagent file / active block) — adapter-owned.
+  await adapter.removeArtifacts(slug);
 
   // Remove the mask folder, then drop the roster entry (its commit captures both).
   await rm(maskDir(slug), { recursive: true, force: true });

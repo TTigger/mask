@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { libraryRoot, configPath, registryPath, activePath } from "../lib/paths.ts";
 import { commitAll } from "../lib/git.ts";
-import { installOrchestrator } from "./install-orchestrator.ts";
+import { resolveAdapter } from "../adapters/index.ts";
 
 /** Detect the user's agent. v1 supports Claude Code only; more added later. */
 function detectAgent(): string {
@@ -28,7 +28,8 @@ async function init(): Promise<void> {
   }
 
   // Always (re-)ensure the orchestrator block is present and current.
-  const target = await installOrchestrator();
+  const adapter = await resolveAdapter(root);
+  const target = await adapter.installOrchestrator();
   console.log(`mask: installed orchestrator into ${target}`);
 }
 

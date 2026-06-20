@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { isAbsolute } from "node:path";
-import { renderOrchestrator } from "../src/commands/install-orchestrator.ts";
+import { renderOrchestrator } from "../src/adapters/common.ts";
 import { recipePath, templatesDir } from "../src/lib/framework.ts";
 
 test("renderOrchestrator resolves asset placeholders to absolute framework paths", () => {

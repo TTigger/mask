@@ -1,21 +1,10 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { homedir } from "node:os";
+import { readFile } from "node:fs/promises";
 import { maskFile } from "../lib/paths.ts";
-import { SUBAGENT_HBS } from "../lib/assets.ts";
-import { toPersonaUnit, renderSubagent } from "../lib/compile.ts";
+import { toPersonaUnit } from "../lib/compile.ts";
+import { resolveAdapter } from "../adapters/index.ts";
 import { getMask, upsertMask } from "../lib/registry.ts";
-
-/** Where compiled Claude Code subagents land. MASK_AGENTS_DIR overrides (tests). */
-export function agentsDir(): string {
-  return process.env.MASK_AGENTS_DIR ?? join(homedir(), ".claude", "agents");
-}
-
-export function agentFile(slug: string): string {
-  return join(agentsDir(), `${slug}.md`);
-}
 
 async function compile(slug: string): Promise<void> {
   const src = maskFile(slug);
@@ -26,11 +15,8 @@ async function compile(slug: string): Promise<void> {
   }
 
   const unit = toPersonaUnit(await readFile(src, "utf8"), slug);
-  const rendered = renderSubagent(SUBAGENT_HBS, unit);
-
-  const out = agentFile(slug);
-  await mkdir(dirname(out), { recursive: true });
-  await writeFile(out, rendered);
+  const adapter = await resolveAdapter();
+  const out = await adapter.compile(unit);
 
   // Reflect the mask in the roster; preserve created/last_used on recompile.
   const existing = await getMask(slug);
