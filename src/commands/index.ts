@@ -3,7 +3,13 @@ import { registerInit } from "./init.ts";
 import { registerIngest } from "./ingest.ts";
 import { registerReduce } from "./reduce.ts";
 import { registerCompile } from "./compile.ts";
-import { registerStub } from "./stub.ts";
+import {
+  registerWear,
+  registerList,
+  registerStatus,
+  registerUnwear,
+  registerRemove,
+} from "./roster.ts";
 
 /**
  * Register the full CLI surface (SPEC §8 — "the agent's hands").
@@ -14,10 +20,9 @@ export function registerCommands(program: Command): void {
   registerIngest(program);
   registerReduce(program);
   registerCompile(program);
-
-  registerStub(program, "wear", "Set the active mask", "0.10", "<slug>");
-  registerStub(program, "list", "Show the mask roster", "0.10");
-  registerStub(program, "status", "Show which mask is currently worn", "0.10");
-  registerStub(program, "unwear", "Remove the active mask's managed artifacts", "0.10");
-  registerStub(program, "remove", "Remove a mask from the library", "0.10", "<slug>");
+  registerWear(program);
+  registerList(program);
+  registerStatus(program);
+  registerUnwear(program);
+  registerRemove(program);
 }
