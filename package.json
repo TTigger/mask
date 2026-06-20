@@ -4,7 +4,9 @@
   "description": "Distill anything. Wear anyone. — agent-native persona distillation framework.",
   "type": "module",
   "license": "MIT",
-  "bin": { "mask": "./bin/mask" },
+  "bin": {
+    "mask": "./bin/mask"
+  },
   "scripts": {
     "dev": "bun run src/cli.ts",
     "build": "bun build ./src/cli.ts --compile --outfile ./bin/mask",
@@ -20,7 +22,10 @@
   },
   "devDependencies": {
     "@types/jsdom": "^21.0.0",
+    "bun-types": "1.3.14",
     "typescript": "^5.0.0"
   },
-  "engines": { "bun": ">=1.1.0" }
+  "engines": {
+    "bun": ">=1.1.0"
+  }
 }
