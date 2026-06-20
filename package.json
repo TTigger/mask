@@ -1,0 +1,26 @@
+{
+  "name": "mask",
+  "version": "0.0.0",
+  "description": "Distill anything. Wear anyone. — agent-native persona distillation framework.",
+  "type": "module",
+  "license": "MIT",
+  "bin": { "mask": "./bin/mask" },
+  "scripts": {
+    "dev": "bun run src/cli.ts",
+    "build": "bun build ./src/cli.ts --compile --outfile ./bin/mask",
+    "build:all": "bun build ./src/cli.ts --compile --target=bun-darwin-arm64 --outfile ./bin/mask-macos-arm64 && bun build ./src/cli.ts --compile --target=bun-linux-x64 --outfile ./bin/mask-linux-x64 && bun build ./src/cli.ts --compile --target=bun-windows-x64 --outfile ./bin/mask-windows-x64.exe",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.5.0",
+    "commander": "^12.0.0",
+    "gray-matter": "^4.0.3",
+    "jsdom": "^24.0.0",
+    "simple-git": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": { "bun": ">=1.1.0" }
+}
