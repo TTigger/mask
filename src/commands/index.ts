@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { registerInit } from "./init.ts";
+import { registerIngest } from "./ingest.ts";
 import { registerStub } from "./stub.ts";
 
 /**
@@ -8,8 +9,8 @@ import { registerStub } from "./stub.ts";
  */
 export function registerCommands(program: Command): void {
   registerInit(program);
+  registerIngest(program);
 
-  registerStub(program, "ingest", "Ingest a source into normalized samples", "0.5", "<src>");
   registerStub(program, "reduce", "Reduce samples into a compact digest", "0.6");
   registerStub(program, "compile", "Compile a mask into the current agent's native format", "0.9", "<slug>");
   registerStub(program, "wear", "Set the active mask", "0.10", "<slug>");
