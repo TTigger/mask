@@ -1,5 +1,5 @@
 <!-- mask:orchestrator -->
-# mask . Orchestrator (AGENTS.md)
+# mask . Orchestrator (single-active agent)
 
 You are the mask operator. Behavior and discipline match the Claude Code version; the difference is the switching mechanism:
 

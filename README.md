@@ -44,10 +44,10 @@ Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (t
 git clone <this-repo> mask && cd mask
 bun install
 bun run dev init                   # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
-bun run dev init --agent agents-md # or AGENTS.md: orchestrator + active block → ./AGENTS.md
+bun run dev init --agent agents-md # or a single-active file: AGENTS.md | GEMINI.md | .cursor/rules
 ```
 
-Two agents are supported. **Claude Code** personas coexist as subagents (`wear` flips the sticky active default); **AGENTS.md** is single-active (`wear` swaps the persona inline into the `mask:active` block). The same mask compiles to either.
+Four agents are supported (`--agent claude-code | agents-md | gemini | cursor`). **Claude Code** personas coexist as subagents (`wear` flips the sticky active default). **AGENTS.md**, **Gemini** (`GEMINI.md`), and **Cursor** (`.cursor/rules/mask.mdc`) are single-active — `wear` swaps the persona inline into a `mask:active` block. The same mask compiles to any of them.
 
 `bun run dev <command>` runs the CLI from source. Or build a standalone binary:
 
@@ -74,7 +74,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 
 - `MASK_HOME` — library location (default `~/.mask`).
 - `MASK_CLAUDE_MD` — Claude Code orchestrator file (default `~/.claude/CLAUDE.md`).
-- `MASK_AGENTS_MD` — AGENTS.md target (default `./AGENTS.md`).
+- `MASK_AGENTS_MD` · `MASK_GEMINI_MD` · `MASK_CURSOR_MDC` — single-active targets (defaults `./AGENTS.md`, `./GEMINI.md`, `./.cursor/rules/mask.mdc`).
 - `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
 
 ## Status

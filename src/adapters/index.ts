@@ -1,12 +1,16 @@
 import type { Adapter } from "./types.ts";
 import { claudeCodeAdapter } from "./claude-code.ts";
 import { agentsMdAdapter } from "./agents-md.ts";
+import { geminiAdapter } from "./gemini.ts";
+import { cursorAdapter } from "./cursor.ts";
 import { readConfig } from "../lib/config.ts";
 import { libraryRoot } from "../lib/paths.ts";
 
 const ADAPTERS: Record<string, Adapter> = {
   [claudeCodeAdapter.id]: claudeCodeAdapter,
   [agentsMdAdapter.id]: agentsMdAdapter,
+  [geminiAdapter.id]: geminiAdapter,
+  [cursorAdapter.id]: cursorAdapter,
 };
 
 export const SUPPORTED_AGENTS = Object.keys(ADAPTERS);
