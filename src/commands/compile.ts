@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { homedir } from "node:os";
 import { maskFile } from "../lib/paths.ts";
-import { frameworkFile } from "../lib/framework.ts";
+import { SUBAGENT_HBS } from "../lib/assets.ts";
 import { toPersonaUnit, renderSubagent } from "../lib/compile.ts";
 import { getMask, upsertMask } from "../lib/registry.ts";
 
@@ -26,8 +26,7 @@ async function compile(slug: string): Promise<void> {
   }
 
   const unit = toPersonaUnit(await readFile(src, "utf8"), slug);
-  const template = await readFile(frameworkFile("adapters", "claude-code", "subagent.hbs"), "utf8");
-  const rendered = renderSubagent(template, unit);
+  const rendered = renderSubagent(SUBAGENT_HBS, unit);
 
   const out = agentFile(slug);
   await mkdir(dirname(out), { recursive: true });

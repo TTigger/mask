@@ -5,11 +5,14 @@ import { join, resolve } from "node:path";
  * tool, NOT the user's ~/.mask library. This file sits at src/lib/, so the repo
  * root is two levels up.
  *
- * NOTE: resolves against the on-disk source tree (dev via `bun run`). Embedding
- * these assets into the `bun build --compile` single binary is handled in 0.12.
+ * Resolves against the on-disk source tree (dev/bunx from the cloned repo).
+ * The agent reads the recipe/templates from here, so a standalone compiled
+ * binary (where `import.meta.dir` is not a real repo path) should set
+ * MASK_FRAMEWORK to the checked-out framework repo. The CLI's own runtime
+ * assets are embedded instead (see assets.ts), so init/compile don't need this.
  */
 export function frameworkRoot(): string {
-  return resolve(import.meta.dir, "..", "..");
+  return process.env.MASK_FRAMEWORK ?? resolve(import.meta.dir, "..", "..");
 }
 
 export function frameworkFile(...parts: string[]): string {

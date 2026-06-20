@@ -36,9 +36,45 @@ After you clone the repo, you drive everything in natural language inside your a
 "ask gilfoyle: ..."            # one-off, without changing the default
 ```
 
+## Install & run
+
+Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (the tool); your masks live separately in `~/.mask/` (its own Git repo).
+
+```sh
+git clone <this-repo> mask && cd mask
+bun install
+bun run dev init        # create ~/.mask + install the Claude Code orchestrator
+```
+
+`bun run dev <command>` runs the CLI from source. Or build a standalone binary:
+
+```sh
+bun run build           # -> ./bin/mask   (this platform)
+bun run build:all       # -> ./bin/mask-{macos-arm64,linux-x64,windows-x64.exe}
+bun test                # the deterministic-core test suite
+```
+
+### Command surface
+
+The CLI is deterministic and calls **no LLM** — your agent does the intelligent work by following the recipe. You normally drive these in natural language (see above), but they exist directly too:
+
+| | |
+|---|---|
+| `mask init` | create the library + install the orchestrator |
+| `mask ingest <src…>` | fetch a source into normalized samples |
+| `mask reduce <dir>` | dedup / sample / cap → a context-sized digest |
+| `mask compile <slug>` | mask.md → the current agent's native persona file |
+| `mask wear <slug>` · `list` · `status` | switch / roster / who's worn |
+| `mask unwear` · `remove <slug>` | clean up managed artifacts / delete a mask |
+
+### Environment
+
+- `MASK_HOME` — library location (default `~/.mask`).
+- `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
+
 ## Status
 
-Early WIP. The design is frozen in `docs/` (`PRD.md` -> `SPEC.md` -> `PHASES.md`). Implementation follows the phases. Traditional Chinese companions live in `docs/zh-TW/`.
+Early WIP. The design is frozen in `docs/` (`PRD.md` -> `SPEC.md` -> `PHASES.md`). Implementation follows the phases; Phase 0 (deterministic CLI: init → ingest → reduce → compile → wear, plus the Claude Code adapter) is complete and dogfooded (`docs/DOGFOOD.md`). Traditional Chinese companions live in `docs/zh-TW/`.
 
 ## License
 

@@ -2,7 +2,8 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { homedir } from "node:os";
-import { frameworkFile, recipePath, templatesDir } from "../lib/framework.ts";
+import { recipePath, templatesDir } from "../lib/framework.ts";
+import { ORCHESTRATOR_MD } from "../lib/assets.ts";
 import { upsertBlock } from "../lib/managed-block.ts";
 
 /** Where the Claude Code orchestrator block is installed. Default ~/.claude/CLAUDE.md;
@@ -29,8 +30,7 @@ export function renderOrchestrator(template: string): string {
  * twice replaces in place — never duplicates. Returns the target path.
  */
 export async function installOrchestrator(): Promise<string> {
-  const raw = await readFile(frameworkFile("adapters", "claude-code", "orchestrator.md"), "utf8");
-  const block = renderOrchestrator(raw);
+  const block = renderOrchestrator(ORCHESTRATOR_MD);
   const target = orchestratorTarget();
 
   await mkdir(dirname(target), { recursive: true });
