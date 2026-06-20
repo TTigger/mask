@@ -43,8 +43,11 @@ Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (t
 ```sh
 git clone <this-repo> mask && cd mask
 bun install
-bun run dev init        # create ~/.mask + install the Claude Code orchestrator
+bun run dev init                   # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
+bun run dev init --agent agents-md # or AGENTS.md: orchestrator + active block → ./AGENTS.md
 ```
+
+Two agents are supported. **Claude Code** personas coexist as subagents (`wear` flips the sticky active default); **AGENTS.md** is single-active (`wear` swaps the persona inline into the `mask:active` block). The same mask compiles to either.
 
 `bun run dev <command>` runs the CLI from source. Or build a standalone binary:
 
@@ -70,6 +73,8 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 ### Environment
 
 - `MASK_HOME` — library location (default `~/.mask`).
+- `MASK_CLAUDE_MD` — Claude Code orchestrator file (default `~/.claude/CLAUDE.md`).
+- `MASK_AGENTS_MD` — AGENTS.md target (default `./AGENTS.md`).
 - `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
 
 ## Status

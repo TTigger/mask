@@ -43,12 +43,21 @@ function fill(template: string, key: string, value: string): string {
   return template.split(`{{${key}}}`).join(value);
 }
 
-/** Render a persona unit into a Claude Code subagent file via its .hbs template. */
-export function renderSubagent(template: string, unit: PersonaUnit): string {
+/**
+ * Fill a persona template's `{{slug}}/{{name}}/{{description}}/{{voice_profile}}`
+ * slots. Adapter-agnostic — used by both the Claude Code subagent and the
+ * AGENTS.md active block (each references only the slots it needs).
+ */
+export function renderPersona(template: string, unit: PersonaUnit): string {
   let out = template;
   out = fill(out, "slug", unit.slug);
   out = fill(out, "name", unit.name);
   out = fill(out, "description", unit.description);
   out = fill(out, "voice_profile", unit.voice_profile);
   return out;
+}
+
+/** Render a persona unit into a Claude Code subagent file via its .hbs template. */
+export function renderSubagent(template: string, unit: PersonaUnit): string {
+  return renderPersona(template, unit);
 }

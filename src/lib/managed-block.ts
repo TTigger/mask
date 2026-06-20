@@ -37,3 +37,8 @@ export function removeBlock(content: string, name: string): string {
 export function hasBlock(content: string, name: string): boolean {
   return blockRegex(name).test(content);
 }
+
+/** Return the full `name` block (markers included), or null if absent. */
+export function extractBlock(content: string, name: string): string | null {
+  return content.match(blockRegex(name))?.[0] ?? null;
+}
