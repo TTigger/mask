@@ -24,6 +24,11 @@ export function recipePath(): string {
   return frameworkFile("recipes", "voice", "RECIPE.md");
 }
 
+/** Absolute path to the code recipe (conventions-first, for repo sources). */
+export function codeRecipePath(): string {
+  return frameworkFile("recipes", "code", "RECIPE.md");
+}
+
 /** Absolute path to the skeleton dir (mask.md / knowledge index). */
 export function templatesDir(): string {
   return frameworkFile("templates");

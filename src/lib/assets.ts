@@ -9,12 +9,14 @@
  */
 import orchestratorMd from "../../adapters/claude-code/orchestrator.md" with { type: "text" };
 import subagentHbs from "../../adapters/claude-code/subagent.hbs" with { type: "text" };
+import subagentCodeHbs from "../../adapters/claude-code/subagent-code.hbs" with { type: "text" };
 import agentsMdOrchestrator from "../../adapters/agents-md/orchestrator.md" with { type: "text" };
 import activeBlockHbs from "../../adapters/agents-md/active-block.hbs" with { type: "text" };
 
 // Claude Code adapter assets
 export const ORCHESTRATOR_MD: string = orchestratorMd;
 export const SUBAGENT_HBS: string = subagentHbs;
+export const SUBAGENT_CODE_HBS: string = subagentCodeHbs;
 
 // AGENTS.md adapter assets
 export const AGENTS_MD_ORCHESTRATOR: string = agentsMdOrchestrator;

@@ -8,9 +8,11 @@ import matter from "gray-matter";
 export interface PersonaUnit {
   slug: string;
   name: string;
+  /** "voice" (default) or "code" — selects the adapter's framing/template. */
+  type: string;
   /** Routing blurb the host agent uses to pick this persona. */
   description: string;
-  /** The mask.md body — the six-section voice profile, verbatim. */
+  /** The mask.md body — the six-section profile (voice or conventions), verbatim. */
   voice_profile: string;
   source_kind?: string;
 }
@@ -22,16 +24,20 @@ export function toPersonaUnit(maskMd: string, slug: string): PersonaUnit {
   if (!name) throw new Error("mask.md is missing `name` in its frontmatter");
 
   const voice_profile = content.trim();
-  if (!voice_profile) throw new Error("mask.md has an empty voice profile (body)");
+  if (!voice_profile) throw new Error("mask.md has an empty profile (body)");
 
+  const type = data.type === "code" ? "code" : "voice";
   const description =
     typeof data.description === "string" && data.description.trim()
       ? data.description.trim()
-      : `Answer in the voice of ${name}.`;
+      : type === "code"
+        ? `Code expert on ${name}.`
+        : `Answer in the voice of ${name}.`;
 
   return {
     slug,
     name,
+    type,
     description,
     voice_profile,
     source_kind: typeof data.source_kind === "string" ? data.source_kind : undefined,

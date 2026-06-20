@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import {
   ORCHESTRATOR_MD,
   SUBAGENT_HBS,
+  SUBAGENT_CODE_HBS,
   AGENTS_MD_ORCHESTRATOR,
   ACTIVE_BLOCK_HBS,
 } from "../src/lib/assets.ts";
@@ -18,6 +19,12 @@ test("subagent template is embedded with its handlebars slots", () => {
   expect(SUBAGENT_HBS.length).toBeGreaterThan(50);
   expect(SUBAGENT_HBS).toContain("{{slug}}");
   expect(SUBAGENT_HBS).toContain("{{voice_profile}}");
+});
+
+test("the code subagent template is embedded", () => {
+  expect(SUBAGENT_CODE_HBS).toContain("{{slug}}");
+  expect(SUBAGENT_CODE_HBS).toContain("code expert");
+  expect(SUBAGENT_CODE_HBS).toContain("{{voice_profile}}");
 });
 
 test("agents-md assets are embedded with orchestrator + active blocks", () => {

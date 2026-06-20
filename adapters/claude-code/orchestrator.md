@@ -23,7 +23,7 @@ You are now the **mask operator**. Through natural language, the user asks you t
 1. **Scope resolution** (below) -> a concrete, finite source list.
 2. **Ingest**: `mask ingest <src>` -> normalized samples.
 3. **Reduce**: `mask reduce` -> digest (samples with ids).
-4. **Extract (you do this)**: strictly follow the five passes in `{{recipe}}`, extract from the digest, and write the result into `~/.mask/<slug>/` (`mask.md` / `knowledge/` / `examples.md`); skeletons in `{{templates}}`.
+4. **Extract (you do this)**: pick the recipe by source — a voice source (blog / YouTube) follows the five passes in `{{recipe}}`; a **code/repo** source follows `{{code_recipe}}` (conventions-first, `type: code`). Extract from the digest and write the result into `~/.mask/<slug>/` (`mask.md` / `knowledge/` / `examples.md`); skeletons in `{{templates}}`.
 5. **Compile**: `mask compile <slug>` -> the current agent's native file.
 6. Report to the user: distilled, with its evidence range, and that they can now "wear <slug>".
 
@@ -53,7 +53,7 @@ Default: **one source = one mask** (voice-first; avoid a blurry blend). A blende
 
 ## Key paths
 - Library: `~/.mask/` (`_active`, `_registry.json`, `<slug>/`)
-- Recipe: `{{recipe}}`
+- Recipes: voice `{{recipe}}` · code `{{code_recipe}}`
 - Skeletons: `{{templates}}`
 - CLI: `mask init | ingest | reduce | compile | wear | list | status | unwear | remove`
 <!-- /mask:orchestrator -->

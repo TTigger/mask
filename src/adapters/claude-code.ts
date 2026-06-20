@@ -5,7 +5,7 @@ import { homedir } from "node:os";
 import type { Adapter } from "./types.ts";
 import { renderOrchestrator } from "./common.ts";
 import { renderSubagent } from "../lib/compile.ts";
-import { ORCHESTRATOR_MD, SUBAGENT_HBS } from "../lib/assets.ts";
+import { ORCHESTRATOR_MD, SUBAGENT_HBS, SUBAGENT_CODE_HBS } from "../lib/assets.ts";
 import { upsertBlock } from "../lib/managed-block.ts";
 
 /** Global Claude Code instructions file. MASK_CLAUDE_MD overrides (tests/CI). */
@@ -42,7 +42,8 @@ export const claudeCodeAdapter: Adapter = {
   async compile(unit) {
     const out = agentFile(unit.slug);
     await mkdir(dirname(out), { recursive: true });
-    await writeFile(out, renderSubagent(SUBAGENT_HBS, unit));
+    const template = unit.type === "code" ? SUBAGENT_CODE_HBS : SUBAGENT_HBS;
+    await writeFile(out, renderSubagent(template, unit));
     return out;
   },
 
