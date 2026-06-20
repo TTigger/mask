@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { libraryRoot } from "./paths.ts";
+import { denoiseTranscript } from "./transcript.ts";
 
 /**
  * Staging + digest contract (SPEC §6). Ingest and reduce write intermediate
@@ -75,9 +76,30 @@ export interface ReduceOptions {
 
 const DEFAULT_MAX_CHARS = 60_000;
 const DEFAULT_PER_SAMPLE_CAP = 8_000;
+/** Above this many samples, fill the budget by breadth-spread instead of recency-prefix. */
+const LARGE_SOURCE_THRESHOLD = 12;
 
 function normalizeForDedup(text: string): string {
   return text.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+/** Radical inverse (base 2): orders indices to spread across [0,n) — 0, mid, quarters… */
+function radicalInverse(i: number): number {
+  let r = 0;
+  let f = 0.5;
+  while (i > 0) {
+    r += (i & 1) * f;
+    i >>= 1;
+    f /= 2;
+  }
+  return r;
+}
+
+/** Visiting order over n items: identity (recency) when small, breadth-spread when large. */
+function visitOrder(n: number): number[] {
+  const idx = Array.from({ length: n }, (_, i) => i);
+  if (n <= LARGE_SOURCE_THRESHOLD) return idx;
+  return idx.sort((a, b) => radicalInverse(a) - radicalInverse(b));
 }
 
 /** Truncate to `cap`, preferring a word boundary in the last 40%; marks the cut. */
@@ -91,19 +113,26 @@ function truncateAtWord(text: string, cap: number): string {
 
 /**
  * Deterministically shrink raw samples into a context-sized digest (SPEC §6):
- * dedup (exact, normalized) → per-sample cap (keep the salient lede) → fill the
- * char budget in input order (recency = "most-recent N"). Sample ids are left
- * stable, so dropped samples leave gaps the citation chain can still resolve.
+ * (transcripts) denoise → dedup → per-sample cap (keep the salient lede) → fill
+ * the char budget, recency-first for small sources and breadth-spread for large
+ * ones (channels). Sample ids are left stable, so dropped samples leave gaps the
+ * citation chain can still resolve.
  */
 export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Digest {
   const maxChars = opts.maxChars ?? DEFAULT_MAX_CHARS;
   const perSampleCap = opts.perSampleCap ?? DEFAULT_PER_SAMPLE_CAP;
   const nInput = input.samples.length;
+  const isTranscript = input.source_kind === "youtube";
+
+  // 0. transcript denoise — strip caption artifacts before anything else.
+  const cleaned = isTranscript
+    ? input.samples.map((s) => ({ ...s, text: denoiseTranscript(s.text) }))
+    : input.samples;
 
   // 1. dedup — drop exact repeats after whitespace/case normalization, keep first.
   const seen = new Set<string>();
   let duplicates = 0;
-  const deduped = input.samples.filter((s) => {
+  const deduped = cleaned.filter((s) => {
     const key = normalizeForDedup(s.text);
     if (seen.has(key)) {
       duplicates++;
@@ -121,21 +150,29 @@ export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Dig
     return { ...s, text: truncateAtWord(s.text, perSampleCap) };
   });
 
-  // 3. budget fill in input order; always keep at least one sample.
-  const kept: Sample[] = [];
+  // 3. budget fill — visit recency-first (small) or breadth-spread (large), packing
+  //    past any sample too big to fit; always keep at least one; emit in source order.
+  const order = visitOrder(capped.length);
+  const breadth = capped.length > LARGE_SOURCE_THRESHOLD;
+  const keptIdx: number[] = [];
   let total = 0;
-  for (const s of capped) {
-    if (kept.length > 0 && total + s.text.length > maxChars) break;
-    kept.push(s);
-    total += s.text.length;
+  for (const i of order) {
+    const len = capped[i]!.text.length;
+    if (keptIdx.length > 0 && total + len > maxChars) continue;
+    keptIdx.push(i);
+    total += len;
   }
+  keptIdx.sort((a, b) => a - b);
+  const kept = keptIdx.map((i) => capped[i]!);
 
   const dropped = nInput - kept.length;
   const notes: string[] = [];
+  if (isTranscript) notes.push("denoised transcripts (stripped caption artifacts)");
   if (duplicates) notes.push(`dropped ${duplicates} duplicate sample(s)`);
   if (truncated) notes.push(`truncated ${truncated} long sample(s) to ${perSampleCap} chars`);
   if (kept.length < deduped.length) {
-    notes.push(`kept ${kept.length}/${nInput} samples within ${maxChars}-char budget (recency-ordered)`);
+    const how = breadth ? "breadth-sampled across the source" : "recency-ordered";
+    notes.push(`kept ${kept.length}/${nInput} samples within ${maxChars}-char budget (${how})`);
   }
   if (kept.length <= 2) notes.push("thin digest — declare voice limits during extraction");
 
