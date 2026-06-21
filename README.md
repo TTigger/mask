@@ -85,7 +85,14 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 
 ## Status
 
-Early WIP. The design is frozen in `docs/` (`PRD.md` -> `SPEC.md` -> `PHASES.md`). Implementation follows the phases. **Phase 0** (deterministic CLI; Claude Code adapter), **Phase 1** (AGENTS.md adapter + YouTube ingest), and **Phase 2** (a knowledge-first `type: code` flavor + repo ingest + multi-mask scope) are complete and dogfooded against a real blog, a real YouTube channel, and a real GitHub repo (`docs/DOGFOOD.md`). Traditional Chinese companions live in `docs/zh-TW/`.
+The full roadmap (`docs/PRD.md` -> `SPEC.md` -> `PHASES.md`) is implemented:
+
+- **Phase 0** — deterministic CLI (ingest → reduce → compile → wear), Claude Code adapter.
+- **Phase 1** — AGENTS.md adapter (second agent) + YouTube ingest.
+- **Phase 2** — knowledge-first `type: code` flavor + repo ingest + multi-mask scope; Cursor & Gemini adapters.
+- **Phase 3** — re-distillation (`redistill`), headless scale mode (`scale`), PDF/book ingest, blended masks, coverage/roster/statusline polish.
+
+Four agents, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 81 tests. Traditional Chinese companions live in `docs/zh-TW/`.
 
 ## License
 
