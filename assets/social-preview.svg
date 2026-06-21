@@ -1,0 +1,42 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="mask — Distill anything. Wear anyone.">
+  <title>mask — Distill anything. Wear anyone.</title>
+  <defs>
+    <path id="face" d="M300 96
+      C352 96 392 120 398 150
+      C404 182 405 216 404 250
+      C403 290 398 318 388 340
+      C378 362 372 380 360 392
+      C344 408 328 420 312 424
+      C302 426 292 424 288 418
+      C282 408 278 400 276 392
+      C275 384 280 378 286 372
+      C280 366 274 362 270 356
+      C258 350 240 348 220 344
+      C238 332 252 320 262 300
+      C268 284 260 256 256 236
+      C253 212 256 188 262 170
+      C268 144 278 112 300 96 Z"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B2E6B"/>
+      <stop offset="1" stop-color="#2A2050"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- mask motif -->
+  <g transform="translate(70 70) scale(0.86)">
+    <use href="#face" fill="#6B5FA8" transform="translate(86 28) rotate(5 300 260)"/>
+    <use href="#face" fill="#C4BBE6" transform="translate(44 14) rotate(2.5 300 260)"/>
+    <use href="#face" fill="#F4F1EA"/>
+    <path d="M280 250 Q295 240 312 250 Q295 259 280 250 Z" fill="#34285F"/>
+  </g>
+
+  <!-- wordmark + tagline -->
+  <g font-family="Helvetica, Arial, sans-serif">
+    <text x="548" y="300" font-size="170" font-weight="700" fill="#F4F1EA" letter-spacing="-4">mask</text>
+    <text x="554" y="372" font-size="44" font-weight="600" fill="#C4BBE6">Distill anything. Wear anyone.</text>
+    <text x="554" y="430" font-size="27" fill="#9D93C9">agent-native persona distillation · no API key</text>
+    <text x="554" y="486" font-size="25" fill="#9D93C9">voice · code · blend  —  Claude Code, Codex, Cursor, Gemini</text>
+  </g>
+</svg>

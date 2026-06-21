@@ -5,7 +5,7 @@
 
 ---
 
-**mask** is an agent-native, open-source framework that distills any source — a blog, articles, a YouTube channel, code, a GitHub repo — into a switchable persona. Wear it, and the AI agent you already use (Claude Code, Codex, Cursor, Gemini…) answers in that source's voice and perspective. Fully local, no API key.
+**mask** is an agent-native, open-source framework that distills any source — a blog, a YouTube channel, a GitHub repo, a PDF/book — into a switchable persona. Wear it, and the AI agent you already use (Claude Code, Codex, Cursor, Gemini…) answers in that source's voice and perspective. Fully local, no API key.
 
 ## Why "mask"
 
@@ -19,8 +19,8 @@ mask also carries a faint "disguise / concealment" connotation; we keep that amb
 
 ## Core ideas
 
-- **Distill anything** into a persona.
-- **Voice-first (v1)**: capture how they talk and think; knowledge is secondary, cited, and bounded.
+- **Distill anything** into a persona — three flavors: **voice** (how they talk and think), **code** (a repo's conventions and idioms), **blend** (a voice-neutral synthesis of several sources).
+- **Evidence-bound**: every claim is cited to a source sample `[src:…]` and traceable back to its origin; thin evidence is declared, not hidden.
 - **Local and yours**: each mask is a folder of Markdown + Git on your machine, hand-editable.
 - **Agent-native, zero API key**: the framework calls no LLM; extraction and answering borrow your own subscribed agent's compute.
 - **Many personas, switch like skills**: wear whichever the moment needs.
@@ -92,7 +92,7 @@ The full roadmap (`docs/PRD.md` -> `SPEC.md` -> `PHASES.md`) is implemented:
 - **Phase 2** — knowledge-first `type: code` flavor + repo ingest + multi-mask scope; Cursor & Gemini adapters.
 - **Phase 3** — re-distillation (`redistill`), headless scale mode (`scale`), PDF/book ingest, blended masks, coverage/roster/statusline polish.
 
-Four agents, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 81 tests. Traditional Chinese companions live in `docs/zh-TW/`.
+Four agents, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 87 tests. Early release (v0.1.0) — works as designed and dogfooded, not yet battle-tested by external users. Traditional Chinese companions live in `docs/zh-TW/`.
 
 ## License
 
