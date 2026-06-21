@@ -3,6 +3,7 @@ import { registerInit } from "./init.ts";
 import { registerIngest } from "./ingest.ts";
 import { registerReduce } from "./reduce.ts";
 import { registerRedistill } from "./redistill.ts";
+import { registerScale } from "./scale.ts";
 import { registerCompile } from "./compile.ts";
 import {
   registerWear,
@@ -23,6 +24,7 @@ export function registerCommands(program: Command): void {
   registerIngest(program);
   registerReduce(program);
   registerRedistill(program);
+  registerScale(program);
   registerCompile(program);
   registerWear(program);
   registerList(program);

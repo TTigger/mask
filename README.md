@@ -67,6 +67,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 | `mask ingest <src…>` | fetch a source into normalized samples |
 | `mask reduce <dir>` | dedup / sample / cap → a context-sized digest |
 | `mask redistill <slug> <src…>` | re-ingest a source and stage only what changed (version bump) |
+| `mask scale <dir>` | opt-in: map-reduce a too-large corpus via your own headless agent CLI |
 | `mask compile <slug>` | mask.md → the current agent's native persona file |
 | `mask wear <slug>` · `list` · `status` | switch / roster / who's worn |
 | `mask coverage <slug>` | how much evidence the mask stands on (from its provenance) |
