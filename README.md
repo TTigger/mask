@@ -69,6 +69,8 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 | `mask redistill <slug> <src…>` | re-ingest a source and stage only what changed (version bump) |
 | `mask compile <slug>` | mask.md → the current agent's native persona file |
 | `mask wear <slug>` · `list` · `status` | switch / roster / who's worn |
+| `mask coverage <slug>` | how much evidence the mask stands on (from its provenance) |
+| `mask statusline` | a compact active-mask badge for an agent statusline |
 | `mask unwear` · `remove <slug>` | clean up managed artifacts / delete a mask |
 
 ### Environment

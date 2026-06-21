@@ -8,6 +8,8 @@ import {
   registerWear,
   registerList,
   registerStatus,
+  registerStatusline,
+  registerCoverage,
   registerUnwear,
   registerRemove,
 } from "./roster.ts";
@@ -25,6 +27,8 @@ export function registerCommands(program: Command): void {
   registerWear(program);
   registerList(program);
   registerStatus(program);
+  registerStatusline(program);
+  registerCoverage(program);
   registerUnwear(program);
   registerRemove(program);
 }

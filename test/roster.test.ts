@@ -60,7 +60,7 @@ test("wear → status → list mark the active mask; unwear clears it", async ()
   r = await run(["list"]);
   expect(r.stdout).toContain("● dan"); // active marker
   expect(r.stdout).toContain("Dan Abramov");
-  expect(r.stdout).toContain("last worn");
+  expect(r.stdout).toContain("worn 20");
 
   r = await run(["unwear"]);
   expect(r.stdout).toContain("unwore dan");
@@ -74,6 +74,34 @@ test("wear rejects an unknown mask", async () => {
   const r = await spawn(["wear", "ghost"], env);
   expect(r.code).toBe(1);
   expect(r.stderr).toContain('no mask named "ghost"');
+});
+
+test("statusline prints a badge only when worn; coverage reports provenance", async () => {
+  const { home, env } = await setup();
+  const run = (args: string[]) => spawn(args, env);
+
+  expect((await run(["statusline"])).stdout.trim()).toBe(""); // nothing worn yet
+  await run(["wear", "dan"]);
+  expect((await run(["statusline"])).stdout).toContain("Dan Abramov");
+
+  // coverage needs the mask's own sources.json
+  expect((await run(["coverage", "dan"])).code).toBe(1); // none yet
+  await writeFile(
+    join(home, "dan", "sources.json"),
+    JSON.stringify({
+      source_kind: "blog",
+      sampling: { max_chars: 60000 },
+      sources: [{ id: "b1", url: "u", hash: "h", chars: 1234, truncated: false }],
+    }),
+  );
+  const cov = await run(["coverage", "dan"]);
+  expect(cov.code).toBe(0);
+  expect(cov.stdout).toContain("blog");
+  expect(cov.stdout).toContain("thin evidence"); // 1 source
+
+  const list = await run(["list"]);
+  expect(list.stdout).toContain("● dan");
+  expect(list.stdout).toContain("1 mask(s), wearing dan");
 });
 
 test("remove deletes the folder, the compiled subagent, and the roster entry", async () => {

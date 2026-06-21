@@ -1,8 +1,10 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import { readFile, rm } from "node:fs/promises";
-import { maskDir, maskFile } from "../lib/paths.ts";
+import { maskDir, maskFile, maskSourcesPath } from "../lib/paths.ts";
 import { toPersonaUnit } from "../lib/compile.ts";
+import { readJson, type SourcesFile } from "../lib/digest.ts";
+import { coverageOf, describeCoverage } from "../lib/coverage.ts";
 import { resolveAdapter } from "../adapters/index.ts";
 import { getActive, setActive, clearActive } from "../lib/active.ts";
 import { getMask, listMasks, removeMask, upsertMask } from "../lib/registry.ts";
@@ -37,11 +39,14 @@ async function list(): Promise<void> {
     return;
   }
   const active = await getActive();
+  const slugW = Math.max(...masks.map((m) => m.slug.length));
+  const nameW = Math.max(...masks.map((m) => m.name.length));
   for (const m of masks) {
     const mark = m.slug === active ? "●" : " ";
-    const used = m.last_used ? `last worn ${m.last_used.slice(0, 10)}` : "never worn";
-    console.log(`${mark} ${m.slug} — ${m.name}  [${m.source_kind}]  ${used}`);
+    const used = m.last_used ? `worn ${m.last_used.slice(0, 10)}` : "never worn";
+    console.log(`${mark} ${m.slug.padEnd(slugW)}  ${m.name.padEnd(nameW)}  [${m.source_kind}]  ${used}`);
   }
+  console.log(`\n${masks.length} mask(s)${active ? `, wearing ${active}` : ", none worn"}`);
 }
 
 async function status(): Promise<void> {
@@ -52,6 +57,27 @@ async function status(): Promise<void> {
   }
   const entry = await getMask(active);
   console.log(entry ? `Worn: ${entry.name} (${active}).` : `Worn: ${active}.`);
+}
+
+/** Compact active-mask badge for embedding in an agent statusline. */
+async function statusline(): Promise<void> {
+  const active = await getActive();
+  if (!active) return; // print nothing when no mask is worn
+  const entry = await getMask(active);
+  process.stdout.write(`🎭 ${entry?.name ?? active}`);
+}
+
+async function coverage(slug: string): Promise<void> {
+  const sp = maskSourcesPath(slug);
+  if (!existsSync(sp)) {
+    console.error(`mask coverage: ${slug} has no sources.json (nothing distilled yet).`);
+    process.exitCode = 1;
+    return;
+  }
+  const sources = await readJson<SourcesFile>(sp);
+  const entry = await getMask(slug);
+  console.log(`${slug}${entry ? ` — ${entry.name}` : ""}`);
+  for (const line of describeCoverage(coverageOf(sources))) console.log(`  ${line}`);
 }
 
 async function unwear(): Promise<void> {
@@ -102,6 +128,21 @@ export function registerList(program: Command): void {
 
 export function registerStatus(program: Command): void {
   program.command("status").description("Show which mask is currently worn").action(status);
+}
+
+export function registerStatusline(program: Command): void {
+  program
+    .command("statusline")
+    .description("Print a compact active-mask badge (for an agent statusline)")
+    .action(statusline);
+}
+
+export function registerCoverage(program: Command): void {
+  program
+    .command("coverage")
+    .argument("<slug>", "mask to report evidence coverage for")
+    .description("Report how much evidence a mask stands on (from its provenance)")
+    .action(coverage);
 }
 
 export function registerUnwear(program: Command): void {
