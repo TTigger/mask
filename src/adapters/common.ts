@@ -1,4 +1,4 @@
-import { recipePath, codeRecipePath, templatesDir } from "../lib/framework.ts";
+import { recipePath, codeRecipePath, blendRecipePath, templatesDir } from "../lib/framework.ts";
 
 /**
  * Resolve framework-asset placeholders to absolute paths so the agent can find
@@ -10,5 +10,6 @@ export function renderOrchestrator(template: string): string {
   return template
     .replaceAll("{{recipe}}", recipePath())
     .replaceAll("{{code_recipe}}", codeRecipePath())
+    .replaceAll("{{blend_recipe}}", blendRecipePath())
     .replaceAll("{{templates}}", templatesDir());
 }

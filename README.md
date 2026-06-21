@@ -66,7 +66,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 | | |
 |---|---|
 | `mask init` | create the library + install the orchestrator |
-| `mask ingest <src…>` | fetch a source into normalized samples |
+| `mask ingest <src…>` | fetch a source (blog / YouTube / repo / PDF) into samples; `--blend` merges several into one voice-neutral mask |
 | `mask reduce <dir>` | dedup / sample / cap → a context-sized digest |
 | `mask redistill <slug> <src…>` | re-ingest a source and stage only what changed (version bump) |
 | `mask scale <dir>` | opt-in: map-reduce a too-large corpus via your own headless agent CLI |

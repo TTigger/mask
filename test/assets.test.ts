@@ -3,6 +3,7 @@ import {
   ORCHESTRATOR_MD,
   SUBAGENT_HBS,
   SUBAGENT_CODE_HBS,
+  SUBAGENT_BLEND_HBS,
   AGENTS_MD_ORCHESTRATOR,
   ACTIVE_BLOCK_HBS,
 } from "../src/lib/assets.ts";
@@ -25,6 +26,12 @@ test("the code subagent template is embedded", () => {
   expect(SUBAGENT_CODE_HBS).toContain("{{slug}}");
   expect(SUBAGENT_CODE_HBS).toContain("code expert");
   expect(SUBAGENT_CODE_HBS).toContain("{{voice_profile}}");
+});
+
+test("the blend subagent template is embedded and voice-neutral", () => {
+  expect(SUBAGENT_BLEND_HBS).toContain("{{slug}}");
+  expect(SUBAGENT_BLEND_HBS).toContain("voice-neutral");
+  expect(SUBAGENT_BLEND_HBS).toContain("{{voice_profile}}");
 });
 
 test("agents-md assets are embedded with orchestrator + active blocks", () => {

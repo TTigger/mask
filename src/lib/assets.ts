@@ -10,6 +10,7 @@
 import orchestratorMd from "../../adapters/claude-code/orchestrator.md" with { type: "text" };
 import subagentHbs from "../../adapters/claude-code/subagent.hbs" with { type: "text" };
 import subagentCodeHbs from "../../adapters/claude-code/subagent-code.hbs" with { type: "text" };
+import subagentBlendHbs from "../../adapters/claude-code/subagent-blend.hbs" with { type: "text" };
 import agentsMdOrchestrator from "../../adapters/agents-md/orchestrator.md" with { type: "text" };
 import activeBlockHbs from "../../adapters/agents-md/active-block.hbs" with { type: "text" };
 
@@ -17,6 +18,7 @@ import activeBlockHbs from "../../adapters/agents-md/active-block.hbs" with { ty
 export const ORCHESTRATOR_MD: string = orchestratorMd;
 export const SUBAGENT_HBS: string = subagentHbs;
 export const SUBAGENT_CODE_HBS: string = subagentCodeHbs;
+export const SUBAGENT_BLEND_HBS: string = subagentBlendHbs;
 
 // AGENTS.md adapter assets
 export const AGENTS_MD_ORCHESTRATOR: string = agentsMdOrchestrator;

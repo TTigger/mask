@@ -26,13 +26,17 @@ export function toPersonaUnit(maskMd: string, slug: string): PersonaUnit {
   const voice_profile = content.trim();
   if (!voice_profile) throw new Error("mask.md has an empty profile (body)");
 
-  const type = data.type === "code" ? "code" : "voice";
+  const type = data.type === "code" || data.type === "blend" ? data.type : "voice";
+  const defaultDescription =
+    type === "code"
+      ? `Code expert on ${name}.`
+      : type === "blend"
+        ? `Voice-neutral knowledge blend: ${name}.`
+        : `Answer in the voice of ${name}.`;
   const description =
     typeof data.description === "string" && data.description.trim()
       ? data.description.trim()
-      : type === "code"
-        ? `Code expert on ${name}.`
-        : `Answer in the voice of ${name}.`;
+      : defaultDescription;
 
   return {
     slug,

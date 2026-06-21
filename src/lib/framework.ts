@@ -29,6 +29,11 @@ export function codeRecipePath(): string {
   return frameworkFile("recipes", "code", "RECIPE.md");
 }
 
+/** Absolute path to the blend recipe (voice-neutral multi-source synthesis). */
+export function blendRecipePath(): string {
+  return frameworkFile("recipes", "blend", "RECIPE.md");
+}
+
 /** Absolute path to the skeleton dir (mask.md / knowledge index). */
 export function templatesDir(): string {
   return frameworkFile("templates");
