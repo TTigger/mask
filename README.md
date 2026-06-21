@@ -66,6 +66,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 | `mask init` | create the library + install the orchestrator |
 | `mask ingest <src…>` | fetch a source into normalized samples |
 | `mask reduce <dir>` | dedup / sample / cap → a context-sized digest |
+| `mask redistill <slug> <src…>` | re-ingest a source and stage only what changed (version bump) |
 | `mask compile <slug>` | mask.md → the current agent's native persona file |
 | `mask wear <slug>` · `list` · `status` | switch / roster / who's worn |
 | `mask unwear` · `remove <slug>` | clean up managed artifacts / delete a mask |

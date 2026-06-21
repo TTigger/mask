@@ -29,3 +29,8 @@ export function maskFile(slug: string, root = libraryRoot()): string {
 export function knowledgeDir(slug: string, root = libraryRoot()): string {
   return join(maskDir(slug, root), "knowledge");
 }
+
+/** The mask's own provenance file (id → source url + hash), for re-distillation diffs. */
+export function maskSourcesPath(slug: string, root = libraryRoot()): string {
+  return join(maskDir(slug, root), "sources.json");
+}

@@ -2,6 +2,7 @@ import type { Command } from "commander";
 import { registerInit } from "./init.ts";
 import { registerIngest } from "./ingest.ts";
 import { registerReduce } from "./reduce.ts";
+import { registerRedistill } from "./redistill.ts";
 import { registerCompile } from "./compile.ts";
 import {
   registerWear,
@@ -19,6 +20,7 @@ export function registerCommands(program: Command): void {
   registerInit(program);
   registerIngest(program);
   registerReduce(program);
+  registerRedistill(program);
   registerCompile(program);
   registerWear(program);
   registerList(program);

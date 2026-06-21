@@ -184,7 +184,8 @@ export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Dig
   };
 }
 
-function sha256(text: string): string {
+/** Stable content hash used for provenance and re-distillation diffs. */
+export function hashText(text: string): string {
   return "sha256:" + createHash("sha256").update(text, "utf8").digest("hex");
 }
 
@@ -202,7 +203,7 @@ export function buildSources(input: SamplesFile, digest: Digest): SourcesFile {
       id: kept.id,
       url: src.src_ref.url,
       title: src.src_ref.title,
-      hash: sha256(src.text),
+      hash: hashText(src.text),
       chars: src.text.length,
       truncated: kept.text.length < src.text.length,
     };

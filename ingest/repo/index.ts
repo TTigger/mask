@@ -126,8 +126,12 @@ export async function collectRepoSamples(
   const all = await walk(dir);
   const rel = all.map((p) => relative(dir, p));
   const samples: Sample[] = [];
+  // Each file gets a unique, stable url (`<source>#<path>`) so provenance points
+  // at the file and re-distillation can diff per file (the repo root is shared).
   const push = (title: string, text: string) => {
-    if (text.trim()) samples.push({ id: `r${samples.length + 1}`, src_ref: { url: opts.source, title }, text });
+    if (text.trim()) {
+      samples.push({ id: `r${samples.length + 1}`, src_ref: { url: `${opts.source}#${title}`, title }, text });
+    }
   };
 
   // 1. README (root, case-insensitive)
