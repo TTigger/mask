@@ -57,6 +57,8 @@ bun run build:all       # -> ./bin/mask-{macos-arm64,linux-x64,windows-x64.exe}
 bun test                # the deterministic-core test suite
 ```
 
+Per-source tools (only needed for that source kind): `git` for repos, `yt-dlp` for YouTube, `pdftotext` (poppler) for PDFs. Blogs need none.
+
 ### Command surface
 
 The CLI is deterministic and calls **no LLM** — your agent does the intelligent work by following the recipe. You normally drive these in natural language (see above), but they exist directly too:

@@ -16,12 +16,19 @@ interface IngestOpts {
 const NOUN: Record<SourceKind, string> = {
   youtube: "transcript(s)",
   repo: "file(s)",
+  book: "page(s)",
   blog: "post(s)",
 };
 
 async function ingest(srcs: string[], opts: IngestOpts): Promise<void> {
   const limit = opts.limit ? Number(opts.limit) : undefined;
   const { kind, samples } = await ingestSource(srcs, limit);
+
+  if (kind === "book") {
+    console.log(
+      "⚠ copyright: distill voice and ideas, not verbatim text — respect the source's license and fair use; the recipe extracts a persona, not a copy.",
+    );
+  }
 
   if (samples.length === 0) {
     console.error(`mask ingest: no usable ${kind} content found at the given source(s).`);

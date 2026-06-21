@@ -1,14 +1,16 @@
 import { ingestBlog } from "../../ingest/blog/index.ts";
 import { ingestYoutube } from "../../ingest/youtube/index.ts";
 import { ingestRepo, isRepoSource } from "../../ingest/repo/index.ts";
+import { ingestPdf, isPdfSource } from "../../ingest/pdf/index.ts";
 import type { Sample } from "./digest.ts";
 
-export type SourceKind = "youtube" | "repo" | "blog";
+export type SourceKind = "youtube" | "repo" | "book" | "blog";
 
-/** Pick the ingester from the source: repo vs. YouTube vs. blog (default). */
+/** Pick the ingester from the source: PDF vs. repo vs. YouTube vs. blog (default). */
 export function detectSourceKind(src: string): SourceKind {
   if (/(?:^|\/\/)(?:www\.)?(?:youtube\.com|youtu\.be)\b/i.test(src)) return "youtube";
   if (/^@[\w.-]+$/.test(src)) return "youtube"; // bare @handle
+  if (isPdfSource(src)) return "book";
   if (isRepoSource(src)) return "repo";
   return "blog";
 }
@@ -22,6 +24,7 @@ export async function ingestSource(
   let samples: Sample[];
   if (kind === "youtube") samples = await ingestYoutube({ source: srcs[0]!, limit });
   else if (kind === "repo") samples = await ingestRepo({ source: srcs[0]!, limit });
+  else if (kind === "book") samples = await ingestPdf({ source: srcs[0]!, limit });
   else samples = await ingestBlog({ urls: srcs, limit });
   return { kind, samples };
 }
