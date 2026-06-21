@@ -44,11 +44,31 @@ export function videoIdFromUrl(url: string): string | null {
   return url.match(WATCH_RE)?.[1] ?? null;
 }
 
+/** Decode the handful of XML/HTML entities WebVTT cue text uses. */
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&amp;/g, "&"); // last, so a decoded entity can't reintroduce another
+}
+
+/** Strip only WebVTT inline tags: `<00:00:00.000>` cues and `<c …>`/`</c>` styling. */
+function stripVttTags(line: string): string {
+  return line
+    .replace(/<\d{2}:\d{2}:\d{2}\.\d{3}>/g, "")
+    .replace(/<\/?c[^>]*>/g, "");
+}
+
 /**
  * Parse plain text out of a WebVTT transcript: drop the header, cue timing
- * lines, and cue indices; strip inline `<...>` timestamp/style tags; collapse
- * whitespace; and drop consecutive duplicate lines (YouTube's rolling captions
- * repeat the previous line). Returns one despaced string.
+ * lines, and cue indices; strip inline timestamp/style tags (leaving literal
+ * `<`/`>` in speech alone); decode entities; collapse whitespace; and drop
+ * consecutive duplicate lines (YouTube's rolling captions repeat the previous
+ * line). Returns one despaced string.
  */
 export function parseVtt(vtt: string): string {
   const out: string[] = [];
@@ -57,13 +77,10 @@ export function parseVtt(vtt: string): string {
     if (!line) continue;
     if (line === "WEBVTT") continue;
     if (/^(Kind|Language|NOTE|STYLE|REGION)\b/i.test(line)) continue;
-    if (line.includes("-->")) continue; // cue timing
+    if (line.includes("-->")) continue; // cue timing (with optional cue settings)
     if (/^\d+$/.test(line)) continue; // cue index
 
-    const text = line
-      .replace(/<[^>]+>/g, "") // <00:00:00.000>, <c>, </c>
-      .replace(/\s+/g, " ")
-      .trim();
+    const text = decodeEntities(stripVttTags(line)).replace(/\s+/g, " ").trim();
     if (!text) continue;
     if (out.length && out[out.length - 1] === text) continue; // consecutive dup
     out.push(text);
@@ -119,7 +136,13 @@ import { join } from "node:path";
 
 async function runYtDlp(args: string[]): Promise<string> {
   const proc = Bun.spawn(["yt-dlp", ...args], { stdout: "pipe", stderr: "pipe" });
-  const [stdout, code] = await Promise.all([new Response(proc.stdout).text(), proc.exited]);
+  // Drain stderr concurrently — an unread piped stderr can fill its buffer and
+  // block yt-dlp on a large playlist.
+  const [stdout, , code] = await Promise.all([
+    new Response(proc.stdout).text(),
+    new Response(proc.stderr).text(),
+    proc.exited,
+  ]);
   if (code !== 0) throw new Error(`yt-dlp exited ${code} (args: ${args.join(" ")})`);
   return stdout;
 }
@@ -160,9 +183,11 @@ export const defaultProvider: YoutubeProvider = {
         join(dir, "%(id)s.%(ext)s"),
         video.url,
       ]);
-      const files = (await readdir(dir)).filter((f) => f.endsWith(".vtt"));
+      // Deterministic pick: prefer a plain `.en.vtt` over regional/auto variants.
+      const files = (await readdir(dir)).filter((f) => f.endsWith(".vtt")).sort();
       if (!files.length) return null;
-      return await readFile(join(dir, files[0]!), "utf8");
+      const pick = files.find((f) => /\.en\.vtt$/.test(f)) ?? files[0]!;
+      return await readFile(join(dir, pick), "utf8");
     } finally {
       await rm(dir, { recursive: true, force: true });
     }

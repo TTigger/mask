@@ -7,10 +7,11 @@ test("denoiseTranscript strips bracketed non-speech and filler tokens", () => {
   expect(denoiseTranscript("intro [Applause] outro")).toBe("intro outro");
 });
 
-test("denoiseTranscript collapses immediately-repeated phrases", () => {
+test("denoiseTranscript collapses immediately-repeated phrases (to a fixed point)", () => {
   expect(denoiseTranscript("we ship we ship fast")).toBe("we ship fast");
   expect(denoiseTranscript("the the bug")).toBe("the bug");
   expect(denoiseTranscript("so today so today we build")).toBe("so today we build");
+  expect(denoiseTranscript("yeah yeah yeah")).toBe("yeah"); // odd run fully collapses
 });
 
 function sample(id: string, text: string): Sample {

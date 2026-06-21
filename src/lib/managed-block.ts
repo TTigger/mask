@@ -9,10 +9,11 @@
  */
 
 /** Match an existing block, tolerating an inline suffix on the opening marker
- *  (e.g. `<!-- mask:active fireship -->`). */
+ *  (e.g. `<!-- mask:active fireship -->`). `name` is regex-escaped. */
 function blockRegex(name: string): RegExp {
+  const safe = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(
-    `<!--\\s*mask:${name}\\b[^>]*-->[\\s\\S]*?<!--\\s*/mask:${name}\\s*-->`,
+    `<!--\\s*mask:${safe}\\b[^>]*-->[\\s\\S]*?<!--\\s*/mask:${safe}\\s*-->`,
   );
 }
 
@@ -20,7 +21,8 @@ function blockRegex(name: string): RegExp {
 export function upsertBlock(content: string, name: string, block: string): string {
   const trimmed = block.trim();
   const re = blockRegex(name);
-  if (re.test(content)) return content.replace(re, trimmed);
+  // Function replacer: a block body with `$&`/`$1`/`$<x>` must be inserted literally.
+  if (re.test(content)) return content.replace(re, () => trimmed);
   if (content.trim() === "") return trimmed + "\n";
   return content.replace(/\s*$/, "") + "\n\n" + trimmed + "\n";
 }

@@ -17,13 +17,20 @@ async function fixtureRepo(): Promise<string> {
   return dir;
 }
 
-test("isRepoSource recognizes git URLs and local dirs, rejects blogs/handles", () => {
+test("isRepoSource recognizes git URLs and local dirs, rejects blogs/handles/files", async () => {
   expect(isRepoSource("https://github.com/user/repo")).toBe(true);
   expect(isRepoSource("git@github.com:user/repo.git")).toBe(true);
   expect(isRepoSource("https://example.com/blog.git")).toBe(true);
   expect(isRepoSource("https://overreacted.io/rss.xml")).toBe(false);
   expect(isRepoSource("@fireship")).toBe(false);
   expect(isRepoSource("/no/such/path/here")).toBe(false);
+
+  // an existing *file* (not a directory) must not be treated as a repo
+  const dir = await mkdtemp(join(tmpdir(), "mask-repo-file-"));
+  const file = join(dir, "notes.txt");
+  await writeFile(file, "hi");
+  expect(isRepoSource(file)).toBe(false);
+  expect(isRepoSource(dir)).toBe(true);
 });
 
 test("ingestRepo extracts README, tree, config, and source files with stable ids", async () => {

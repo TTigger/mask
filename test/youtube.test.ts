@@ -62,6 +62,22 @@ test("parseVtt strips headers/timing/tags and drops consecutive duplicates", () 
   expect(auto).not.toContain("so today so today"); // consecutive dup removed
 });
 
+test("parseVtt preserves literal angle brackets in speech and decodes entities", () => {
+  const vtt = `WEBVTT
+
+00:00:00.000 --> 00:00:02.000
+if a &lt; b &gt; c then R&amp;D
+
+00:00:02.000 --> 00:00:04.000
+<00:00:02.500><c>tag</c> 5 > 3
+`;
+  const got = parseVtt(vtt);
+  expect(got).toContain("if a < b > c then R&D"); // entities decoded, not stripped
+  expect(got).toContain("tag 5 > 3"); // only the <c>/timestamp tags removed; "5 > 3" intact
+  expect(got).not.toContain("<c>");
+  expect(got).not.toContain("&amp;");
+});
+
 test("ingestYoutube expands a channel into stable-id samples, skipping thin/unreachable", async () => {
   const videos: YoutubeVideo[] = [
     { id: "v1", title: "Episode One", url: "https://www.youtube.com/watch?v=v1" },

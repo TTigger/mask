@@ -174,7 +174,9 @@ export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Dig
     const how = breadth ? "breadth-sampled across the source" : "recency-ordered";
     notes.push(`kept ${kept.length}/${nInput} samples within ${maxChars}-char budget (${how})`);
   }
-  if (kept.length <= 2) notes.push("thin digest — declare voice limits during extraction");
+  if (kept.length > 0 && kept.length <= 2) {
+    notes.push("thin digest — declare voice limits during extraction");
+  }
 
   return {
     meta: { source_kind: input.source_kind, n_input: nInput, n_kept: kept.length, dropped, max_chars: maxChars, notes },

@@ -9,8 +9,8 @@
 const NONSPEECH = /\[[^\]]*\]/g; // [Music], [Applause], [ __ ]
 const FILLER = new Set(["um", "uh", "erm", "uhh", "umm"]);
 
-/** Collapse immediately-repeated phrases (window 4→1), e.g. "we ship we ship" → "we ship". */
-function collapseImmediateRepeats(words: string[]): string[] {
+/** One pass collapsing immediately-repeated phrases of every window 4→1. */
+function collapseOnce(words: string[]): string[] {
   for (let w = 4; w >= 1; w--) {
     const res: string[] = [];
     let i = 0;
@@ -28,6 +28,20 @@ function collapseImmediateRepeats(words: string[]): string[] {
       i++;
     }
     words = res;
+  }
+  return words;
+}
+
+/**
+ * Collapse immediately-repeated phrases to a fixed point, e.g.
+ * "we ship we ship" → "we ship", "yeah yeah yeah" → "yeah". A single pass
+ * leaves odd-count runs half-collapsed, so repeat until nothing shrinks.
+ */
+function collapseImmediateRepeats(words: string[]): string[] {
+  let prev = words.length + 1;
+  while (words.length < prev) {
+    prev = words.length;
+    words = collapseOnce(words);
   }
   return words;
 }

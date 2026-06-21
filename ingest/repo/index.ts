@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { statSync } from "node:fs";
 import { mkdtemp, readdir, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, sep } from "node:path";
@@ -91,9 +91,10 @@ async function readCapped(path: string, maxBytes: number): Promise<string> {
 
 async function defaultCloner(source: string): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "mask-repo-"));
+  // Discard git's output (we don't read it) so a verbose clone can't block.
   const proc = Bun.spawn(["git", "clone", "--depth", "1", source, dir], {
-    stdout: "pipe",
-    stderr: "pipe",
+    stdout: "ignore",
+    stderr: "ignore",
   });
   if ((await proc.exited) !== 0) throw new Error(`git clone failed: ${source}`);
   return dir;
@@ -101,7 +102,11 @@ async function defaultCloner(source: string): Promise<string> {
 
 /** Is this a local directory we can read in place (vs a URL to clone)? */
 function isLocalDir(source: string): boolean {
-  return existsSync(source);
+  try {
+    return statSync(source).isDirectory();
+  } catch {
+    return false;
+  }
 }
 
 export async function ingestRepo(opts: IngestRepoOptions): Promise<Sample[]> {

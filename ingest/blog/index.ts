@@ -40,10 +40,10 @@ export function parseFeedLinks(xml: string, limit = DEFAULT_LIMIT): string[] {
     const link = m[0].match(/<link[^>]*>([^<]+)<\/link>/i);
     if (link?.[1]) links.push(link[1].trim());
   }
-  // Atom: <entry> … <link href="URL" …/>
+  // Atom: <entry> … <link href="URL" …/> (single- or double-quoted)
   for (const m of xml.matchAll(/<entry[\s>][\s\S]*?<\/entry>/gi)) {
-    const link = m[0].match(/<link[^>]*href="([^"]+)"[^>]*\/?>/i);
-    if (link?.[1]) links.push(link[1].trim());
+    const link = m[0].match(/<link[^>]*href=(["'])([^"']+)\1[^>]*\/?>/i);
+    if (link?.[2]) links.push(link[2].trim());
   }
 
   return [...new Set(links)].slice(0, limit);

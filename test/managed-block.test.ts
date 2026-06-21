@@ -36,6 +36,15 @@ test("tolerates an inline suffix on the opening marker (slug)", () => {
   expect(swapped).not.toContain("fireship");
 });
 
+test("a block body containing $ replacement patterns is inserted literally", () => {
+  const dollar = "<!-- mask:active -->\ncost is $5, regex $& and $1 and $<x> stay literal\n<!-- /mask:active -->";
+  const out = upsertBlock("base\n", "active", dollar);
+  expect(out).toContain("cost is $5, regex $& and $1 and $<x> stay literal");
+  // replacing in place keeps it literal too
+  const again = upsertBlock(out, "active", dollar);
+  expect(again).toContain("$& and $1 and $<x>");
+});
+
 test("removeBlock strips only the marked region", () => {
   const out = upsertBlock("# keep me\n", "orchestrator", block);
   const removed = removeBlock(out, "orchestrator");
