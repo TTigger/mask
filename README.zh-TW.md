@@ -1,10 +1,9 @@
+<p align="center"><img src="assets/social-preview.png" alt="mask — 蒸餾萬物，戴上任何人。" width="840"></p>
 <p align="center">
-  <img src="assets/mask-icon.svg" width="140" alt="mask" />
+  <a href="https://ttigger.github.io/mask"><b>網站</b></a>
+  &nbsp;·&nbsp; <a href="https://github.com/TTigger/mask">GitHub</a>
+  &nbsp;·&nbsp; <a href="README.md">English</a>
 </p>
-
-<h1 align="center">mask</h1>
-
-<p align="center"><em>Distill anything. Wear anyone.</em><br/>蒸餾萬物，戴上任何人。</p>
 
 ---
 

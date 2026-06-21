@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mask — Distill anything. Wear anyone.</title>
+<meta name="description" content="An agent-native, open-source framework that distills any source — a blog, a YouTube channel, a repo, a PDF — into a switchable persona your own AI agent can wear. Fully local, no API key.">
+<meta property="og:title" content="mask — Distill anything. Wear anyone.">
+<meta property="og:description" content="Distill any source into a switchable persona your own AI agent can wear. Fully local, no API key.">
+<meta property="og:image" content="https://raw.githubusercontent.com/TTigger/mask/main/assets/social-preview.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='104' fill='%23F4F1EA'/%3E%3Cpath d='M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z' fill='%2334285F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1430; --ink2:#2A1F52; --ink3:#3B2E6B;
+    --purple:#34285F; --cream:#F6F3EC; --paper:#FBFAF6;
+    --lilac:#C9C0EA; --muted:#9D93C9; --accent:#7C6BD6;
+    --line:#E7E1D4;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; font-family:var(--body); color:#2c2742; background:var(--paper); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+  h1,h2,h3,.display{ font-family:var(--display); letter-spacing:-.02em; }
+  a{ color:var(--accent); text-decoration:none; }
+  ::selection{ background:var(--accent); color:#fff; }
+
+  /* nav */
+  nav{ position:fixed; inset:0 0 auto 0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+       padding:16px 28px; transition:background .3s, box-shadow .3s, backdrop-filter .3s; }
+  nav.scrolled{ background:rgba(27,20,48,.78); backdrop-filter:blur(14px); box-shadow:0 1px 0 rgba(255,255,255,.07); }
+  nav .brand{ display:flex; align-items:center; gap:10px; font-family:var(--display); font-weight:700; font-size:20px; color:#fff; }
+  nav .brand svg{ width:30px; height:30px; }
+  nav .right{ display:flex; align-items:center; gap:8px; }
+  .ghbtn{ display:inline-flex; align-items:center; gap:8px; padding:8px 15px; border-radius:10px; font-weight:600; font-size:14px;
+          color:#fff; border:1px solid rgba(255,255,255,.28); transition:.25s; }
+  .ghbtn:hover{ background:rgba(124,107,214,.2); }
+  .ghbtn svg{ width:18px; height:18px; fill:currentColor; }
+
+  /* hero */
+  .hero{ position:relative; overflow:hidden; background:radial-gradient(120% 90% at 50% -10%, #4A3A8C 0%, var(--ink2) 45%, var(--ink) 100%);
+         color:var(--cream); text-align:center; padding:170px 0 120px; }
+  .hero::after{ content:""; position:absolute; inset:0; background:radial-gradient(60% 50% at 50% 38%, rgba(124,107,214,.35), transparent 70%); pointer-events:none; }
+  .hero .mark{ width:128px; height:128px; filter:drop-shadow(0 18px 40px rgba(0,0,0,.45)); animation:float 6s ease-in-out infinite; }
+  @keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-12px) } }
+  .hero h1{ font-size:clamp(72px,13vw,140px); font-weight:700; margin:18px 0 2px; line-height:1; }
+  .hero .tag{ font-family:var(--display); font-weight:600; font-size:clamp(24px,4.4vw,38px); color:var(--lilac); margin:0; }
+  .hero .sub{ font-size:clamp(16px,2.2vw,19px); color:var(--muted); max-width:600px; margin:22px auto 36px; }
+  .cta{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:9px; padding:14px 26px; border-radius:13px; font-weight:600; font-size:16px; transition:.25s; }
+  .btn svg{ width:19px; height:19px; }
+  .btn-primary{ background:var(--cream); color:var(--purple); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.3); }
+  .btn-ghost{ border:1.5px solid rgba(246,243,236,.4); color:var(--cream); }
+  .btn-ghost:hover{ background:rgba(246,243,236,.1); transform:translateY(-2px); }
+
+  section{ padding:104px 0; }
+  section.alt{ background:var(--cream); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin:0 0 10px; }
+  h2{ font-size:clamp(30px,4.6vw,48px); font-weight:700; margin:0 0 14px; color:var(--purple); line-height:1.08; }
+  .lead{ color:#6b6588; font-size:18px; max-width:620px; margin:0 0 40px; }
+
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:18px; padding:26px; transition:.3s; }
+  section.alt .card{ background:var(--paper); }
+  .card:hover{ transform:translateY(-4px); box-shadow:0 16px 40px rgba(52,40,95,.1); border-color:#d8cfe8; }
+  .card .ic{ width:42px; height:42px; border-radius:11px; display:grid; place-items:center; background:#efeafc; margin-bottom:14px; color:var(--accent); }
+  .card .ic svg{ width:22px; height:22px; }
+  .card h3{ margin:0 0 7px; font-size:20px; color:var(--purple); }
+  .card p{ margin:0; color:#5b5572; font-size:15.5px; }
+  .card p code{ font-family:var(--mono); font-size:13px; background:#efeafc; padding:1px 6px; border-radius:5px; color:#5a4aa0; }
+
+  /* terminal */
+  .term{ background:#161126; border:1px solid #2b2348; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px rgba(27,20,48,.25); }
+  .term .bar{ display:flex; gap:7px; padding:14px 16px; border-bottom:1px solid #2b2348; }
+  .term .bar i{ width:12px; height:12px; border-radius:50%; display:block; }
+  .term .body{ padding:22px 24px; font-family:var(--mono); font-size:14.5px; line-height:1.9; color:#d9d3f2; }
+  .term .you{ color:#8f86c4; } .term .out{ color:#9be7b4; } .term b{ color:#fff; font-weight:600; }
+  .term code{ background:#241c3e; padding:1px 6px; border-radius:5px; }
+
+  /* steps + copyable commands */
+  .steps{ display:grid; gap:22px; }
+  .step{ display:grid; grid-template-columns:48px 1fr; gap:20px; align-items:start; }
+  .step .n{ width:48px; height:48px; border-radius:13px; background:var(--purple); color:#fff; font-family:var(--display); font-weight:700; font-size:20px; display:grid; place-items:center; }
+  .step h3{ margin:6px 0 4px; font-size:19px; color:var(--purple); }
+  .step p{ margin:0 0 12px; color:#6b6588; font-size:15.5px; }
+  .codeblock{ position:relative; background:#161126; border:1px solid #2b2348; border-radius:13px; }
+  .codeblock pre{ margin:0; padding:16px 56px 16px 18px; font-family:var(--mono); font-size:14px; color:#e7e2f5; overflow:auto; line-height:1.7; }
+  .codeblock .tok{ color:#9be7b4; }
+  .copy{ position:absolute; top:10px; right:10px; width:34px; height:34px; border-radius:9px; border:1px solid #3a3160; background:#241c3e;
+         color:#bcb3e6; display:grid; place-items:center; cursor:pointer; transition:.2s; }
+  .copy:hover{ background:#3a3160; color:#fff; }
+  .copy svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; }
+  .copy.ok{ color:#9be7b4; border-color:#2e6b46; }
+  .chat{ background:#efeafc; border:1px solid #ddd3f2; border-radius:13px; padding:14px 18px; font-size:15.5px; color:#4a4368; }
+  .chat b{ color:var(--purple); }
+
+  /* matrix */
+  .matrix{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+  .matrix .card h3 small{ display:block; font-family:var(--body); font-weight:400; color:#9a93b3; font-size:13px; margin-top:3px; letter-spacing:0; }
+  .chips{ display:flex; flex-wrap:wrap; gap:9px; margin-top:14px; }
+  .chip{ background:#efeafc; border:1px solid #ddd3f2; color:#4a4368; border-radius:999px; padding:7px 15px; font-size:14px; font-weight:500; }
+
+  footer{ background:var(--ink); color:var(--muted); padding:54px 0; }
+  footer .wrap{ display:flex; flex-wrap:wrap; gap:18px; align-items:center; justify-content:space-between; }
+  footer .brand{ display:flex; align-items:center; gap:10px; color:var(--cream); font-family:var(--display); font-weight:700; font-size:19px; }
+  footer .brand svg{ width:30px; height:30px; }
+  footer a{ color:var(--lilac); display:inline-flex; align-items:center; gap:7px; }
+  footer a svg{ width:18px; height:18px; fill:currentColor; }
+  footer small{ display:block; color:#6f6896; margin-top:4px; font-size:13px; }
+
+  /* reveal */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in{ opacity:1; transform:none; }
+  .reveal.d1{ transition-delay:.08s } .reveal.d2{ transition-delay:.16s } .reveal.d3{ transition-delay:.24s }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- inline icon defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-gh" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.27-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></symbol>
+  <symbol id="i-mask" viewBox="0 0 512 512">
+    <rect width="512" height="512" rx="104" fill="#F4F1EA"/>
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#C4BBE6" transform="translate(104 -8) rotate(13 256 256)"/>
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#8E83C6" transform="translate(54 -4) rotate(6.5 256 256)"/>
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#34285F"/>
+    <path d="M206 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#F4F1EA"/>
+    <path d="M262 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#F4F1EA"/>
+    <path d="M228 306 q28 20 56 0" stroke="#F4F1EA" stroke-width="11" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-markL" viewBox="0 0 512 512">
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#6E63A6" transform="translate(104 -8) rotate(13 256 256)"/>
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#9D93C9" transform="translate(54 -4) rotate(6.5 256 256)"/>
+    <path d="M256 120C314 120 352 162 352 222 352 300 316 366 256 392 196 366 160 300 160 222 160 162 198 120 256 120Z" fill="#F4F1EA"/>
+    <path d="M206 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#34285F"/>
+    <path d="M262 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#34285F"/>
+    <path d="M228 306 q28 20 56 0" stroke="#34285F" stroke-width="11" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8"/></symbol>
+</defs></svg>
+
+<nav id="nav">
+  <a class="brand" href="#top"><svg><use href="#i-markL"/></svg>mask</a>
+  <div class="right">
+    <a class="ghbtn" href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg>Star on GitHub</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 512 512" aria-label="mask"><use href="#i-markL"/></svg>
+    <h1>mask</h1>
+    <p class="tag">Distill anything. Wear anyone.</p>
+    <p class="sub">An agent-native, open-source framework that distills any source — a blog, a YouTube channel, a GitHub repo, a PDF — into a switchable persona the AI agent you already use can <em>wear</em>. Fully local, no API key.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#start"><svg><use href="#i-spark"/></svg>Get started</a>
+      <a class="btn btn-ghost" href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg>View source</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">The idea</p>
+    <h2 class="reveal">Your agent, wearing someone else's voice.</h2>
+    <p class="lead reveal">mask is the deterministic toolbox; the intelligence is borrowed from the agent you already pay for.</p>
+    <div class="cards">
+      <div class="card reveal d1"><div class="ic"><svg><use href="#i-spark"/></svg></div><h3>Borrowed intelligence</h3><p>The CLI calls no LLM. Your own agent (Claude Code, Codex, Cursor, Gemini) does the extraction by following a plain-Markdown recipe. Zero API key.</p></div>
+      <div class="card reveal d2"><div class="ic"><svg><use href="#i-lock"/></svg></div><h3>Local &amp; yours</h3><p>Every mask is a folder of Markdown + Git on your machine — human-readable and hand-editable. Your masks never leave your disk.</p></div>
+      <div class="card reveal d3"><div class="ic"><svg><use href="#i-link"/></svg></div><h3>Evidence-bound</h3><p>Every claim is cited to a source sample <code>[src:…]</code> and traceable to its origin. Thin evidence is declared, not hidden.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow reveal">Talk to it</p>
+    <h2 class="reveal">No CLI to learn.</h2>
+    <p class="lead reveal">After one <code>init</code>, you just speak to your agent — it translates your words into the deterministic steps.</p>
+    <div class="term reveal">
+      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+      <div class="body">
+        <div><span class="you">you ›</span> distill this blog for me — https://overreacted.io</div>
+        <div><span class="out">mask ›</span> ingested 15 posts → reduced → distilled <b>dan</b> (voice). wear it?</div>
+        <div style="margin-top:12px"><span class="you">you ›</span> wear dan</div>
+        <div><span class="out">dan ›</span> Sure — what are we building? <span style="color:#6f6896">(now in Dan's voice, citing <code>[src:…]</code>)</span></div>
+        <div style="margin-top:12px"><span class="you">you ›</span> ask gilfoyle: review this function</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <p class="eyebrow reveal">Quickstart</p>
+    <h2 class="reveal">Running in three steps.</h2>
+    <p class="lead reveal">Requires <a href="https://bun.sh">Bun</a>. The framework is a cloned repo; your masks live separately in <code>~/.mask/</code>.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n">1</div>
+        <div>
+          <h3>Clone &amp; install</h3>
+          <p>Grab the framework and its dependencies.</p>
+          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>git clone https://github.com/TTigger/mask &amp;&amp; cd mask
+bun install</pre></div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="n">2</div>
+        <div>
+          <h3>Wire it into your agent</h3>
+          <p>Installs the orchestrator so your agent knows how to drive mask. Pick another with <code>--agent agents-md | gemini | cursor</code>.</p>
+          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>bun run dev init</pre></div>
+        </div>
+      </div>
+      <div class="step reveal">
+        <div class="n">3</div>
+        <div>
+          <h3>Just ask</h3>
+          <p>No more commands — talk to your agent in natural language.</p>
+          <div class="chat">💬 <b>“distill this blog and let me wear it.”</b></div>
+        </div>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:26px; font-size:15px;">Per-source tools (only for that kind): <code>git</code> for repos, <code>yt-dlp</code> for YouTube, <code>pdftotext</code> for PDFs. Blogs need none.</p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow reveal">Portable by design</p>
+    <h2 class="reveal">One mask, many agents.</h2>
+    <p class="lead reveal">Add an agent via an adapter, add a source via an ingest module — the recipe stays put.</p>
+    <div class="matrix">
+      <div class="card reveal d1"><h3>4 agents <small>compile the same mask to any</small></h3><div class="chips"><span class="chip">Claude Code</span><span class="chip">AGENTS.md</span><span class="chip">Gemini</span><span class="chip">Cursor</span></div></div>
+      <div class="card reveal d2"><h3>4 source kinds <small>injectable &amp; offline-tested</small></h3><div class="chips"><span class="chip">blog / RSS</span><span class="chip">YouTube</span><span class="chip">GitHub repo</span><span class="chip">PDF / book</span></div></div>
+      <div class="card reveal d3"><h3>3 flavors <small>distilled per source</small></h3><div class="chips"><span class="chip">voice</span><span class="chip">code</span><span class="chip">blend</span></div></div>
+    </div>
+    <p class="lead reveal" style="margin-top:30px; font-size:15px;">Plus re-distillation (update only what changed), opt-in headless scale mode for huge corpora, and coverage reporting. <a href="https://github.com/TTigger/mask#readme">Read the full docs →</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand"><svg><use href="#i-markL"/></svg>mask</div>
+      <small>MIT · v0.1.0 — early release, dogfooded, not yet battle-tested.</small>
+    </div>
+    <a href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg>github.com/TTigger/mask</a>
+  </div>
+</footer>
+
+<script>
+  // nav background on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll(); addEventListener('scroll', onScroll, { passive:true });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { threshold:0.14 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // copy buttons
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const code = btn.parentElement.querySelector('pre').innerText;
+      try { await navigator.clipboard.writeText(code); } catch { return; }
+      btn.classList.add('ok');
+      btn.innerHTML = '<svg><use href="#i-check"/></svg>';
+      setTimeout(() => { btn.classList.remove('ok'); btn.innerHTML = '<svg><use href="#i-copy"/></svg>'; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>

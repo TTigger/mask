@@ -1,7 +1,9 @@
-<p align="center"><img src="assets/mask-icon.svg" width="140" alt="mask" /></p>
-<h1 align="center">mask</h1>
-<p align="center"><em>Distill anything. Wear anyone.</em></p>
-<p align="center"><a href="README.zh-TW.md">繁體中文</a></p>
+<p align="center"><img src="assets/social-preview.png" alt="mask — Distill anything. Wear anyone." width="840"></p>
+<p align="center">
+  <a href="https://ttigger.github.io/mask"><b>Website</b></a>
+  &nbsp;·&nbsp; <a href="https://github.com/TTigger/mask">GitHub</a>
+  &nbsp;·&nbsp; <a href="README.zh-TW.md">繁體中文</a>
+</p>
 
 ---
 
