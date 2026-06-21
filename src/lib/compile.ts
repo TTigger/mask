@@ -67,7 +67,5 @@ export function renderPersona(template: string, unit: PersonaUnit): string {
   return out;
 }
 
-/** Render a persona unit into a Claude Code subagent file via its .hbs template. */
-export function renderSubagent(template: string, unit: PersonaUnit): string {
-  return renderPersona(template, unit);
-}
+/** Alias of renderPersona — the Claude Code subagent fills the same slots. */
+export const renderSubagent = renderPersona;

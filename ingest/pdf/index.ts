@@ -1,4 +1,5 @@
 import type { Sample } from "../../src/lib/digest.ts";
+import { runCapture } from "../../src/lib/proc.ts";
 
 /**
  * PDF / book ingest. Text comes from the injectable extractor (default: shell
@@ -22,12 +23,14 @@ export interface IngestPdfOptions {
 const DEFAULT_LIMIT = 200;
 const DEFAULT_MIN_CHARS = 200;
 
+/** Normalize a single extracted page: drop trailing spaces before newlines, trim. */
+function normalizePage(text: string): string {
+  return text.replace(/[ \t]+\n/g, "\n").trim();
+}
+
 /** Split extracted text into pages on form-feed; trims and drops empty pages. */
 export function splitPages(text: string): string[] {
-  return text
-    .split("\f")
-    .map((p) => p.replace(/[ \t]+\n/g, "\n").trim())
-    .filter(Boolean);
+  return text.split("\f").map(normalizePage).filter(Boolean);
 }
 
 export async function ingestPdf(opts: IngestPdfOptions): Promise<Sample[]> {
@@ -47,7 +50,7 @@ export async function ingestPdf(opts: IngestPdfOptions): Promise<Sample[]> {
   const samples: Sample[] = [];
   const rawPages = raw.split("\f");
   for (let i = 0; i < rawPages.length && samples.length < limit; i++) {
-    const text = rawPages[i]!.replace(/[ \t]+\n/g, "\n").trim();
+    const text = normalizePage(rawPages[i]!);
     if (text.length < minChars) continue;
     const page = i + 1;
     samples.push({
@@ -69,12 +72,5 @@ export function isPdfSource(source: string): boolean {
 
 async function defaultExtractor(path: string): Promise<string> {
   // `--` ends options so a `-`-leading path can't be parsed as a pdftotext flag.
-  const proc = Bun.spawn(["pdftotext", "-q", "--", path, "-"], { stdout: "pipe", stderr: "pipe" });
-  const [stdout, , code] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
-    proc.exited,
-  ]);
-  if (code !== 0) throw new Error(`pdftotext exited ${code} for ${path}`);
-  return stdout;
+  return runCapture(["pdftotext", "-q", "--", path, "-"]);
 }

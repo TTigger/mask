@@ -38,11 +38,3 @@ export function blendRecipePath(): string {
 export function templatesDir(): string {
   return frameworkFile("templates");
 }
-
-export function maskTemplatePath(): string {
-  return frameworkFile("templates", "mask.md");
-}
-
-export function knowledgeIndexTemplatePath(): string {
-  return frameworkFile("templates", "knowledge", "index.md");
-}

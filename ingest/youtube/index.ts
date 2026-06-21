@@ -133,18 +133,10 @@ export async function ingestYoutube(opts: IngestYoutubeOptions): Promise<Sample[
 import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { runCapture } from "../../src/lib/proc.ts";
 
 async function runYtDlp(args: string[]): Promise<string> {
-  const proc = Bun.spawn(["yt-dlp", ...args], { stdout: "pipe", stderr: "pipe" });
-  // Drain stderr concurrently — an unread piped stderr can fill its buffer and
-  // block yt-dlp on a large playlist.
-  const [stdout, , code] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
-    proc.exited,
-  ]);
-  if (code !== 0) throw new Error(`yt-dlp exited ${code} (args: ${args.join(" ")})`);
-  return stdout;
+  return runCapture(["yt-dlp", ...args]);
 }
 
 export const defaultProvider: YoutubeProvider = {

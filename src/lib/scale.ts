@@ -1,4 +1,5 @@
 import type { Sample } from "./digest.ts";
+import { runCapture } from "./proc.ts";
 
 /**
  * Scale mode (Phase 3.1) — the opt-in exception to "the CLI calls no LLM". For a
@@ -51,16 +52,7 @@ export function runnerForAgent(agent: string): string {
 export function defaultRunner(name: string): AgentRunner {
   const argv = RUNNER_ARGV[name];
   if (!argv) throw new Error(`unknown runner "${name}" (one of: ${Object.keys(RUNNER_ARGV).join(", ")})`);
-  return async (prompt: string) => {
-    const proc = Bun.spawn([...argv, prompt], { stdout: "pipe", stderr: "pipe" });
-    const [stdout, , code] = await Promise.all([
-      new Response(proc.stdout).text(),
-      new Response(proc.stderr).text(),
-      proc.exited,
-    ]);
-    if (code !== 0) throw new Error(`${argv[0]} exited ${code}`);
-    return stdout;
-  };
+  return (prompt: string) => runCapture([...argv, prompt]);
 }
 
 /** The extraction prompt for one chunk — recipe-aligned and evidence-bound. */
