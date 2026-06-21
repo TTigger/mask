@@ -1,27 +1,13 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="mask 專案圖示：側面假面與往後重疊的陰影分身">
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="mask — a persona trailing its switchable clones">
   <title>mask</title>
-  <rect width="512" height="512" rx="72" fill="#F4F1EA"/>
+  <rect width="512" height="512" rx="104" fill="#F4F1EA"/>
   <defs>
-    <path id="face" d="M300 96
-      C352 96 392 120 398 150
-      C404 182 405 216 404 250
-      C403 290 398 318 388 340
-      C378 362 372 380 360 392
-      C344 408 328 420 312 424
-      C302 426 292 424 288 418
-      C282 408 278 400 276 392
-      C275 384 280 378 286 372
-      C280 366 274 362 270 356
-      C258 350 240 348 220 344
-      C238 332 252 320 262 300
-      C268 284 260 256 256 236
-      C253 212 256 188 262 170
-      C268 144 278 112 300 96 Z"/>
+    <path id="m" d="M256 120 C314 120 352 162 352 222 C352 300 316 366 256 392 C196 366 160 300 160 222 C160 162 198 120 256 120 Z"/>
   </defs>
-  <g transform="translate(-66 14)">
-    <use href="#face" fill="#C4BBE6" transform="translate(86 28) rotate(5 300 260)"/>
-    <use href="#face" fill="#897FC2" transform="translate(44 14) rotate(2.5 300 260)"/>
-    <use href="#face" fill="#34285F"/>
-    <path d="M280 250 Q295 240 312 250 Q295 259 280 250 Z" fill="#F4F1EA"/>
-  </g>
+  <use href="#m" fill="#C4BBE6" transform="translate(104 -8) rotate(13 256 256)"/>
+  <use href="#m" fill="#8E83C6" transform="translate(54 -4) rotate(6.5 256 256)"/>
+  <use href="#m" fill="#34285F"/>
+  <path d="M206 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#F4F1EA"/>
+  <path d="M262 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#F4F1EA"/>
+  <path d="M228 306 q28 20 56 0" stroke="#F4F1EA" stroke-width="10" fill="none" stroke-linecap="round"/>
 </svg>
