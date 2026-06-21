@@ -41,7 +41,7 @@ After you clone the repo, you drive everything in natural language inside your a
 Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (the tool); your masks live separately in `~/.mask/` (its own Git repo).
 
 ```sh
-git clone <this-repo> mask && cd mask
+git clone https://github.com/TTigger/mask && cd mask
 bun install
 bun run dev init                   # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
 bun run dev init --agent agents-md # or a single-active file: AGENTS.md | GEMINI.md | .cursor/rules
