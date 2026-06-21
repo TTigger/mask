@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { readConfig } from "../lib/config.ts";
+import { numOpt } from "../lib/opts.ts";
 import { readJson, samplesPath, type SamplesFile } from "../lib/digest.ts";
 import { chunkSamples, runMap, defaultRunner, runnerForAgent, RUNNER_ARGV } from "../lib/scale.ts";
 
@@ -20,7 +21,7 @@ async function scale(dir: string, opts: ScaleOpts): Promise<void> {
   }
 
   const { samples } = await readJson<SamplesFile>(inPath);
-  const chunks = chunkSamples(samples, opts.maxChars ? Number(opts.maxChars) : undefined);
+  const chunks = chunkSamples(samples, numOpt(opts.maxChars, "--max-chars"));
   if (chunks.length <= 1) {
     console.log(`mask: ${samples.length} sample(s) fit one context — use the normal recipe on the digest; scale mode isn't needed.`);
     return;

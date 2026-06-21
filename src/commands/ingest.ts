@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import { ingestSource, type SourceKind } from "../lib/source.ts";
 import { mergeBlended } from "../lib/blend.ts";
+import { numOpt } from "../lib/opts.ts";
 import {
   prepareWorkDir,
   stagingKey,
@@ -49,7 +50,7 @@ async function ingestBlend(srcs: string[], limit: number | undefined): Promise<S
 }
 
 async function ingest(srcs: string[], opts: IngestOpts): Promise<void> {
-  const limit = opts.limit ? Number(opts.limit) : undefined;
+  const limit = numOpt(opts.limit, "--limit");
 
   let file: SamplesFile;
   let noun: string;

@@ -10,7 +10,7 @@
 - `mask.md` (frontmatter + six-section voice profile)
 - `knowledge/*.md` + `knowledge/index.md`
 - `examples.md`
-- `sources.json` (mostly from ingest; annotate sampling / coverage here)
+- `sources.json` — **copy `<workdir>/sources.json` into `~/.mask/<slug>/sources.json`** (it carries the citation map + the per-item manifest `mask coverage` and `mask redistill` need); annotate sampling / coverage.
 
 ## Rules (every pass)
 1. **Evidence-first**: every voice feature and every knowledge claim is bound to at least one digest sample `id`. If you can't bind it, don't write it.

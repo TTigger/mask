@@ -12,7 +12,7 @@
 - `mask.md` (frontmatter `type: blend` + the six-section synthesis profile)
 - `knowledge/*.md` + `knowledge/index.md`
 - `examples.md`
-- `sources.json` (annotate which namespace = which source)
+- `sources.json` — **copy `<workdir>/sources.json` into `~/.mask/<slug>/sources.json`** (citation map + per-item manifest for `mask coverage`/`mask redistill`); annotate which namespace = which source.
 
 ## Rules (every pass)
 1. **Voice-neutral.** Do not adopt or blend anyone's personal voice/style. The output reads as a

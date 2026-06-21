@@ -4,6 +4,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { libraryRoot, maskFile, maskSourcesPath, assertSlug } from "../lib/paths.ts";
 import { commitAll } from "../lib/git.ts";
 import { ingestSource } from "../lib/source.ts";
+import { numOpt } from "../lib/opts.ts";
 import {
   reduceSamples,
   buildSources,
@@ -45,7 +46,7 @@ async function redistill(slug: string, srcs: string[], opts: RedistillOpts): Pro
     return;
   }
 
-  const limit = opts.limit ? Number(opts.limit) : undefined;
+  const limit = numOpt(opts.limit, "--limit");
   const { kind, samples } = await ingestSource(srcs, limit);
   if (samples.length === 0) {
     console.error(`mask redistill: re-ingest found no usable ${kind} content.`);

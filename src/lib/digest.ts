@@ -42,6 +42,8 @@ export interface DigestMeta {
   n_kept: number;
   dropped: number;
   max_chars: number;
+  /** Per-sample character cap reduce applied (provenance uses it for `truncated`). */
+  per_sample_cap: number;
   notes: string[];
 }
 
@@ -58,11 +60,20 @@ export interface SourceRecord {
   truncated: boolean;
 }
 
+/** Every ingested item's identity, for re-distillation diffs (kept or not). */
+export interface ManifestEntry {
+  url: string;
+  hash: string;
+}
+
 /** reduce output: the id→origin map that closes the citation chain (SPEC §4). */
 export interface SourcesFile {
   source_kind: string;
   sampling: { max_chars: number };
+  /** Provenance for the *kept* (cited) samples — id → origin. */
   sources: SourceRecord[];
+  /** Identity of *all* ingested items (kept or budget-dropped), for redistill diffs. */
+  manifest: ManifestEntry[];
 }
 
 // --- reduce ---
@@ -179,7 +190,15 @@ export function reduceSamples(input: SamplesFile, opts: ReduceOptions = {}): Dig
   }
 
   return {
-    meta: { source_kind: input.source_kind, n_input: nInput, n_kept: kept.length, dropped, max_chars: maxChars, notes },
+    meta: {
+      source_kind: input.source_kind,
+      n_input: nInput,
+      n_kept: kept.length,
+      dropped,
+      max_chars: maxChars,
+      per_sample_cap: perSampleCap,
+      notes,
+    },
     samples: kept,
   };
 }
@@ -205,10 +224,13 @@ export function buildSources(input: SamplesFile, digest: Digest): SourcesFile {
       title: src.src_ref.title,
       hash: hashText(src.text),
       chars: src.text.length,
-      truncated: kept.text.length < src.text.length,
+      truncated: src.text.length > digest.meta.per_sample_cap,
     };
   });
-  return { source_kind: digest.meta.source_kind, sampling: { max_chars: digest.meta.max_chars }, sources };
+  // A manifest of *every* ingested item (kept or budget-dropped) so re-distillation
+  // can tell a genuinely new item from one that was merely dropped from the digest.
+  const manifest: ManifestEntry[] = input.samples.map((s) => ({ url: s.src_ref.url, hash: hashText(s.text) }));
+  return { source_kind: digest.meta.source_kind, sampling: { max_chars: digest.meta.max_chars }, sources, manifest };
 }
 
 // --- staging paths ---

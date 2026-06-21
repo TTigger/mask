@@ -36,6 +36,16 @@ test("hash is sha256 of the original text and is stable across runs", () => {
   expect(a.sources[0]!.hash).toMatch(/^sha256:[0-9a-f]{64}$/);
 });
 
+test("truncated reflects the cap decision, even when the original is one char over", () => {
+  // 8001 chars, no space to break on → reduce hard-cuts at the 8000 cap and
+  // appends ' …', making the kept copy LONGER; truncated must still be true.
+  const text = "x".repeat(8001);
+  const input: SamplesFile = { source_kind: "blog", samples: [sample("b1", "https://x/over", text)] };
+  const sources = buildSources(input, reduceSamples(input));
+  expect(sources.sources[0]!.chars).toBe(8001);
+  expect(sources.sources[0]!.truncated).toBe(true);
+});
+
 test("hash and chars track the ORIGINAL text even when the digest truncates", () => {
   const long = "word ".repeat(4000); // 20000 chars, capped to 8000 in the digest
   const input = file([sample("b1", "https://blog.test/long", long)]);

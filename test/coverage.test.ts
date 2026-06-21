@@ -7,7 +7,12 @@ function rec(id: string, chars: number, truncated = false): SourceRecord {
 }
 
 function file(kind: string, recs: SourceRecord[]): SourcesFile {
-  return { source_kind: kind, sampling: { max_chars: 60000 }, sources: recs };
+  return {
+    source_kind: kind,
+    sampling: { max_chars: 60000 },
+    sources: recs,
+    manifest: recs.map((r) => ({ url: r.url, hash: r.hash })),
+  };
 }
 
 test("coverageOf totals sources/chars/truncation and bands confidence", () => {

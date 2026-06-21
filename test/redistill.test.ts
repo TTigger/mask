@@ -51,6 +51,22 @@ test("an identical re-ingest has no changes", () => {
   expect(summarizeDiff(diff)).toBe("+0 new, ~0 changed, -0 removed, 2 unchanged");
 });
 
+test("budget-dropped-but-unchanged items are NOT reported as added (manifest diff)", () => {
+  // 20 distinct ~8k-char posts: reduce keeps ~7, drops the rest — but the
+  // manifest records all 20, so an identical re-ingest shows no changes.
+  const samples = Array.from({ length: 20 }, (_, i) =>
+    sample(`b${i}`, `https://x/${i}`, "word ".repeat(1700) + i),
+  );
+  const prov = provenanceOf(samples);
+  expect(prov.sources.length).toBeLessThan(20); // budget dropped some from the digest
+  expect(prov.manifest.length).toBe(20); // but the manifest has them all
+
+  const diff = diffSources(prov, { source_kind: "blog", samples });
+  expect(hasChanges(diff)).toBe(false);
+  expect(diff.added).toHaveLength(0);
+  expect(diff.unchanged).toBe(20);
+});
+
 test("bumpMaskVersion increments frontmatter version and keeps the body", () => {
   const md = `---\nname: Dan\nslug: dan\nversion: 1\n---\n\n# Identity\nbody here\n`;
   const bump = bumpMaskVersion(md);
@@ -61,4 +77,8 @@ test("bumpMaskVersion increments frontmatter version and keeps the body", () => 
   expect(bump.content).toContain("body here");
   // a missing version defaults to 1 → 2
   expect(bumpMaskVersion(`---\nname: X\n---\n\nbody\n`).to).toBe(2);
+  // a quoted/string version is coerced numerically, not regressed to 2
+  const quoted = bumpMaskVersion(`---\nname: X\nversion: "3"\n---\n\nbody\n`);
+  expect(quoted.from).toBe(3);
+  expect(quoted.to).toBe(4);
 });

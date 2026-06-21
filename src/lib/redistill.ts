@@ -1,5 +1,5 @@
 import matter from "gray-matter";
-import { hashText, type Sample, type SamplesFile, type SourcesFile, type SourceRecord } from "./digest.ts";
+import { hashText, type Sample, type SamplesFile, type SourcesFile, type ManifestEntry } from "./digest.ts";
 
 /**
  * Re-distillation (Phase 3.3): compare a fresh ingest against the mask's stored
@@ -8,26 +8,30 @@ import { hashText, type Sample, type SamplesFile, type SourcesFile, type SourceR
  * (ids are positional per-ingest); content is compared by hash.
  */
 export interface SourceDiff {
-  added: Sample[]; // a URL not in the old provenance
+  added: Sample[]; // a URL not in the old manifest
   changed: Sample[]; // same URL, different content hash
-  removed: SourceRecord[]; // a URL gone from the fresh ingest
+  removed: ManifestEntry[]; // a URL gone from the fresh ingest
   unchanged: number;
 }
 
 export function diffSources(old: SourcesFile, fresh: SamplesFile): SourceDiff {
-  const oldByUrl = new Map(old.sources.map((s) => [s.url, s]));
+  // Diff against the full manifest (every ingested item), not just the kept
+  // `sources` — otherwise items reduce dropped from the digest look "added".
+  // Fall back to `sources` for masks distilled before manifests existed.
+  const entries: ManifestEntry[] = old.manifest ?? old.sources.map((s) => ({ url: s.url, hash: s.hash }));
+  const oldByUrl = new Map(entries.map((e) => [e.url, e.hash]));
   const freshUrls = new Set(fresh.samples.map((s) => s.src_ref.url));
 
   const added: Sample[] = [];
   const changed: Sample[] = [];
   let unchanged = 0;
   for (const s of fresh.samples) {
-    const prev = oldByUrl.get(s.src_ref.url);
-    if (!prev) added.push(s);
-    else if (prev.hash !== hashText(s.text)) changed.push(s);
+    const prevHash = oldByUrl.get(s.src_ref.url);
+    if (prevHash === undefined) added.push(s);
+    else if (prevHash !== hashText(s.text)) changed.push(s);
     else unchanged++;
   }
-  const removed = old.sources.filter((s) => !freshUrls.has(s.url));
+  const removed = entries.filter((e) => !freshUrls.has(e.url));
   return { added, changed, removed, unchanged };
 }
 
@@ -46,10 +50,12 @@ export interface VersionBump {
   to: number;
 }
 
-/** Increment a mask.md's frontmatter `version` (default 1 → 2), preserving the body. */
+/** Increment a mask.md's frontmatter `version` (default 1 → 2), preserving the body.
+ *  Coerces a quoted/string version ("3") numerically so it bumps, not regresses. */
 export function bumpMaskVersion(maskMd: string): VersionBump {
   const { data, content } = matter(maskMd);
-  const from = typeof data.version === "number" ? data.version : 1;
+  const n = Number(data.version);
+  const from = Number.isFinite(n) ? Math.floor(n) : 1;
   const to = from + 1;
   const next = matter.stringify(content, { ...data, version: to });
   return { content: next, from, to };

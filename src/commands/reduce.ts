@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
+import { numOpt } from "../lib/opts.ts";
 import {
   reduceSamples,
   buildSources,
@@ -25,7 +26,7 @@ async function reduce(dir: string, opts: ReduceOpts): Promise<void> {
 
   const samples = await readJson<SamplesFile>(inPath);
   const digest = reduceSamples(samples, {
-    maxChars: opts.maxChars ? Number(opts.maxChars) : undefined,
+    maxChars: numOpt(opts.maxChars, "--max-chars"),
   });
 
   const sources = buildSources(samples, digest);
