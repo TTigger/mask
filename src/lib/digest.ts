@@ -266,13 +266,15 @@ export async function writeJson(path: string, value: unknown): Promise<void> {
   await writeFile(path, JSON.stringify(value, null, 2) + "\n");
 }
 
-/** Ensure the library gitignores the ephemeral work area (idempotent). */
+/** Ensure the library gitignores the ephemeral work areas (idempotent):
+ *  `.work/` (staging) and `_work/` (per-mask recipe pass checkpoints). */
 export async function ensureWorkIgnored(root = libraryRoot()): Promise<void> {
   const gitignore = join(root, ".gitignore");
-  const line = ".work/";
   const existing = existsSync(gitignore) ? await readFile(gitignore, "utf8") : "";
-  if (existing.split(/\r?\n/).includes(line)) return;
-  await writeFile(gitignore, (existing ? existing.replace(/\s*$/, "") + "\n" : "") + line + "\n");
+  const lines = existing.split(/\r?\n/);
+  const want = [".work/", "_work/"].filter((l) => !lines.includes(l));
+  if (want.length === 0) return;
+  await writeFile(gitignore, (existing ? existing.replace(/\s*$/, "") + "\n" : "") + want.join("\n") + "\n");
 }
 
 /** Prepare a fresh staging dir under the library and return its path. */
