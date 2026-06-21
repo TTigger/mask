@@ -1,7 +1,7 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import { readFile, rm } from "node:fs/promises";
-import { maskDir, maskFile, maskSourcesPath } from "../lib/paths.ts";
+import { maskDir, maskFile, maskSourcesPath, assertSlug } from "../lib/paths.ts";
 import { toPersonaUnit } from "../lib/compile.ts";
 import { readJson, type SourcesFile } from "../lib/digest.ts";
 import { coverageOf, describeCoverage } from "../lib/coverage.ts";
@@ -10,6 +10,7 @@ import { getActive, setActive, clearActive } from "../lib/active.ts";
 import { getMask, listMasks, removeMask, upsertMask } from "../lib/registry.ts";
 
 async function wear(slug: string): Promise<void> {
+  assertSlug(slug);
   const entry = await getMask(slug);
   if (!entry) {
     console.error(`mask wear: no mask named "${slug}". Run \`mask list\` to see the roster.`);
@@ -68,6 +69,7 @@ async function statusline(): Promise<void> {
 }
 
 async function coverage(slug: string): Promise<void> {
+  assertSlug(slug);
   const sp = maskSourcesPath(slug);
   if (!existsSync(sp)) {
     console.error(`mask coverage: ${slug} has no sources.json (nothing distilled yet).`);
@@ -92,6 +94,7 @@ async function unwear(): Promise<void> {
 }
 
 async function remove(slug: string): Promise<void> {
+  assertSlug(slug);
   const entry = await getMask(slug);
   if (!entry) {
     console.error(`mask remove: no mask named "${slug}".`);

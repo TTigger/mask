@@ -91,8 +91,9 @@ async function readCapped(path: string, maxBytes: number): Promise<string> {
 
 async function defaultCloner(source: string): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "mask-repo-"));
-  // Discard git's output (we don't read it) so a verbose clone can't block.
-  const proc = Bun.spawn(["git", "clone", "--depth", "1", source, dir], {
+  // `--` ends options so a `-`-leading source can't be parsed as a git flag
+  // (e.g. --upload-pack=...); discard output so a verbose clone can't block.
+  const proc = Bun.spawn(["git", "clone", "--depth", "1", "--", source, dir], {
     stdout: "ignore",
     stderr: "ignore",
   });
@@ -159,8 +160,9 @@ export async function collectRepoSamples(
   return samples;
 }
 
-/** True for git URLs or existing local directories. */
+/** True for git URLs or existing local directories. Never a `-`-leading flag. */
 export function isRepoSource(source: string): boolean {
+  if (source.startsWith("-")) return false;
   if (/(?:github\.com|gitlab\.com|bitbucket\.org)[/:]/i.test(source)) return true;
   if (/\.git$/i.test(source)) return true;
   return isLocalDir(source);

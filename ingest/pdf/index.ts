@@ -59,15 +59,17 @@ export async function ingestPdf(opts: IngestPdfOptions): Promise<Sample[]> {
   return samples;
 }
 
-/** Whether a source looks like a PDF (by extension, before any fetch/stat). */
+/** Whether a source looks like a PDF (by extension). Never a `-`-leading flag. */
 export function isPdfSource(source: string): boolean {
+  if (source.startsWith("-")) return false;
   return /\.pdf(?:[?#]|$)/i.test(source);
 }
 
 // --- default extractor (pdftotext), exercised live; tests inject a fake ---
 
 async function defaultExtractor(path: string): Promise<string> {
-  const proc = Bun.spawn(["pdftotext", "-q", path, "-"], { stdout: "pipe", stderr: "pipe" });
+  // `--` ends options so a `-`-leading path can't be parsed as a pdftotext flag.
+  const proc = Bun.spawn(["pdftotext", "-q", "--", path, "-"], { stdout: "pipe", stderr: "pipe" });
   const [stdout, , code] = await Promise.all([
     new Response(proc.stdout).text(),
     new Response(proc.stderr).text(),

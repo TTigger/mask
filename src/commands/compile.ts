@@ -1,12 +1,13 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { maskFile } from "../lib/paths.ts";
+import { maskFile, assertSlug } from "../lib/paths.ts";
 import { toPersonaUnit } from "../lib/compile.ts";
 import { resolveAdapter } from "../adapters/index.ts";
 import { getMask, upsertMask } from "../lib/registry.ts";
 
 async function compile(slug: string): Promise<void> {
+  assertSlug(slug);
   const src = maskFile(slug);
   if (!existsSync(src)) {
     console.error(`mask compile: no mask at ${src} (distill it first).`);

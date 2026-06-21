@@ -1,7 +1,7 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
-import { libraryRoot, maskFile, maskSourcesPath } from "../lib/paths.ts";
+import { libraryRoot, maskFile, maskSourcesPath, assertSlug } from "../lib/paths.ts";
 import { commitAll } from "../lib/git.ts";
 import { ingestSource } from "../lib/source.ts";
 import {
@@ -29,6 +29,7 @@ interface RedistillOpts {
 }
 
 async function redistill(slug: string, srcs: string[], opts: RedistillOpts): Promise<void> {
+  assertSlug(slug);
   const mask = maskFile(slug);
   const sources = maskSourcesPath(slug);
   if (!existsSync(mask)) {

@@ -6,6 +6,20 @@ export function libraryRoot(): string {
   return process.env.MASK_HOME ?? join(homedir(), ".mask");
 }
 
+/** A slug must be a simple lowercase token — no `.`, `/`, or `..` path traversal. */
+const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
+
+export function isValidSlug(slug: string): boolean {
+  return SLUG_RE.test(slug);
+}
+
+/** Guard before a slug is ever joined into a filesystem path (deletes, writes). */
+export function assertSlug(slug: string): void {
+  if (!isValidSlug(slug)) {
+    throw new Error(`invalid mask name "${slug}" — use lowercase letters, digits and hyphens only`);
+  }
+}
+
 export function configPath(root = libraryRoot()): string {
   return join(root, "config.json");
 }
