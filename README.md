@@ -51,10 +51,17 @@ Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (t
 
 ```sh
 git clone https://github.com/TTigger/mask && cd mask
-bun install
-bun run dev init                              # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
-bun run dev init --agent agents-md --out .    # or a universal AGENTS.md in your project
+./install.sh        # installs deps + puts a `mask` launcher on your PATH
 ```
+
+`install.sh` drops a tiny launcher that runs the CLI from this checkout, so `git pull` updates it — no rebuild. Then, from any project:
+
+```sh
+mask init                              # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
+cd your-project && mask init --agent agents-md --out .   # or a universal AGENTS.md in your project
+```
+
+(Prefer no installer? `bun run dev <command>` runs the CLI straight from the clone.)
 
 Two adapters cover every agent:
 
@@ -63,7 +70,7 @@ Two adapters cover every agent:
 
 The same mask compiles to either. Claude Code doesn't read AGENTS.md natively — to drive it from one universal file too, add `@AGENTS.md` to your `CLAUDE.md` (import) or symlink `CLAUDE.md → AGENTS.md`.
 
-`bun run dev <command>` runs the CLI from source. Or build a standalone binary:
+To ship a standalone binary (no Bun at runtime), build one — note it needs `MASK_FRAMEWORK` pointed at the clone so it can find the recipes/templates:
 
 ```sh
 bun run build           # -> ./bin/mask   (this platform)
