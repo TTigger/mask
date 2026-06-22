@@ -34,15 +34,67 @@ mask 偶爾帶有「假面、隱藏」的聯想，但我們刻意保留這層曖
 - **agent-native、零 API key**：框架本身不呼叫任何 LLM；萃取與回答都借用你自己訂閱的 agent 的算力。
 - **多人格並存**：像切換 skill 一樣，需要哪個場景就戴上哪張 mask。
 
-## 怎麼用（草圖）
+## 怎麼用（零學習）
 
-```bash
-mask add https://youtube.com/@someone   # 擷取 → 你的 agent 萃取 → 寫進本地 persona 庫
-mask list                                # 看你有哪些 mask
-mask wear someone                         # 戴上 → 編譯成當前 agent 的原生格式
+clone repo 之後，你全程用自然語言在你的 agent 裡操作 —— 不需要學 CLI：
+
+```
+「幫我蒸餾這個部落格」      # 擷取 → 你的 agent 萃取 → 存進本地 mask 庫
+「我有哪些 mask」          # 列出名冊
+「wear fireship」          # 切換；之後幾輪都用那個聲音回答
+「ask gilfoyle: ...」      # 只問一次，不改變預設
 ```
 
-戴上之後，就照常跟你的 agent 對話，它便以該 mask 的口吻與背景知識回答。隨時 `mask wear <另一個>` 即可切換。
+## 安裝與使用
+
+需要 [Bun](https://bun.sh)。框架以 clone 的 repo 散佈（工具本身）；你的 mask 另外存在 `~/.mask/`（它自己的 Git repo）。
+
+```sh
+git clone https://github.com/TTigger/mask && cd mask
+./install.sh        # 裝相依 + 在 PATH 放一個 `mask` launcher
+```
+
+`install.sh` 放的 launcher 直接從這份 checkout 跑 CLI，所以 `git pull` 就更新、不用重 build。接著在任何專案裡：
+
+```sh
+mask init                              # Claude Code（預設）：orchestrator → ~/.claude/CLAUDE.md
+cd 你的專案 && mask init --agent agents-md --out .   # 或在你的專案放一份通用的 AGENTS.md
+```
+
+（不想用安裝腳本？`bun run dev <command>` 直接從 clone 跑 CLI。）
+
+兩個 adapter 覆蓋所有 agent：
+
+- **`claude-code`** —— 人格以 subagent 共存於 `~/.claude/agents/`；`wear` 切換一個黏性的全域預設。適合在多個 mask 之間切換。
+- **`agents-md`** —— 寫一份專案層級的 **`AGENTS.md`**，這是 [跨工具標準](https://agentsmd.io)，**Codex、Gemini CLI、Cursor、Windsurf、Zed、Continue、Goose** 等 30+ 工具都原生讀取。單一啟用：`wear` 把人格換進 `mask:active` 區塊。`--out <dir>` 指定專案（不指定就裝在當前目錄）。
+
+同一個 mask 可編譯到任一邊。Claude Code 不原生讀 AGENTS.md —— 想讓它也用同一份通用檔，在 `CLAUDE.md` 裡加一行 `@AGENTS.md`（import），或把 `CLAUDE.md` symlink 到 `AGENTS.md`。
+
+各來源需要的外部工具（只在用到該來源時需要）：repo 要 `git`、YouTube 要 `yt-dlp`、PDF 要 `pdftotext`（poppler）。部落格不需要。
+
+### 指令一覽
+
+CLI 是決定性的、**不呼叫任何 LLM** —— 智慧工作由你的 agent 跟著 recipe 完成。平常用自然語言驅動（見上），但這些指令也都直接存在：
+
+| | |
+|---|---|
+| `mask init` | 建立 mask 庫 + 安裝 orchestrator |
+| `mask ingest <src…>` | 擷取來源（部落格 / YouTube / repo / PDF）成樣本；`--blend` 把多個合併成一個聲音中性的 mask |
+| `mask reduce <dir>` | 去重 / 抽樣 / 截斷 → 適合 context 大小的 digest |
+| `mask redistill <slug> <src…>` | 重新擷取來源，只 staging 有變動的部分（版本遞增）|
+| `mask scale <dir>` | opt-in：用你自己的 headless agent CLI 對超大語料 map-reduce |
+| `mask compile <slug>` | mask.md → 當前 agent 的原生人格檔 |
+| `mask wear <slug>` · `list` · `status` | 切換 / 名冊 / 現在戴誰 |
+| `mask coverage <slug>` | 這個 mask 站在多少證據上（從它的出處）|
+| `mask statusline` | agent statusline 用的精簡 active-mask 徽章 |
+| `mask unwear` · `remove <slug>` | 清理 managed 產物 / 刪除一個 mask |
+
+### 環境變數
+
+- `MASK_HOME` —— mask 庫位置（預設 `~/.mask`）。
+- `MASK_CLAUDE_MD` —— Claude Code 的 orchestrator 檔（預設 `~/.claude/CLAUDE.md`）。
+- `MASK_AGENTS_MD` —— AGENTS.md 安裝目標（預設 `./AGENTS.md`；`init --out <dir>` 會設定它）。
+- `MASK_FRAMEWORK` —— 跑**獨立編譯二進位**時設定，讓 agent 仍找得到磁碟上的 recipe/templates；指向 clone 的 repo。（用 `bun run`/launcher 時不需要，會自動解析。）
 
 ## License
 
