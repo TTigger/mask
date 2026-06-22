@@ -226,7 +226,7 @@ bun install</pre></div>
         <div class="n">2</div>
         <div>
           <h3>Wire it into your agent</h3>
-          <p>Installs the orchestrator so your agent knows how to drive mask. Pick another with <code>--agent agents-md | gemini | cursor</code>.</p>
+          <p>Default installs the Claude Code orchestrator. For every other tool, write the universal <code>AGENTS.md</code> into your project with <code>--agent agents-md --out .</code></p>
           <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>bun run dev init</pre></div>
         </div>
       </div>
@@ -246,10 +246,10 @@ bun install</pre></div>
 <section class="alt">
   <div class="wrap">
     <p class="eyebrow reveal">Portable by design</p>
-    <h2 class="reveal">One mask, many agents.</h2>
-    <p class="lead reveal">Add an agent via an adapter, add a source via an ingest module — the recipe stays put.</p>
+    <h2 class="reveal">One mask, every agent.</h2>
+    <p class="lead reveal">Two adapters cover them all — Claude Code subagents, and the universal <code style="font-family:var(--mono);font-size:.85em">AGENTS.md</code> standard that 30+ tools read natively. Add a source via an ingest module; the recipe stays put.</p>
     <div class="matrix">
-      <div class="card reveal d1"><h3>4 agents <small>compile the same mask to any</small></h3><div class="chips"><span class="chip">Claude Code</span><span class="chip">AGENTS.md</span><span class="chip">Gemini</span><span class="chip">Cursor</span></div></div>
+      <div class="card reveal d1"><h3>2 adapters <small>one universal AGENTS.md → 30+ tools</small></h3><div class="chips"><span class="chip">Claude Code</span><span class="chip">Codex</span><span class="chip">Gemini</span><span class="chip">Cursor</span><span class="chip">Windsurf</span><span class="chip">Zed…</span></div></div>
       <div class="card reveal d2"><h3>4 source kinds <small>injectable &amp; offline-tested</small></h3><div class="chips"><span class="chip">blog / RSS</span><span class="chip">YouTube</span><span class="chip">GitHub repo</span><span class="chip">PDF / book</span></div></div>
       <div class="card reveal d3"><h3>3 flavors <small>distilled per source</small></h3><div class="chips"><span class="chip">voice</span><span class="chip">code</span><span class="chip">blend</span></div></div>
     </div>
@@ -261,7 +261,7 @@ bun install</pre></div>
   <div class="wrap">
     <div>
       <div class="brand"><svg><use href="#i-markL"/></svg>mask</div>
-      <small>MIT · v0.1.0 — early release, dogfooded, not yet battle-tested.</small>
+      <small>MIT · v0.2.0 — early release, dogfooded, not yet battle-tested.</small>
     </div>
     <a href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg>github.com/TTigger/mask</a>
   </div>

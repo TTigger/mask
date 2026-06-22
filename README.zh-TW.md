@@ -4,6 +4,13 @@
   &nbsp;·&nbsp; <a href="https://github.com/TTigger/mask">GitHub</a>
   &nbsp;·&nbsp; <a href="README.md">English</a>
 </p>
+<p align="center">
+  <a href="https://github.com/TTigger/mask/actions/workflows/ci.yml"><img src="https://github.com/TTigger/mask/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=flat-square" alt="MIT 授權"></a>
+  <img src="https://img.shields.io/badge/version-0.2.0-7C6BD6?style=flat-square" alt="版本 0.2.0">
+  <img src="https://img.shields.io/badge/agents-AGENTS.md%20standard-111111?style=flat-square" alt="AGENTS.md 標準">
+  <img src="https://img.shields.io/badge/API%20key-none-28c840?style=flat-square" alt="零 API key">
+</p>
 
 ---
 
