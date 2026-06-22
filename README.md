@@ -61,6 +61,8 @@ mask init                              # Claude Code (default): orchestrator →
 cd your-project && mask init --agent agents-md --out .   # or a universal AGENTS.md in your project
 ```
 
+> **Then start a new agent session** so it picks up the freshly installed orchestrator — now just say *"distill this blog and let me wear it."* `init` only has to be run once (it's idempotent; re-run it anytime to refresh). Until you've run it, your agent doesn't know the mask workflow.
+
 (Prefer no installer? `bun run dev <command>` runs the CLI straight from the clone.)
 
 Two adapters cover every agent:

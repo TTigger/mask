@@ -61,6 +61,8 @@ mask init                              # Claude Code（預設）：orchestrator 
 cd 你的專案 && mask init --agent agents-md --out .   # 或在你的專案放一份通用的 AGENTS.md
 ```
 
+> **接著開一個新的 agent session**，讓它讀到剛裝好的 orchestrator —— 然後就能說：*「幫我蒸餾這個部落格、讓我戴上它」*。`init` 只需跑一次（冪等；隨時可重跑來更新）。在你 init 之前，agent 並不認得 mask 工作流。
+
 （不想用安裝腳本？`bun run dev <command>` 直接從 clone 跑 CLI。）
 
 兩個 adapter 覆蓋所有 agent：
