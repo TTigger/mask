@@ -46,9 +46,10 @@ test("runMap calls the runner once per chunk and collects partials in order", as
   expect(seen).toEqual(["1", "2", "3"]); // sequential, in order
 });
 
-test("runnerForAgent maps the library agent to a headless CLI; defaultRunner rejects unknown", () => {
+test("runnerForAgent defaults to a headless CLI; defaultRunner rejects unknown", () => {
   expect(runnerForAgent("claude-code")).toBe("claude");
-  expect(runnerForAgent("gemini")).toBe("gemini");
-  expect(runnerForAgent("cursor")).toBe("claude"); // no headless CLI of its own
+  expect(runnerForAgent("agents-md")).toBe("claude"); // AGENTS.md family → default claude
+  // the gemini/codex headless runners are still selectable via --runner
+  expect(() => defaultRunner("gemini")).not.toThrow();
   expect(() => defaultRunner("nope")).toThrow(/unknown runner/);
 });

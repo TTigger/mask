@@ -42,11 +42,14 @@ export const RUNNER_ARGV: Record<string, string[]> = {
   codex: ["codex", "exec"],
 };
 
-/** Map the library's configured agent to a headless runner name. */
+/**
+ * Default headless runner for the library's configured agent. AGENTS.md-family
+ * agents have no single headless CLI of their own (any of them works), so they
+ * default to `claude`; users can override with `--runner gemini|codex`.
+ */
 export function runnerForAgent(agent: string): string {
-  if (agent === "gemini") return "gemini";
   if (agent === "claude-code") return "claude";
-  return "claude"; // agents-md / cursor have no headless CLI of their own
+  return "claude";
 }
 
 export function defaultRunner(name: string): AgentRunner {
