@@ -97,17 +97,6 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 - `MASK_AGENTS_MD` — the AGENTS.md install target (default `./AGENTS.md`; `init --out <dir>` sets this).
 - `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
 
-## Status
-
-The full roadmap (`docs/PRD.md` -> `SPEC.md` -> `PHASES.md`) is implemented:
-
-- **Phase 0** — deterministic CLI (ingest → reduce → compile → wear), Claude Code adapter.
-- **Phase 1** — AGENTS.md adapter (second agent) + YouTube ingest.
-- **Phase 2** — knowledge-first `type: code` flavor + repo ingest + multi-mask scope.
-- **Phase 3** — re-distillation (`redistill`), headless scale mode (`scale`), PDF/book ingest, blended masks, coverage/roster/statusline polish.
-
-Two adapters covering every AGENTS.md-aware agent, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 88 tests. Early release (v0.2.0) — works as designed and dogfooded, not yet battle-tested by external users. Traditional Chinese companions live in `docs/zh-TW/`.
-
 ## License
 
 MIT

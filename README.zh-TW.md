@@ -44,10 +44,6 @@ mask wear someone                         # 戴上 → 編譯成當前 agent 的
 
 戴上之後，就照常跟你的 agent 對話，它便以該 mask 的口吻與背景知識回答。隨時 `mask wear <另一個>` 即可切換。
 
-## 狀態
-
-早期開發中（early WIP）。完整的 `PRD → PHASES → CLAUDE.md` 規格正在制定中。
-
 ## License
 
 MIT
