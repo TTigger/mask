@@ -68,7 +68,17 @@ Two adapters cover every agent:
 - **`claude-code`** — personas coexist as subagents under `~/.claude/agents/`; `wear` flips a sticky global default. Best for switching between many masks.
 - **`agents-md`** — writes one project-level **`AGENTS.md`**, the [cross-tool standard](https://agentsmd.io) read natively by **Codex, Gemini CLI, Cursor, Windsurf, Zed, Continue, Goose** and 30+ others. Single-active: `wear` swaps the persona into a `mask:active` block. `--out <dir>` chooses the project (it installs into the current directory otherwise).
 
-The same mask compiles to either. Claude Code doesn't read AGENTS.md natively — to drive it from one universal file too, add `@AGENTS.md` to your `CLAUDE.md` (import) or symlink `CLAUDE.md → AGENTS.md`.
+Setup is identical up to `init`; only the target differs:
+
+| | **Claude Code** | **Everyone else** (Codex · Gemini · Cursor · Windsurf · Zed · …) |
+|---|---|---|
+| init | `mask init` | `cd your-project && mask init --agent agents-md --out .` |
+| installs to | `~/.claude/CLAUDE.md` (**global**) | `your-project/AGENTS.md` (**project-level**) |
+| scope | worn everywhere | per-project (one AGENTS.md per repo) |
+| personas | many coexist as subagents; `wear` flips a sticky default | single-active; `wear` swaps the `mask:active` block |
+| who reads it | Claude Code only | one AGENTS.md → 30+ tools, natively |
+
+Your masks (`~/.mask/`) and every command are **agent-agnostic** — distill once, wear in Claude today and Cursor tomorrow; only the *wearing* mechanism adapts. To drive Claude Code from the same universal file too, add `@AGENTS.md` to your `CLAUDE.md` (import) or symlink `CLAUDE.md → AGENTS.md`.
 
 To ship a standalone binary (no Bun at runtime), build one — note it needs `MASK_FRAMEWORK` pointed at the clone so it can find the recipes/templates:
 

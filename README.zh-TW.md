@@ -68,7 +68,17 @@ cd 你的專案 && mask init --agent agents-md --out .   # 或在你的專案放
 - **`claude-code`** —— 人格以 subagent 共存於 `~/.claude/agents/`；`wear` 切換一個黏性的全域預設。適合在多個 mask 之間切換。
 - **`agents-md`** —— 寫一份專案層級的 **`AGENTS.md`**，這是 [跨工具標準](https://agentsmd.io)，**Codex、Gemini CLI、Cursor、Windsurf、Zed、Continue、Goose** 等 30+ 工具都原生讀取。單一啟用：`wear` 把人格換進 `mask:active` 區塊。`--out <dir>` 指定專案（不指定就裝在當前目錄）。
 
-同一個 mask 可編譯到任一邊。Claude Code 不原生讀 AGENTS.md —— 想讓它也用同一份通用檔，在 `CLAUDE.md` 裡加一行 `@AGENTS.md`（import），或把 `CLAUDE.md` symlink 到 `AGENTS.md`。
+安裝到 `init` 之前都一樣，差別只在目標：
+
+| | **Claude Code** | **其他全部**（Codex · Gemini · Cursor · Windsurf · Zed · …）|
+|---|---|---|
+| init | `mask init` | `cd 你的專案 && mask init --agent agents-md --out .` |
+| 裝去哪 | `~/.claude/CLAUDE.md`（**全域**）| `你的專案/AGENTS.md`（**專案層級**）|
+| 範圍 | 到處都戴著 | 每個專案各一份 AGENTS.md |
+| 人格 | 多個 subagent 共存；`wear` 切換黏性預設 | 單一啟用；`wear` 換 `mask:active` 區塊 |
+| 誰讀這份檔 | 只有 Claude Code | 一份 AGENTS.md → 30+ 工具原生讀 |
+
+你的 mask（`~/.mask/`）與所有指令都**與 agent 無關** —— 蒸餾一次，今天在 Claude 戴、明天在 Cursor 戴；只有「戴上去的機制」會適應 agent。想讓 Claude Code 也用同一份通用檔，在 `CLAUDE.md` 加一行 `@AGENTS.md`（import），或把 `CLAUDE.md` symlink 到 `AGENTS.md`。
 
 各來源需要的外部工具（只在用到該來源時需要）：repo 要 `git`、YouTube 要 `yt-dlp`、PDF 要 `pdftotext`（poppler）。部落格不需要。
 
