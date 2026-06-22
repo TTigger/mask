@@ -57,7 +57,7 @@
 - **2.1** `type: code` 的 mask 變體 + `recipes/code/`（慣例/idiom 優先，而非口吻）。
 - **2.2** repo ingest：`ingest/repo/` — git clone、檔案樹、lint 規則、README、慣例抽取。
 - **2.3** 收斂協議執行多張單來源 mask（一次請求 → 數張 mask）。
-- **2.4**（可選）Cursor（`.cursor/rules`）、Gemini（`GEMINI.md`）adapter。
+- **2.4**（可選）Cursor / Gemini adapter —— *v0.2 已收斂*：併入單一 `agents-md` adapter，因為 Cursor、Gemini 等 30+ 工具都原生讀標準 `AGENTS.md`。
 
 **驗收**：能蒸出可用的「某 repo 程式碼專家」；一個大範圍請求能收斂並逐一產出多張 mask。
 

@@ -47,7 +47,7 @@ Each phase ships something usable. Phase 0 = a demoable MVP. Traditional Chinese
 - **2.1** A `type: code` mask variant + `recipes/code/` (conventions/idioms first, not voice).
 - **2.2** repo ingest: `ingest/repo/` — git clone, file tree, lint rules, README, conventions.
 - **2.3** Scope protocol producing multiple single-source masks (one request -> several masks).
-- **2.4** (optional) Cursor (`.cursor/rules`) and Gemini (`GEMINI.md`) adapters.
+- **2.4** (optional) Cursor / Gemini adapters — *superseded in v0.2*: converged into the single `agents-md` adapter, since Cursor, Gemini, and 30+ tools read the standard `AGENTS.md` natively.
 
 **Exit**: can distill a usable "code expert for repo X"; a broad request resolves into several masks.
 

@@ -45,11 +45,16 @@ Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (t
 ```sh
 git clone https://github.com/TTigger/mask && cd mask
 bun install
-bun run dev init                   # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
-bun run dev init --agent agents-md # or a single-active file: AGENTS.md | GEMINI.md | .cursor/rules
+bun run dev init                              # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
+bun run dev init --agent agents-md --out .    # or a universal AGENTS.md in your project
 ```
 
-Four agents are supported (`--agent claude-code | agents-md | gemini | cursor`). **Claude Code** personas coexist as subagents (`wear` flips the sticky active default). **AGENTS.md**, **Gemini** (`GEMINI.md`), and **Cursor** (`.cursor/rules/mask.mdc`) are single-active — `wear` swaps the persona inline into a `mask:active` block. The same mask compiles to any of them.
+Two adapters cover every agent:
+
+- **`claude-code`** — personas coexist as subagents under `~/.claude/agents/`; `wear` flips a sticky global default. Best for switching between many masks.
+- **`agents-md`** — writes one project-level **`AGENTS.md`**, the [cross-tool standard](https://agentsmd.io) read natively by **Codex, Gemini CLI, Cursor, Windsurf, Zed, Continue, Goose** and 30+ others. Single-active: `wear` swaps the persona into a `mask:active` block. `--out <dir>` chooses the project (it installs into the current directory otherwise).
+
+The same mask compiles to either. Claude Code doesn't read AGENTS.md natively — to drive it from one universal file too, add `@AGENTS.md` to your `CLAUDE.md` (import) or symlink `CLAUDE.md → AGENTS.md`.
 
 `bun run dev <command>` runs the CLI from source. Or build a standalone binary:
 
@@ -82,7 +87,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 
 - `MASK_HOME` — library location (default `~/.mask`).
 - `MASK_CLAUDE_MD` — Claude Code orchestrator file (default `~/.claude/CLAUDE.md`).
-- `MASK_AGENTS_MD` · `MASK_GEMINI_MD` · `MASK_CURSOR_MDC` — single-active targets (defaults `./AGENTS.md`, `./GEMINI.md`, `./.cursor/rules/mask.mdc`).
+- `MASK_AGENTS_MD` — the AGENTS.md install target (default `./AGENTS.md`; `init --out <dir>` sets this).
 - `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
 
 ## Status
@@ -91,10 +96,10 @@ The full roadmap (`docs/PRD.md` -> `SPEC.md` -> `PHASES.md`) is implemented:
 
 - **Phase 0** — deterministic CLI (ingest → reduce → compile → wear), Claude Code adapter.
 - **Phase 1** — AGENTS.md adapter (second agent) + YouTube ingest.
-- **Phase 2** — knowledge-first `type: code` flavor + repo ingest + multi-mask scope; Cursor & Gemini adapters.
+- **Phase 2** — knowledge-first `type: code` flavor + repo ingest + multi-mask scope.
 - **Phase 3** — re-distillation (`redistill`), headless scale mode (`scale`), PDF/book ingest, blended masks, coverage/roster/statusline polish.
 
-Four agents, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 87 tests. Early release (v0.1.0) — works as designed and dogfooded, not yet battle-tested by external users. Traditional Chinese companions live in `docs/zh-TW/`.
+Two adapters covering every AGENTS.md-aware agent, four source kinds (blog / YouTube / repo / PDF), three mask flavors (voice / code / blend). Dogfooded against a real blog, YouTube channel, and GitHub repo (`docs/DOGFOOD.md`); deterministic core covered by 88 tests. Early release (v0.2.0) — works as designed and dogfooded, not yet battle-tested by external users. Traditional Chinese companions live in `docs/zh-TW/`.
 
 ## License
 

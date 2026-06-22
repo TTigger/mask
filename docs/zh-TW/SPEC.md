@@ -16,7 +16,7 @@
    ↓ extraction（recipe 在使用者的 agent 裡跑）— 借用算力，唯一需要智能的一層
    ↓ persona store（Markdown + JSON + Git）— 你的本地 mask 庫
    ↓ adapters / compile（canonical → 各家原生格式）— 純工具
-   ↓ 目標 agent（Claude Code / Codex / Cursor / Gemini）
+   ↓ 目標 agent：claude-code（subagent）或 agents-md（通用 AGENTS.md，Codex / Cursor / Gemini / Windsurf / Zed… 原生讀取）
 ```
 
 **雙層介面**：對人類是自然語言；對 agent 是 CLI + 工具。repo 的 orchestrator 指令把 agent 變成操作員，agent 在背後呼叫 CLI。

@@ -80,7 +80,7 @@ Default: **voice-first means one source = one mask** (one voice). A blended know
 
 ## 9. Future (beyond v1)
 
-- More sources: GitHub repo / code expert, book / PDF.
-- More adapters: Cursor, Gemini.
-- A headless "scale mode" (`claude -p`, etc.) for very large corpora.
+- More sources: GitHub repo / code expert, book / PDF. *(shipped)*
+- Broad agent coverage via the standard `AGENTS.md` adapter (Cursor, Gemini, Codex, Windsurf, Zed, …). *(shipped; one adapter, not one per tool)*
+- A headless "scale mode" (`claude -p`, etc.) for very large corpora. *(shipped)*
 - Mask versioning / re-distillation; explicit blended knowledge masks.

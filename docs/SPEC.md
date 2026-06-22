@@ -14,7 +14,7 @@ source: anything (blog / YT / article / web / code / GitHub)
   v  extraction (recipe runs inside the user's agent) — borrowed intelligence, the only smart layer
   v  persona store (Markdown + JSON + Git) — your local mask library
   v  adapters / compile (canonical -> native formats) — pure tools
-  v  target agent (Claude Code / Codex / Cursor / Gemini)
+  v  target agent: claude-code (subagents) or agents-md (the universal AGENTS.md, read by Codex / Cursor / Gemini / Windsurf / Zed / …)
 ```
 
 **Two-tier interface**: natural language to humans; CLI + tools to the agent. The repo's orchestrator turns the agent into the operator, and the agent calls the CLI behind the scenes.
@@ -150,9 +150,9 @@ If no mask is named -> delegate to the active default (read ~/.mask/_active).
 <!-- /mask:orchestrator -->
 ```
 
-### 7.2 AGENTS.md (single context, active-swap)
+### 7.2 AGENTS.md (the cross-tool standard, single context, active-swap)
 
-`wear` rewrites a marked managed block in `AGENTS.md` (project root), touching only its own block:
+One project-level `AGENTS.md` covers every AGENTS.md-aware agent — Codex, Gemini CLI, Cursor, Windsurf, Zed, Continue, Goose, and 30+ others read it natively, so mask ships one adapter, not one per tool. `wear` rewrites a marked managed block in `AGENTS.md` (project root), touching only its own block:
 
 ```markdown
 <!-- mask:active fireship -->
@@ -162,11 +162,11 @@ Knowledge: ~/.mask/fireship/knowledge/ (read, tag [src:...]; if unsupported, say
 <!-- /mask:active -->
 ```
 
-Switching = rewriting that block to another mask; single-active by nature.
+Switching = rewriting that block to another mask; single-active by nature. **Per-turn override** ("ask X: ...") needs no block swap: the orchestrator reads `~/.mask/X/{mask.md, knowledge/, examples.md}` on demand for that one answer and leaves the active default untouched — so one-offs behave the same in both adapters. Claude Code can drive this universal file too via a `@AGENTS.md` import in `CLAUDE.md` (or a symlink), since it doesn't read AGENTS.md natively.
 
 ### 7.3 Managed artifacts
 
-All compiled outputs are **framework-owned, marked** artifacts; `unwear` / removal cleans them up without polluting the user's own config. Install location: Claude Code global by default, AGENTS.md at project root; both configurable.
+All compiled outputs are **framework-owned, marked** artifacts; `unwear` / removal cleans them up without polluting the user's own config. Install location: Claude Code global by default (`~/.claude`), AGENTS.md at project root (`init --out <dir>` to choose; mask warns if it would land inside the framework repo itself).
 
 ## 8. CLI surface (the agent's hands)
 
