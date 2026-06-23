@@ -120,6 +120,31 @@
   .reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
   .reveal.in{ opacity:1; transform:none; }
   .reveal.d1{ transition-delay:.08s } .reveal.d2{ transition-delay:.16s } .reveal.d3{ transition-delay:.24s }
+
+  /* responsive */
+  @media (max-width:760px){
+    .wrap{ padding:0 20px; }
+    nav{ padding:13px 20px; }
+    section{ padding:72px 0; }
+    .hero{ padding:128px 0 84px; }
+    .hero .mark{ width:96px; height:96px; }
+    .hero .sub{ margin:18px auto 30px; }
+    .lead{ font-size:16.5px; margin-bottom:32px; }
+    .term .body{ padding:18px 16px; font-size:13px; line-height:1.8; overflow-x:auto; }
+    .term .body > div{ white-space:nowrap; }
+    .step{ grid-template-columns:40px 1fr; gap:15px; }
+    .step .n{ width:40px; height:40px; font-size:18px; border-radius:11px; }
+    footer .wrap{ flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width:440px){
+    .ghbtn .lbl{ display:none; }
+    .ghbtn{ padding:8px 11px; }
+    section{ padding:60px 0; }
+    .hero{ padding:116px 0 72px; }
+    .cta{ flex-direction:column; }
+    .btn{ width:100%; justify-content:center; }
+    .card{ padding:22px; }
+  }
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; }
     .reveal{ opacity:1; transform:none; transition:none; }
@@ -159,7 +184,7 @@
 <nav id="nav">
   <a class="brand" href="#top"><svg><use href="#i-markL"/></svg>mask</a>
   <div class="right">
-    <a class="ghbtn" href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg>Star on GitHub</a>
+    <a class="ghbtn" href="https://github.com/TTigger/mask"><svg><use href="#i-gh"/></svg><span class="lbl">Star on GitHub</span></a>
   </div>
 </nav>
 
