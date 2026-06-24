@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Developer guide (AGENTS.md)
+    url: https://github.com/TTigger/mask/blob/main/AGENTS.md
+    about: How the codebase is structured and the house rules — read before contributing.
+  - name: Docs (PRD / SPEC / PHASES)
+    url: https://github.com/TTigger/mask/tree/main/docs
+    about: Design background for the framework.
