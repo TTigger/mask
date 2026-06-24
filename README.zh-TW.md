@@ -108,6 +108,10 @@ CLI 是決定性的、**不呼叫任何 LLM** —— 智慧工作由你的 agent
 - `MASK_AGENTS_MD` —— AGENTS.md 安裝目標（預設 `./AGENTS.md`；`init --out <dir>` 會設定它）。
 - `MASK_FRAMEWORK` —— 跑**獨立編譯二進位**時設定，讓 agent 仍找得到磁碟上的 recipe/templates；指向 clone 的 repo。（用 `bun run`/launcher 時不需要，會自動解析。）
 
+## 參與貢獻
+
+歡迎開 issue 與 PR —— 請看 [CONTRIBUTING.md](CONTRIBUTING.md)（完整開發指南在 [AGENTS.md](AGENTS.md)）。
+
 ## License
 
 MIT
