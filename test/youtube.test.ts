@@ -2,6 +2,7 @@ import { expect, test } from "bun:test";
 import {
   ingestYoutube,
   parseVtt,
+  pickSubtitleLang,
   isVideoUrl,
   videoIdFromUrl,
   type YoutubeProvider,
@@ -76,6 +77,50 @@ if a &lt; b &gt; c then R&amp;D
   expect(got).toContain("tag 5 > 3"); // only the <c>/timestamp tags removed; "5 > 3" intact
   expect(got).not.toContain("<c>");
   expect(got).not.toContain("&amp;");
+});
+
+test("pickSubtitleLang prefers the original language, manual track first", () => {
+  // Chinese lecture: manual zh-TW alongside a wall of auto-translations.
+  expect(
+    pickSubtitleLang({
+      manual: ["zh-TW"],
+      auto: ["en-zh-TW", "ja-zh-TW", "zh-Hant-zh-TW"],
+      original: "zh-TW",
+    }),
+  ).toBe("zh-TW");
+});
+
+test("pickSubtitleLang picks the original auto track over machine translations", () => {
+  // No manual subs; the original auto track sits among `<target>-<source>` translations.
+  expect(
+    pickSubtitleLang({
+      manual: [],
+      auto: ["zh-TW", "en-zh-TW", "ja-zh-TW", "fr-zh-TW"],
+      original: "zh-TW",
+    }),
+  ).toBe("zh-TW");
+});
+
+test("pickSubtitleLang infers the original when yt-dlp gives no `language`", () => {
+  // Source language is the shared suffix of the translation keys, present as its own track.
+  expect(
+    pickSubtitleLang({
+      manual: [],
+      auto: ["en-zh-TW", "fr-zh-TW", "zh-TW", "ja-zh-TW"],
+      original: null,
+    }),
+  ).toBe("zh-TW"); // never the English translation
+});
+
+test("pickSubtitleLang handles an English-original video and a lone auto track", () => {
+  expect(pickSubtitleLang({ manual: ["en"], auto: ["en", "es-en"], original: "en" })).toBe("en");
+  expect(pickSubtitleLang({ manual: [], auto: ["en"], original: null })).toBe("en");
+});
+
+test("pickSubtitleLang honors an explicit override and returns null when nothing fits", () => {
+  // Override wins even when an original track exists, and passes wildcards through verbatim.
+  expect(pickSubtitleLang({ manual: ["zh-TW"], auto: [], original: "zh-TW" }, "en.*")).toBe("en.*");
+  expect(pickSubtitleLang({ manual: [], auto: [], original: null })).toBeNull();
 });
 
 test("ingestYoutube expands a channel into stable-id samples, skipping thin/unreachable", async () => {
