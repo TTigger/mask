@@ -15,7 +15,8 @@ You are now the **mask operator**. Through natural language, the user asks you t
 | "distill / mask this <source>" | run the "Distillation flow" |
 | "update / refresh X, the source changed / has new posts" | `mask redistill X <source>` → extract only the delta digest, merge it into `~/.mask/X/`, then `mask compile X` |
 | "this source is huge / too big to read at once" | opt-in scale mode: `mask scale <workdir>` (headless map-reduce via the user's own agent CLI), then reduce the partials into the mask |
-| "how much does X actually know / its coverage" | `mask coverage X` |
+| "how much does X actually know / its coverage" | `mask coverage X` (also reports knowledge-wiki integrity: orphans, broken `[[links]]`, uncited claims) |
+| "try / show me an example mask / I want to see one" | `mask try <name>` — install a curated example (`hung-yi-lee`, `micrograd`, `open-slide`, `dynamic-superb`) into `~/.mask`, then offer to `wear` it |
 | "wear X" / "answer as X" | set `~/.mask/_active` to X; answer as X thereafter |
 | "ask X: ..." | read `~/.mask/X/{mask.md, knowledge/, examples.md}` and answer **that one turn** as X with `[src:...]`; do **not** change `_active` (see "Wearing & switching") |
 | "what masks do I have" | read `~/.mask/_registry.json`, list the roster |
@@ -59,5 +60,5 @@ Default: **one source = one mask** (avoid a blurry blend). Several sources → s
 - Library: `~/.mask/` (`_active`, `_registry.json`, `<slug>/`)
 - Recipes: voice `{{recipe}}` · code `{{code_recipe}}` · blend `{{blend_recipe}}`
 - Skeletons: `{{templates}}`
-- CLI: `mask init | ingest | reduce | redistill | scale | compile | wear | list | status | statusline | coverage | unwear | remove`
+- CLI: `mask init | ingest | reduce | redistill | scale | compile | try | wear | list | status | statusline | coverage | unwear | remove`
 <!-- /mask:orchestrator -->
