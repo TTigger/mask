@@ -5,6 +5,7 @@ import { registerReduce } from "./reduce.ts";
 import { registerRedistill } from "./redistill.ts";
 import { registerScale } from "./scale.ts";
 import { registerCompile } from "./compile.ts";
+import { registerTry } from "./try.ts";
 import {
   registerWear,
   registerList,
@@ -26,6 +27,7 @@ export function registerCommands(program: Command): void {
   registerRedistill(program);
   registerScale(program);
   registerCompile(program);
+  registerTry(program);
   registerWear(program);
   registerList(program);
   registerStatus(program);

@@ -38,3 +38,8 @@ export function blendRecipePath(): string {
 export function templatesDir(): string {
   return frameworkFile("templates");
 }
+
+/** Absolute path to the curated example-mask pack shipped with the framework. */
+export function examplesDir(): string {
+  return frameworkFile("examples");
+}
