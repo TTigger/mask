@@ -30,6 +30,7 @@ mask also carries a faint "disguise / concealment" connotation; we keep that amb
 
 - **Distill anything** into a persona — three flavors: **voice** (how they talk and think), **code** (a repo's conventions and idioms), **blend** (a voice-neutral synthesis of several sources).
 - **Evidence-bound**: every claim is cited to a source sample `[src:…]` and traceable back to its origin; thin evidence is declared, not hidden.
+- **A compounding knowledge wiki**: each mask's `knowledge/` is a small persistent wiki — a catalog, a chronological `log.md`, and associative `[[cross-links]]` — after Karpathy's [LLM-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) idea. Redistilling *adds* to it rather than rebuilding, and `mask coverage` audits its integrity (orphans, broken links, uncited claims).
 - **Local and yours**: each mask is a folder of Markdown + Git on your machine, hand-editable.
 - **Agent-native, zero API key**: the framework calls no LLM; extraction and answering borrow your own subscribed agent's compute.
 - **Many personas, switch like skills**: wear whichever the moment needs.

@@ -49,9 +49,10 @@
   _registry.json              # 所有 mask 的名冊
   fireship/                   # 一張 mask（slug）
     mask.md                   # frontmatter(meta) + 內文(口吻側寫) — 心臟
-    knowledge/
-      index.md                # 主題 → 檔案對照，給 agent grep 導航
-      <topic>.md              # 知識塊，每塊帶 [src:…] 出處
+    knowledge/                # 一個小型常駐 wiki（仿 Karpathy 的 LLM-wiki）
+      index.md                # 目錄：主題 → 檔案對照，給 agent grep 導航
+      log.md                  # 只增不改的時間序日誌（每次 ingest／redistill 一筆）
+      <topic>.md              # 知識塊，每塊帶 [src:…] 出處；可帶 [[交叉連結]]
     examples.md               # few-shot：這個口吻會怎麼回答
     sources.json              # 出處：來源 URL/ID、抓取日、抽樣資訊、hash
 ```
@@ -90,9 +91,17 @@ tags: [webdev, opinionated, fast-paced]
 給戴上它的 agent 的行為指令：先觀點再論證、保持精煉、事實標來源……
 ```
 
-### 3.4 知識：參照不內嵌
+### 3.4 知識：一個會累積的常駐 wiki
 
 戴上 mask 時，compiler 只把 `mask.md`（身分 + 口吻 + 回答方式）編進 adapter；`knowledge/` 留在原地，讓 agent 用 file read / grep 自己撈。這是不靠 embedding 的 agent-native RAG，也讓 context 保持精瘦。
+
+`knowledge/` 的結構是一個 per-mask 的小型 wiki，仿 Karpathy 的 [LLM-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 概念 —— 它的三層恰好一一對應到 mask：
+
+- **原始來源**（不可變）＝ ingest 出的 samples ＋ `sources.json` 出處。
+- **wiki**（agent 擁有）＝ `knowledge/`：主題頁、目錄（`index.md`）、只增不改的時間序日誌（`log.md`）、以及頁與頁之間的 `[[交叉連結]]`（Memex 的「關聯軌跡」）。
+- **schema**（規範維護者）＝ agent 跟著走的 recipe ＋ orchestrator。
+
+Karpathy 說最煩的是「記帳」那部分 —— 交叉引用、每次 ingest 補一筆日誌、別留孤兒頁 —— 這正是 agent 在每次 distill／redistill 時維護的，也正是 `mask coverage` 會用決定性方式稽核的（孤兒頁、壞掉的 `[[連結]]`、查無出處的 `[src:id]`）。這個 wiki 會**累積**：一次 redistill 只補一筆日期日誌、只更新被動到的頁，知識因此持續長大且可稽核，而不是每次砍掉重練。
 
 ---
 

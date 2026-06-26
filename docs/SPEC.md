@@ -43,9 +43,10 @@ source: anything (blog / YT / article / web / code / GitHub)
   _registry.json              # roster of all masks
   fireship/                   # one mask (slug)
     mask.md                   # frontmatter(meta) + body(voice profile) — the heart
-    knowledge/
-      index.md                # topic -> file map, for agent grep navigation
-      <topic>.md              # knowledge chunks, each tagged [src:...]
+    knowledge/                # a small persistent wiki (after Karpathy's LLM-wiki)
+      index.md                # catalog: topic -> file map, for agent grep navigation
+      log.md                  # append-only chronological log of ingests/redistills
+      <topic>.md              # knowledge chunks, each tagged [src:...]; may carry [[cross-links]]
     examples.md               # few-shot: how this voice answers
     sources.json              # provenance: source URLs/IDs, fetch date, sampling, hashes
 ```
@@ -84,9 +85,17 @@ Anti-patterns; must not fabricate beyond knowledge.
 Directives for the agent wearing it: take first then justify, stay punchy, cite [src:...].
 ```
 
-### 3.4 Knowledge: referenced, not inlined
+### 3.4 Knowledge: a persistent, compounding wiki
 
 When a mask is worn, the compiler only embeds `mask.md` (identity + voice + how-to-answer) into the adapter; `knowledge/` stays on disk and the agent fetches it via file read / grep. This is embedding-free, agent-native RAG, and keeps context lean.
+
+`knowledge/` is structured as a small per-mask wiki, after Karpathy's [LLM-wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) idea — the same three layers map onto mask one-to-one:
+
+- **raw sources** (immutable) = the ingested samples + `sources.json` provenance.
+- **the wiki** (agent-owned) = `knowledge/`: topic pages, a catalog (`index.md`), an append-only chronological log (`log.md`), and associative `[[cross-links]]` between pages (the Memex "trails").
+- **the schema** (governs the maintainer) = the recipe + the orchestrator the agent follows.
+
+The bookkeeping Karpathy notes is the tedious part — cross-references, a log entry per ingest, no orphan pages — is exactly what the agent maintains on every distill/redistill, and what `mask coverage` audits deterministically (orphans, broken `[[links]]`, `[src:id]` with no provenance). The wiki *compounds*: a redistill adds a dated `log.md` entry and updates only the touched pages, so a mask's knowledge grows and stays auditable rather than being rebuilt from scratch.
 
 ## 4. Provenance & citation chain
 
