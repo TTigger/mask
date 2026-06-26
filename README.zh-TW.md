@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/TTigger/mask/actions/workflows/ci.yml"><img src="https://github.com/TTigger/mask/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=flat-square" alt="MIT 授權"></a>
-  <img src="https://img.shields.io/badge/version-0.2.0-7C6BD6?style=flat-square" alt="版本 0.2.0">
+  <img src="https://img.shields.io/badge/version-0.3.0-7C6BD6?style=flat-square" alt="版本 0.3.0">
   <img src="https://img.shields.io/badge/agents-AGENTS.md%20standard-111111?style=flat-square" alt="AGENTS.md 標準">
   <img src="https://img.shields.io/badge/API%20key-none-28c840?style=flat-square" alt="零 API key">
 </p>
@@ -45,6 +45,24 @@ clone repo 之後，你全程用自然語言在你的 agent 裡操作 —— 不
 「wear fireship」          # 切換；之後幾輪都用那個聲音回答
 「ask gilfoyle: ...」      # 只問一次，不改變預設
 ```
+
+## 實際範例
+
+[`examples/`](examples) 內附四張真正蒸餾出來的 mask —— 全程用 mask 自己的 recipe 蒸出、每個論點都標來源、每張都通過 `mask coverage`（零壞連結、零查無出處）。一行就裝起來：
+
+```sh
+mask try hung-yi-lee     # 複製進 ~/.mask，編譯好、可直接戴
+mask wear hung-yi-lee
+```
+
+| mask | 類型 | 來源 |
+|---|---|---|
+| [`hung-yi-lee`](examples/hung-yi-lee) | voice | 李宏毅老師的中文 ML 課程（[@HungyiLeeNTU](https://www.youtube.com/@HungyiLeeNTU)）|
+| [`micrograd`](examples/micrograd) | code | [karpathy/micrograd](https://github.com/karpathy/micrograd) —— 極簡 autograd 引擎 |
+| [`open-slide`](examples/open-slide) | code | [1weiho/open-slide](https://github.com/1weiho/open-slide) —— 為 agent 打造的投影片框架 |
+| [`dynamic-superb`](examples/dynamic-superb) | code | [kuan2jiu99 / Dynamic-SUPERB](https://github.com/kuan2jiu99/dynamic-superb) —— 語音 benchmark |
+
+確切指令與示範回答見 **[gallery](docs/GALLERY.md)**。
 
 ## 安裝與使用
 
@@ -97,6 +115,7 @@ CLI 是決定性的、**不呼叫任何 LLM** —— 智慧工作由你的 agent
 | `mask redistill <slug> <src…>` | 重新擷取來源，只 staging 有變動的部分（版本遞增）|
 | `mask scale <dir>` | opt-in：用你自己的 headless agent CLI 對超大語料 map-reduce |
 | `mask compile <slug>` | mask.md → 當前 agent 的原生人格檔 |
+| `mask try <name>` | 把一張內附範例 mask（來自 `examples/`）裝進你的庫，馬上可戴 |
 | `mask wear <slug>` · `list` · `status` | 切換 / 名冊 / 現在戴誰 |
 | `mask coverage <slug>` | 這個 mask 站在多少證據上（從它的出處）|
 | `mask statusline` | agent statusline 用的精簡 active-mask 徽章 |

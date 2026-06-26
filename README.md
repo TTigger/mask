@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/TTigger/mask/actions/workflows/ci.yml"><img src="https://github.com/TTigger/mask/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111111?style=flat-square" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/version-0.2.0-7C6BD6?style=flat-square" alt="version 0.2.0">
+  <img src="https://img.shields.io/badge/version-0.3.0-7C6BD6?style=flat-square" alt="version 0.3.0">
   <img src="https://img.shields.io/badge/agents-AGENTS.md%20standard-111111?style=flat-square" alt="AGENTS.md standard">
   <img src="https://img.shields.io/badge/API%20key-none-28c840?style=flat-square" alt="no API key">
 </p>
@@ -45,6 +45,26 @@ After you clone the repo, you drive everything in natural language inside your a
 "wear fireship"                # switch; the next turns answer in that voice
 "ask gilfoyle: ..."            # one-off, without changing the default
 ```
+
+## See it in action
+
+Four real masks ship in [`examples/`](examples) — distilled end-to-end with mask's own
+recipes, every claim evidence-bound, each passing `mask coverage` with zero broken
+links or uncited claims. Install one in seconds:
+
+```sh
+mask try hung-yi-lee     # copies it into ~/.mask, compiled & ready
+mask wear hung-yi-lee
+```
+
+| mask | kind | source |
+|---|---|---|
+| [`hung-yi-lee`](examples/hung-yi-lee) | voice | 李宏毅's Mandarin ML lectures ([@HungyiLeeNTU](https://www.youtube.com/@HungyiLeeNTU)) |
+| [`micrograd`](examples/micrograd) | code | [karpathy/micrograd](https://github.com/karpathy/micrograd) — a tiny autograd engine |
+| [`open-slide`](examples/open-slide) | code | [1weiho/open-slide](https://github.com/1weiho/open-slide) — an agent-native slide framework |
+| [`dynamic-superb`](examples/dynamic-superb) | code | [kuan2jiu99 / Dynamic-SUPERB](https://github.com/kuan2jiu99/dynamic-superb) — a speech benchmark |
+
+See the **[gallery](docs/GALLERY.md)** for the exact commands and sample answers.
 
 ## Install & run
 
@@ -105,6 +125,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 | `mask redistill <slug> <src…>` | re-ingest a source and stage only what changed (version bump) |
 | `mask scale <dir>` | opt-in: map-reduce a too-large corpus via your own headless agent CLI |
 | `mask compile <slug>` | mask.md → the current agent's native persona file |
+| `mask try <name>` | install a curated example mask (from `examples/`) into your library, ready to wear |
 | `mask wear <slug>` · `list` · `status` | switch / roster / who's worn |
 | `mask coverage <slug>` | how much evidence the mask stands on (from its provenance) |
 | `mask statusline` | a compact active-mask badge for an agent statusline |
