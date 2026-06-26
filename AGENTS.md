@@ -10,7 +10,7 @@ Distill any source (blog / YouTube / GitHub repo / PDF) into a switchable person
 ## Hard rules
 - **The CLI calls no LLM.** Everything under `src/` is deterministic (ingest, reduce, compile, git). All "intelligence" is borrowed from the user's agent — never call a model API or key here. The one sanctioned exception is `mask scale`, which shells out to the user's *own* headless agent CLI (`claude -p` / `gemini -p` / `codex exec`) — still no API key in our code.
 - **Spec-as-data.** A mask is plain files (Markdown + JSON + Git), human-readable and hand-editable.
-- **Framework and library are separate.** This repo never stores a user's masks; those live in `~/.mask/`.
+- **Framework and library are separate.** This repo never stores a user's *working* masks; those live in `~/.mask/`. The sole exception is `examples/` — a small curated reference pack (still evidence-bound) that `mask try <name>` copies into the user's library.
 - **Add an agent via an adapter, add a source via an ingest module, the recipe stays put.** The three layers are independent.
 - **Evidence-bound output.** Distilled claims trace to a source sample `[src:id]` → `sources.json`; thin coverage is declared, never hidden.
 
@@ -23,6 +23,7 @@ TypeScript (kept Node-compatible) + Bun. Tests use the built-in `bun test`. Buil
 - `recipes/` — extraction recipes (procedures the agent follows, **not code**): `voice`, `code`, `blend`
 - `adapters/` — per-agent renderers + orchestrator templates. Two adapters: `claude-code` (subagents) and `agents-md` (the universal `AGENTS.md` that 30+ tools read)
 - `templates/` — skeletons for distilled output
+- `examples/` — curated, evidence-bound reference masks shipped with the framework; `mask try <name>` installs one. Resolved via `frameworkRoot()`, like recipes/templates.
 - `site/` — the static landing page (deployed to GitHub Pages)
 - `docs/` — PRD / SPEC / PHASES (English; `docs/zh-TW/` for Traditional Chinese)
 

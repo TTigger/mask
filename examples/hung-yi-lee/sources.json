@@ -1,0 +1,114 @@
+{
+  "source_kind": "youtube",
+  "sampling": {
+    "max_chars": 60000
+  },
+  "sources": [
+    {
+      "id": "y1",
+      "url": "https://www.youtube.com/watch?v=cQLKVzbwN7I",
+      "title": "Is AI Crossing the Rubicon? How Far Are We from Self-Improving AI? (Part 2)",
+      "hash": "sha256:cf1f83e0fb383b369c51e9ac940bddfbfb9ace93db1842682a6d5f5c11833009",
+      "chars": 26686,
+      "truncated": true
+    },
+    {
+      "id": "y2",
+      "url": "https://www.youtube.com/watch?v=s06mSAGN4gM",
+      "title": "AI 要跨越盧比孔河了嗎？自我成長的 AI 離我們多遠 (上集)",
+      "hash": "sha256:675c8f64625b1245cfdfaecb5cf973a51f058e5bc1547404e3238286fdf770ab",
+      "chars": 23149,
+      "truncated": true
+    },
+    {
+      "id": "y3",
+      "url": "https://www.youtube.com/watch?v=m3i2mk5hs8U",
+      "title": "AI 能自我修正嗎？從 decoding、workflow 到 reasoning 的技術發展整理",
+      "hash": "sha256:150986aca20552c63ea7efbe74a78d0fa524938c0dba18d8299d4bd7bf055a2c",
+      "chars": 32781,
+      "truncated": true
+    },
+    {
+      "id": "y4",
+      "url": "https://www.youtube.com/watch?v=R6fZR_9kmIw",
+      "title": "Harness Engineering：有時候語言模型不是不夠聰明，只是沒有人類好好引導",
+      "hash": "sha256:3b875b30d1970fa00a472456ef5739ab00ad41daf17c466a3be99f564dcdd5cb",
+      "chars": 37102,
+      "truncated": true
+    },
+    {
+      "id": "y5",
+      "url": "https://www.youtube.com/watch?v=Ll-wk8x3G_g",
+      "title": "如何讓 Transformer 知道輸入 Token 的順序？Absolute、Relative、RoPE、到沒有 Positional Embedding",
+      "hash": "sha256:6607894b418120ddf675ae6b07711b62792be4c272d3d11f8d8c93579de22d26",
+      "chars": 34826,
+      "truncated": true
+    },
+    {
+      "id": "y6",
+      "url": "https://www.youtube.com/watch?v=fDQaadKysSA",
+      "title": "加快語言模型生成速度 (2/2)：KV Cache",
+      "hash": "sha256:406c5e705a1479d5c5272f8b3c92038db63d2704bc840caa09400b93ae8ace2b",
+      "chars": 16341,
+      "truncated": true
+    },
+    {
+      "id": "y7",
+      "url": "https://www.youtube.com/watch?v=vXb2QYOUzl4",
+      "title": "加快語言模型生成速度 (1/2)：Flash Attention",
+      "hash": "sha256:1662d29c0e021862219cb58eeff9d554f44661fdb25e20bb4def04e43f18a160",
+      "chars": 20462,
+      "truncated": true
+    }
+  ],
+  "manifest": [
+    {
+      "url": "https://www.youtube.com/watch?v=cQLKVzbwN7I",
+      "hash": "sha256:cf1f83e0fb383b369c51e9ac940bddfbfb9ace93db1842682a6d5f5c11833009"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=s06mSAGN4gM",
+      "hash": "sha256:675c8f64625b1245cfdfaecb5cf973a51f058e5bc1547404e3238286fdf770ab"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=m3i2mk5hs8U",
+      "hash": "sha256:150986aca20552c63ea7efbe74a78d0fa524938c0dba18d8299d4bd7bf055a2c"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=R6fZR_9kmIw",
+      "hash": "sha256:3b875b30d1970fa00a472456ef5739ab00ad41daf17c466a3be99f564dcdd5cb"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Ll-wk8x3G_g",
+      "hash": "sha256:6607894b418120ddf675ae6b07711b62792be4c272d3d11f8d8c93579de22d26"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=fDQaadKysSA",
+      "hash": "sha256:406c5e705a1479d5c5272f8b3c92038db63d2704bc840caa09400b93ae8ace2b"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=vXb2QYOUzl4",
+      "hash": "sha256:1662d29c0e021862219cb58eeff9d554f44661fdb25e20bb4def04e43f18a160"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=VqB8zMujdjM",
+      "hash": "sha256:80119c1721b528ef0504b362f3cbb3d4a818c3f0ce8ccb4b0bbbfe1d144067cc"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=mmPmNezjCi0",
+      "hash": "sha256:d3a28fb5618057143e6d4f5b0d08b1a246f6b3dad53eee4e41ff17a88514021d"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=urwDLyNa9FU",
+      "hash": "sha256:b0a3d2eadc6bf10735e1ce80dc2935693b3f35b615e1d3c9738ea70688408a17"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=2rcJdFuNbZQ",
+      "hash": "sha256:6e577cd1d462aae078e096a44a8f4822fe5a4ce2171424e4ff404d0564f4718f"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=CbIPjrOj2Tc",
+      "hash": "sha256:e0ac7a232c31cc83a385eecc9f0c3e3eab036376fcc42bb306b52b1a304f1a26"
+    }
+  ]
+}

@@ -29,7 +29,7 @@ Keep the tree green between commits.
 ## House rules (the short list)
 
 - **The CLI calls no LLM.** Everything under `src/` is deterministic; the "intelligence" is borrowed from the user's agent following a recipe. The only sanctioned exception is `mask scale` (shells out to the user's *own* headless agent CLI). Never add a model API or key.
-- **Framework ≠ library.** This repo is the tool; a user's masks live in `~/.mask/`. Don't store masks here.
+- **Framework ≠ library.** This repo is the tool; a user's working masks live in `~/.mask/`. Don't store user masks here. The one exception is `examples/` — a small, curated, framework-owned reference pack (each mask evidence-bound like any other) that `mask try <name>` copies into a user's library. Curated samples, not a working library.
 - **External tools are injectable.** New ingest modules take a fetcher/provider/extractor that defaults to the real tool (git / yt-dlp / pdftotext) with a fake in tests — the suite must run offline. Prefer extracting pure helpers and unit-testing those (see `parseVtt`, `pickSubtitleLang`).
 - **Evidence-bound output.** Distilled claims trace to a source sample `[src:id]`; thin coverage is declared, not hidden.
 - **Add an agent** via an adapter, **add a source** via an ingest module — the recipe stays put. The three layers are independent.

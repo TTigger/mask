@@ -1,0 +1,266 @@
+{
+  "source_kind": "repo",
+  "sampling": {
+    "max_chars": 60000
+  },
+  "sources": [
+    {
+      "id": "r1",
+      "url": "https://github.com/1weiho/open-slide#README.md",
+      "title": "README.md",
+      "hash": "sha256:940e3ea9a96d190bb814e9ca32971c470442bb38d3d72bb1aab3ec49c62a2a76",
+      "chars": 4858,
+      "truncated": false
+    },
+    {
+      "id": "r3",
+      "url": "https://github.com/1weiho/open-slide#package.json",
+      "title": "package.json",
+      "hash": "sha256:4d961c4a840a07795e3f6f2a8fcb56fede1ed98cdb4924426f2201859d5e32d9",
+      "chars": 1054,
+      "truncated": false
+    },
+    {
+      "id": "r5",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/open-slide.config.ts",
+      "title": "apps/demo/open-slide.config.ts",
+      "hash": "sha256:21b5492b335d165d6406e5d5a4f9f90e13797c8026e6db740697fc2beaa5807d",
+      "chars": 136,
+      "truncated": false
+    },
+    {
+      "id": "r9",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/image-placeholder-demo/index.tsx",
+      "title": "apps/demo/slides/image-placeholder-demo/index.tsx",
+      "hash": "sha256:f183072f792cfe845ea8c9ef97ffbfa51f03447274f005ab7aa36bd813a03543",
+      "chars": 4123,
+      "truncated": false
+    },
+    {
+      "id": "r11",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/material-design-2014/index.tsx",
+      "title": "apps/demo/slides/material-design-2014/index.tsx",
+      "hash": "sha256:a4f01f48a510696fa182d7235f7510d72c1dad6e28f51d4c65d25a24b8122420",
+      "chars": 12000,
+      "truncated": true
+    },
+    {
+      "id": "r13",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/open-slide-anatomy/index.tsx",
+      "title": "apps/demo/slides/open-slide-anatomy/index.tsx",
+      "hash": "sha256:781cdadc19d2196bb49cf867b1d009b76ad0506b446f588c3c7faf0b12585bbf",
+      "chars": 12000,
+      "truncated": true
+    },
+    {
+      "id": "r17",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/slide-transitions/index.tsx",
+      "title": "apps/demo/slides/slide-transitions/index.tsx",
+      "hash": "sha256:48bd244e9b2069c1c115e92782cb1020252de1e44ebac03327aeed5f1fd399a7",
+      "chars": 10828,
+      "truncated": true
+    },
+    {
+      "id": "r19",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/ssh-explained/index.tsx",
+      "title": "apps/demo/slides/ssh-explained/index.tsx",
+      "hash": "sha256:ea88881c4ab2d6de23e05cd5f30f233a30025eba59495c32cf60e361bc035222",
+      "chars": 12000,
+      "truncated": true
+    },
+    {
+      "id": "r21",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/vercel-ai-sdk/index.tsx",
+      "title": "apps/demo/slides/vercel-ai-sdk/index.tsx",
+      "hash": "sha256:2f25045e015bf254231a2fa6fc42b37d112585527f886e5bd158d0842437f979",
+      "chars": 12000,
+      "truncated": true
+    },
+    {
+      "id": "r25",
+      "url": "https://github.com/1weiho/open-slide#apps/demo/themes/replit.demo.tsx",
+      "title": "apps/demo/themes/replit.demo.tsx",
+      "hash": "sha256:e6766abbcfd0af6fdfb3475af78af4e6b2be465637679f38b438fc29e963ab29",
+      "chars": 12000,
+      "truncated": true
+    },
+    {
+      "id": "r27",
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/(home)/layout.tsx",
+      "title": "apps/web/app/(home)/layout.tsx",
+      "hash": "sha256:6fa9b2788184086ebbc9f7fb4ef9718b5db39687b0955ce71bb8c049d06ed625",
+      "chars": 168,
+      "truncated": false
+    },
+    {
+      "id": "r29",
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/api/search/route.ts",
+      "title": "apps/web/app/api/search/route.ts",
+      "hash": "sha256:2c7807a53a1bbd9b429318eee323c0fb6aa114102bba65c56f4067070b0edf70",
+      "chars": 243,
+      "truncated": false
+    },
+    {
+      "id": "r31",
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/docs/layout.tsx",
+      "title": "apps/web/app/docs/layout.tsx",
+      "hash": "sha256:c7caad1b4ac77204a4041015743e197690dcd7701bdb1a9e95c699227afc2fb4",
+      "chars": 332,
+      "truncated": false
+    },
+    {
+      "id": "r33",
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/llms-full.txt/route.ts",
+      "title": "apps/web/app/llms-full.txt/route.ts",
+      "hash": "sha256:ca8d9f1561eacc435cf0e72ef50c6eca9582ce94f976f74f84d19e48bcbb6b99",
+      "chars": 257,
+      "truncated": false
+    },
+    {
+      "id": "r34",
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/llms.mdx/docs/[[...slug]]/route.ts",
+      "title": "apps/web/app/llms.mdx/docs/[[...slug]]/route.ts",
+      "hash": "sha256:0c3256ccebda062c6b10a2f76466884a726b8d50b9bbfd880118ccaa1fa65959",
+      "chars": 639,
+      "truncated": false
+    }
+  ],
+  "manifest": [
+    {
+      "url": "https://github.com/1weiho/open-slide#README.md",
+      "hash": "sha256:940e3ea9a96d190bb814e9ca32971c470442bb38d3d72bb1aab3ec49c62a2a76"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#(tree)",
+      "hash": "sha256:f9a28d028c90b4699198fd0eb3760a7db3a2e82471b47f325d232cbc7c1a4f55"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#package.json",
+      "hash": "sha256:4d961c4a840a07795e3f6f2a8fcb56fede1ed98cdb4924426f2201859d5e32d9"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#biome.json",
+      "hash": "sha256:198c278beb591b1c637bf56bd0b3413c220483c32ebfc09b624db7f358437300"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/open-slide.config.ts",
+      "hash": "sha256:21b5492b335d165d6406e5d5a4f9f90e13797c8026e6db740697fc2beaa5807d"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/build-on-reveal/index.tsx",
+      "hash": "sha256:429e565592d049db75134135245b04d8a3a0a12dac8d3a1b02110784a6c2e08e"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/claude-code-intro/index.tsx",
+      "hash": "sha256:db3ba0a59e53d3350037ac1af2b2b5968527ac6f9a4f240e5b848bdfa317b179"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/harness-engineering/index.tsx",
+      "hash": "sha256:daf1066cafef8489ef3e1c106d204c6b564fc3801feba8b34b9b01cff45227a6"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/image-placeholder-demo/index.tsx",
+      "hash": "sha256:f183072f792cfe845ea8c9ef97ffbfa51f03447274f005ab7aa36bd813a03543"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/llm-fundamentals/index.tsx",
+      "hash": "sha256:945e8cceed843e798f42f0a5f2556da51550ea45a99a0ec6506a858971523d89"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/material-design-2014/index.tsx",
+      "hash": "sha256:a4f01f48a510696fa182d7235f7510d72c1dad6e28f51d4c65d25a24b8122420"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/nextjs-ppr-cache/index.tsx",
+      "hash": "sha256:58ae525b075f1d0afd750dbc5bf0466c88bc7941b43095d91cd3a8499d454601"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/open-slide-anatomy/index.tsx",
+      "hash": "sha256:781cdadc19d2196bb49cf867b1d009b76ad0506b446f588c3c7faf0b12585bbf"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/open-slide-launch/index.tsx",
+      "hash": "sha256:b530ac9b344cd46fe93bc8cc373d702ce7c251eff832237b2a72620ec29ba2c5"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/open-slide-on-replit/index.tsx",
+      "hash": "sha256:336029e86060586051f72fbb6f46c15cd997ecce445cbcb33818f1a9a532abff"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/raycast-api/index.tsx",
+      "hash": "sha256:2e0889489c6be9a521c3f9103efa333948e8b47e4bcc13ab8e0d9f52ae676c66"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/slide-transitions/index.tsx",
+      "hash": "sha256:48bd244e9b2069c1c115e92782cb1020252de1e44ebac03327aeed5f1fd399a7"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/slide-transitions-maximal/index.tsx",
+      "hash": "sha256:e0777fbf7901a3e51117d83a8e67c4fcc720ce6367034881b2f99fb41ddd5fa7"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/ssh-explained/index.tsx",
+      "hash": "sha256:ea88881c4ab2d6de23e05cd5f30f233a30025eba59495c32cf60e361bc035222"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/steps-in-motion/index.tsx",
+      "hash": "sha256:a0a511b13632dc9ef4ceeb3d5feda6fc6d7630b9bbd9f043a38bbf15eba6925b"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/vercel-ai-sdk/index.tsx",
+      "hash": "sha256:2f25045e015bf254231a2fa6fc42b37d112585527f886e5bd158d0842437f979"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/slides/vercel-labs-2026/index.tsx",
+      "hash": "sha256:7a229b61b688ea01e135d06cb1fbc1f7d1b0aab000bf2145cb0f69a1b69462ab"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/themes/aurora.demo.tsx",
+      "hash": "sha256:5d13c4030d38b1a577fec9b1bf510d7df211f17d2d0d9d3065c8675021c2935a"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/themes/bright-sans.demo.tsx",
+      "hash": "sha256:d74aa859e8dc1cd944e305e69c7c493813f1423e2d0ff3c0fb0a4954327f81ec"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/themes/replit.demo.tsx",
+      "hash": "sha256:e6766abbcfd0af6fdfb3475af78af4e6b2be465637679f38b438fc29e963ab29"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/demo/themes/sticker-pop.demo.tsx",
+      "hash": "sha256:59042561e7956a5fc6e6d7a3d6dc5f8faef7170fa70cccaeef25e60fb9c7cac7"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/(home)/layout.tsx",
+      "hash": "sha256:6fa9b2788184086ebbc9f7fb4ef9718b5db39687b0955ce71bb8c049d06ed625"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/(home)/page.tsx",
+      "hash": "sha256:f5a8b4e60c90418b7471309767c2ab2ea5d09e2634575ed08fb84af7fbbbd844"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/api/search/route.ts",
+      "hash": "sha256:2c7807a53a1bbd9b429318eee323c0fb6aa114102bba65c56f4067070b0edf70"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/docs/[[...slug]]/page.tsx",
+      "hash": "sha256:c153fed114c1c0d6fa38aaee248f3061fb830d6485be2ca48ce3baec8a7974c6"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/docs/layout.tsx",
+      "hash": "sha256:c7caad1b4ac77204a4041015743e197690dcd7701bdb1a9e95c699227afc2fb4"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/layout.tsx",
+      "hash": "sha256:ff647f5a1da6a22cafbec16b586595b56d7a5e528c715e4bbc5ca2b3dd245373"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/llms-full.txt/route.ts",
+      "hash": "sha256:ca8d9f1561eacc435cf0e72ef50c6eca9582ce94f976f74f84d19e48bcbb6b99"
+    },
+    {
+      "url": "https://github.com/1weiho/open-slide#apps/web/app/llms.mdx/docs/[[...slug]]/route.ts",
+      "hash": "sha256:0c3256ccebda062c6b10a2f76466884a726b8d50b9bbfd880118ccaa1fa65959"
+    }
+  ]
+}
