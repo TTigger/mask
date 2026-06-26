@@ -1,10 +1,10 @@
 import type { Command } from "commander";
 import { existsSync } from "node:fs";
 import { readFile, rm } from "node:fs/promises";
-import { maskDir, maskFile, maskSourcesPath, assertSlug } from "../lib/paths.ts";
+import { maskDir, maskFile, maskKnowledgeDir, maskSourcesPath, assertSlug } from "../lib/paths.ts";
 import { toPersonaUnit } from "../lib/compile.ts";
 import { readJson, type SourcesFile } from "../lib/digest.ts";
-import { coverageOf, describeCoverage } from "../lib/coverage.ts";
+import { coverageOf, describeCoverage, checkWikiIntegrity, describeWikiIntegrity } from "../lib/coverage.ts";
 import { resolveAdapter } from "../adapters/index.ts";
 import { getActive, setActive, clearActive } from "../lib/active.ts";
 import { getMask, listMasks, removeMask, upsertMask } from "../lib/registry.ts";
@@ -80,6 +80,10 @@ async function coverage(slug: string): Promise<void> {
   const entry = await getMask(slug);
   console.log(`${slug}${entry ? ` — ${entry.name}` : ""}`);
   for (const line of describeCoverage(coverageOf(sources))) console.log(`  ${line}`);
+
+  // Deterministic knowledge-wiki integrity (orphans / broken [[links]] / unknown [src:id]).
+  const wiki = await checkWikiIntegrity(maskKnowledgeDir(slug), new Set(sources.sources.map((s) => s.id)));
+  for (const line of describeWikiIntegrity(wiki)) console.log(`  ${line}`);
 }
 
 async function unwear(): Promise<void> {

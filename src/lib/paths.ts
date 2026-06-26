@@ -44,3 +44,8 @@ export function maskFile(slug: string, root = libraryRoot()): string {
 export function maskSourcesPath(slug: string, root = libraryRoot()): string {
   return join(maskDir(slug, root), "sources.json");
 }
+
+/** The mask's knowledge wiki dir (topic pages + index.md + log.md). */
+export function maskKnowledgeDir(slug: string, root = libraryRoot()): string {
+  return join(maskDir(slug, root), "knowledge");
+}
