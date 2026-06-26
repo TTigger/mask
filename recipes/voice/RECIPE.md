@@ -8,7 +8,7 @@
 
 ## Output (written into `~/.mask/<slug>/`)
 - `mask.md` (frontmatter + six-section voice profile)
-- `knowledge/*.md` + `knowledge/index.md`
+- `knowledge/*.md` + `knowledge/index.md` (catalog) + `knowledge/log.md` (chronological log)
 - `examples.md`
 - `sources.json` — **copy `<workdir>/sources.json` into `~/.mask/<slug>/sources.json`** (it carries the citation map + the per-item manifest `mask coverage` and `mask redistill` need); annotate sampling / coverage.
 
@@ -37,9 +37,16 @@ Turn Pass 1 into `mask.md` (use the `templates/mask.md` skeleton), filling the s
 - Fill frontmatter: `name / slug / type / source_kind / created / tags`.
 
 ## Pass 3 - Knowledge extraction
+The `knowledge/` dir is a small persistent wiki (after Karpathy's LLM-wiki idea): topic pages,
+a catalog (`index.md`), a chronological log (`log.md`), and associative cross-links between pages.
 Pull this source's substantive takes, claims, and frameworks into `knowledge/<topic>.md` by topic:
 - **End each knowledge chunk with `[src:<id>]`** (one or more).
 - Build `knowledge/index.md` (topic -> file).
+- **Cross-link**: where a take leans on another page, add a `[[topic]]` link (resolves to
+  `knowledge/<topic>.md`) so related claims are one hop apart — e.g. "see also [[frameworks]]".
+- **Log it**: append one dated entry to `knowledge/log.md` (skeleton in `templates/knowledge/log.md`),
+  format `## [YYYY-MM-DD] ingest | <source> — <range>`, listing the pages you created. Use today's
+  date. This is what makes the wiki auditably *compound* across redistills.
 - Only include what actually appears in the digest; do not add outside common knowledge as if it were theirs.
 
 ## Pass 4 - Examples

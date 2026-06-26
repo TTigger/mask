@@ -10,7 +10,7 @@
 
 ## Output (written into `~/.mask/<slug>/`)
 - `mask.md` (frontmatter `type: blend` + the six-section synthesis profile)
-- `knowledge/*.md` + `knowledge/index.md`
+- `knowledge/*.md` + `knowledge/index.md` (catalog) + `knowledge/log.md` (chronological log)
 - `examples.md`
 - `sources.json` — **copy `<workdir>/sources.json` into `~/.mask/<slug>/sources.json`** (citation map + per-item manifest for `mask coverage`/`mask redistill`); annotate which namespace = which source.
 
@@ -35,8 +35,14 @@ Write `mask.md` (use `templates/mask.blend.md`): Identity (labeled blend) / Sour
 Synthesized knowledge / Where sources differ / Boundaries / How to answer. Each point attributed.
 
 ## Pass 3 - Knowledge extraction
+The `knowledge/` dir is a small persistent wiki (after Karpathy's LLM-wiki idea): topic pages, a
+catalog (`index.md`), a chronological log (`log.md`), and associative cross-links between pages.
 Pull combined knowledge into `knowledge/<topic>.md` by topic, each chunk `[src:n.x]`. Build
 `knowledge/index.md`. Mark cross-source agreement and disagreement explicitly.
+- **Cross-link**: where topics relate, add a `[[topic]]` link (resolves to `knowledge/<topic>.md`),
+  e.g. "see also [[where-sources-differ]]".
+- **Log it**: append one dated entry to `knowledge/log.md` (skeleton in `templates/knowledge/log.md`),
+  format `## [YYYY-MM-DD] ingest | <sources> — <range>`, listing the pages you created. Use today's date.
 
 ## Pass 4 - Examples
 2-4 "question → voice-neutral, attributed answer" samples into `examples.md`, demonstrating

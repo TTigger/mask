@@ -11,7 +11,7 @@
 
 ## Output (written into `~/.mask/<slug>/`)
 - `mask.md` (frontmatter `type: code` + the six-section conventions profile)
-- `knowledge/*.md` + `knowledge/index.md`
+- `knowledge/*.md` + `knowledge/index.md` (catalog) + `knowledge/log.md` (chronological log)
 - `examples.md`
 - `sources.json` — **copy `<workdir>/sources.json` into `~/.mask/<slug>/sources.json`** (it carries the citation map + the per-item manifest `mask coverage` and `mask redistill` need); annotate sampling / coverage.
 
@@ -40,10 +40,17 @@ answer. Each convention must be actionable and carry evidence `id`s. Fill frontm
 (`type: code`, `source_kind: repo`, `name`, `slug`, …).
 
 ## Pass 3 - Knowledge extraction
+The `knowledge/` dir is a small persistent wiki (after Karpathy's LLM-wiki idea): topic pages, a
+catalog (`index.md`), a chronological log (`log.md`), and associative cross-links between pages.
 Pull the reusable building blocks into `knowledge/<topic>.md` by area (e.g. `architecture.md`,
 `apis.md`, `conventions.md`): core functions/types and how features are added.
 - **End each chunk with `[src:<id>]`** (the file path's id).
 - Build `knowledge/index.md` (topic -> file).
+- **Cross-link**: where one area references another, add a `[[topic]]` link (resolves to
+  `knowledge/<topic>.md`) — e.g. "see also [[architecture]]".
+- **Log it**: append one dated entry to `knowledge/log.md` (skeleton in `templates/knowledge/log.md`),
+  format `## [YYYY-MM-DD] ingest | <repo> — <range>`, listing the pages you created. Use today's
+  date. This is what makes the wiki auditably *compound* across redistills.
 - Only include what's in the digest; don't import general knowledge as if it were this repo's.
 
 ## Pass 4 - Examples
