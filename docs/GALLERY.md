@@ -86,25 +86,31 @@ sampled, declared out of coverage).
 
 ---
 
-## 🔊 `dynamic-superb` — kuan2jiu99 / Dynamic-SUPERB (code)
+## 🔊 `audio-hallucination` — kuan2jiu99/audio-hallucination (code)
 
-A code-expert mask on the Dynamic-SUPERB speech benchmark (NTU SPML — the same lab
-Hung-yi Lee leads). Instruction-tuned, zero-shot universal speech models.
+A code-expert mask on Chun-Yi Kuan's official code for two NTU papers (with Hung-yi Lee
+— the same lab) on **hallucination in Large Audio-Language Models**: Interspeech 2024
+and ICASSP 2025. The repo ships evaluation harnesses, not a model — you fill in an
+`inference()` stub and score hallucination metrics.
 
 ```sh
-mask ingest https://github.com/kuan2jiu99/dynamic-superb -n dynamic-superb
-mask reduce ~/.mask/.work/dynamic-superb
-mask compile dynamic-superb
+mask ingest https://github.com/kuan2jiu99/audio-hallucination -n audio-hallucination
+mask reduce ~/.mask/.work/audio-hallucination
+# agent extracts the code recipe -> ~/.mask/audio-hallucination/
+mask compile audio-hallucination
 ```
 
-**Evidence:** `repo · 7 files · ~16k chars` · moderate (the evaluation/preprocess API
-+ task layout are well-evidenced; the 33 task definitions and docs were not sampled,
-declared out of coverage).
+**Evidence:** `repo · 8 files · ~22k chars` · broad (both inference→CSV→evaluation
+harnesses and all metrics — TP/TN/FP/FN, CHAIR/Cover/Hal — are fully in-digest; the
+per-paper sub-READMEs describing the MATCH method, dataset roster, and run commands were
+not sampled, declared out of coverage).
 
-> **Q: Why is my model scoring 0% when the answers look right?**
-> The accuracy metric is a case-insensitive **exact** match — `pred.lower() == ref.lower()`.
-> "Happy." ≠ "happy" (trailing period), "The emotion is happy" ≠ "happy". Emit exactly
-> the label. `[src:r5]`
+> **Q: My model clearly answers correctly, but accuracy is low — why?**
+> Scoring is a **keyword heuristic**, not semantic. `parse_response()` scans substrings
+> in a fixed order — `"Yes"`→yes, `"No"`/`"does not contain"`→no, `"contain"`→yes,
+> `"not"/"unable"/"can't"`→no — so a hedged "I'm not sure, but it does contain a dog" can
+> trip an earlier branch. In the Interspeech harness an unmatched response even falls
+> through to `""` (there's no final `else`). `[src:r3, r5]`
 
 ---
 

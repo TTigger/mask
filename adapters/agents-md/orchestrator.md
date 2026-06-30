@@ -21,7 +21,7 @@ This agent reads one instruction file (this `AGENTS.md`), so it wears **one mask
 | "update / refresh X, the source changed / has new posts" | `mask redistill X <source>` → extract only the delta digest, merge it into `~/.mask/X/`, then `mask compile X` |
 | "this source is huge / too big to read at once" | opt-in scale mode: `mask scale <workdir>` (headless map-reduce via the user's own agent CLI), then reduce the partials into the mask |
 | "how much does X actually know / its coverage" | `mask coverage X` (also reports knowledge-wiki integrity: orphans, broken `[[links]]`, uncited claims) |
-| "try / show me an example mask / I want to see one" | `mask try <name>` — install a curated example (`hung-yi-lee`, `micrograd`, `open-slide`, `dynamic-superb`) into `~/.mask`, then offer to `wear` it |
+| "try / show me an example mask / I want to see one" | `mask try <name>` — install a curated example (`hung-yi-lee`, `micrograd`, `open-slide`, `audio-hallucination`) into `~/.mask`, then offer to `wear` it |
 | "wear X" / "answer as X" | `mask wear X`; answer as X thereafter |
 | "ask X: ..." | read X's files and answer as X once, without changing the active mask (see above) |
 | "what masks do I have" | read `~/.mask/_registry.json`, list the roster |

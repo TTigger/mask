@@ -60,7 +60,7 @@ mask wear hung-yi-lee
 | [`hung-yi-lee`](examples/hung-yi-lee) | voice | 李宏毅老師的中文 ML 課程（[@HungyiLeeNTU](https://www.youtube.com/@HungyiLeeNTU)）|
 | [`micrograd`](examples/micrograd) | code | [karpathy/micrograd](https://github.com/karpathy/micrograd) —— 極簡 autograd 引擎 |
 | [`open-slide`](examples/open-slide) | code | [1weiho/open-slide](https://github.com/1weiho/open-slide) —— 為 agent 打造的投影片框架 |
-| [`dynamic-superb`](examples/dynamic-superb) | code | [kuan2jiu99 / Dynamic-SUPERB](https://github.com/kuan2jiu99/dynamic-superb) —— 語音 benchmark |
+| [`audio-hallucination`](examples/audio-hallucination) | code | [kuan2jiu99/audio-hallucination](https://github.com/kuan2jiu99/audio-hallucination) —— 兩篇音訊 LLM 幻覺論文的評測工具 |
 
 確切指令與示範回答見 **[gallery](docs/GALLERY.md)**。
 
