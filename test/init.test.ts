@@ -3,8 +3,11 @@ import { mkdtemp } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const CLI = new URL("../src/cli.ts", import.meta.url).pathname;
+// fileURLToPath (not .pathname) so the path is valid on Windows too —
+// .pathname yields a leading-slash "/C:/..." that breaks Bun.spawn.
+const CLI = fileURLToPath(new URL("../src/cli.ts", import.meta.url));
 
 interface Run {
   stdout: string;
