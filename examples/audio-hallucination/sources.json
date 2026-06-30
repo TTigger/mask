@@ -1,0 +1,106 @@
+{
+  "source_kind": "repo",
+  "sampling": {
+    "max_chars": 60000
+  },
+  "sources": [
+    {
+      "id": "r1",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#README.md",
+      "title": "README.md",
+      "hash": "sha256:c72bfbc756fa0166bf6beb0eb1d8657d0a6e3871b04a7d96826083970a01283e",
+      "chars": 2198,
+      "truncated": false
+    },
+    {
+      "id": "r2",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#(tree)",
+      "title": "(tree)",
+      "hash": "sha256:ca8ad61e6b8a40f43f1b39b56fc1d73e20c53913f83744771fb65884e40e09c4",
+      "chars": 308,
+      "truncated": false
+    },
+    {
+      "id": "r3",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#icassp2025\\evaluation.py",
+      "title": "icassp2025\\evaluation.py",
+      "hash": "sha256:d5776886376dac0579b9a9666fb1e313c78b93a5fa58056bda4ca58e7e4e7166",
+      "chars": 5676,
+      "truncated": false
+    },
+    {
+      "id": "r4",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#icassp2025\\inference.py",
+      "title": "icassp2025\\inference.py",
+      "hash": "sha256:c86ca791738cddf9d0055f9793591787265ebb1d707e5c8e91d2bd0dbd1c0042",
+      "chars": 2089,
+      "truncated": false
+    },
+    {
+      "id": "r5",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\evaluation.py",
+      "title": "interspeech2024\\evaluation.py",
+      "hash": "sha256:3e26a2feaea5b4c2e1fc9fa47faf7e65739f842e64b50707619b9c9e7a6ace16",
+      "chars": 3873,
+      "truncated": false
+    },
+    {
+      "id": "r6",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\generative_tasks\\evaluation.py",
+      "title": "interspeech2024\\generative_tasks\\evaluation.py",
+      "hash": "sha256:b93bd5cb782c395bb3e0d0c1d955ce94f1cb550fdaf0e97fef6a113992aef76e",
+      "chars": 3156,
+      "truncated": false
+    },
+    {
+      "id": "r7",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\generative_tasks\\inference.py",
+      "title": "interspeech2024\\generative_tasks\\inference.py",
+      "hash": "sha256:e839a0c599f54fa1bb694da6596bf37c5ed15e9a542a1993d50457ebb52f6d81",
+      "chars": 2694,
+      "truncated": false
+    },
+    {
+      "id": "r8",
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\inference.py",
+      "title": "interspeech2024\\inference.py",
+      "hash": "sha256:e8933d99568751012eb5238a16ea122da4f4ed2e1f4d8a3b3fdeb36c8d014965",
+      "chars": 2031,
+      "truncated": false
+    }
+  ],
+  "manifest": [
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#README.md",
+      "hash": "sha256:c72bfbc756fa0166bf6beb0eb1d8657d0a6e3871b04a7d96826083970a01283e"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#(tree)",
+      "hash": "sha256:ca8ad61e6b8a40f43f1b39b56fc1d73e20c53913f83744771fb65884e40e09c4"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#icassp2025\\evaluation.py",
+      "hash": "sha256:d5776886376dac0579b9a9666fb1e313c78b93a5fa58056bda4ca58e7e4e7166"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#icassp2025\\inference.py",
+      "hash": "sha256:c86ca791738cddf9d0055f9793591787265ebb1d707e5c8e91d2bd0dbd1c0042"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\evaluation.py",
+      "hash": "sha256:3e26a2feaea5b4c2e1fc9fa47faf7e65739f842e64b50707619b9c9e7a6ace16"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\generative_tasks\\evaluation.py",
+      "hash": "sha256:b93bd5cb782c395bb3e0d0c1d955ce94f1cb550fdaf0e97fef6a113992aef76e"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\generative_tasks\\inference.py",
+      "hash": "sha256:e839a0c599f54fa1bb694da6596bf37c5ed15e9a542a1993d50457ebb52f6d81"
+    },
+    {
+      "url": "https://github.com/kuan2jiu99/audio-hallucination#interspeech2024\\inference.py",
+      "hash": "sha256:e8933d99568751012eb5238a16ea122da4f4ed2e1f4d8a3b3fdeb36c8d014965"
+    }
+  ]
+}

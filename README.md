@@ -62,7 +62,7 @@ mask wear hung-yi-lee
 | [`hung-yi-lee`](examples/hung-yi-lee) | voice | 李宏毅's Mandarin ML lectures ([@HungyiLeeNTU](https://www.youtube.com/@HungyiLeeNTU)) |
 | [`micrograd`](examples/micrograd) | code | [karpathy/micrograd](https://github.com/karpathy/micrograd) — a tiny autograd engine |
 | [`open-slide`](examples/open-slide) | code | [1weiho/open-slide](https://github.com/1weiho/open-slide) — an agent-native slide framework |
-| [`dynamic-superb`](examples/dynamic-superb) | code | [kuan2jiu99 / Dynamic-SUPERB](https://github.com/kuan2jiu99/dynamic-superb) — a speech benchmark |
+| [`audio-hallucination`](examples/audio-hallucination) | code | [kuan2jiu99/audio-hallucination](https://github.com/kuan2jiu99/audio-hallucination) — eval harnesses for two LALM-hallucination papers |
 
 See the **[gallery](docs/GALLERY.md)** for the exact commands and sample answers.
 

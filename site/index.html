@@ -246,9 +246,9 @@
         <div class="n">1</div>
         <div>
           <h3>Clone &amp; install</h3>
-          <p>Grab the framework and its dependencies.</p>
+          <p>Grab the framework and put a <code>mask</code> launcher on your PATH.</p>
           <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>git clone https://github.com/TTigger/mask &amp;&amp; cd mask
-bun install</pre></div>
+./install.sh</pre></div>
         </div>
       </div>
       <div class="step reveal">
@@ -256,7 +256,7 @@ bun install</pre></div>
         <div>
           <h3>Wire it into your agent</h3>
           <p>Default installs the Claude Code orchestrator. For every other tool, write the universal <code>AGENTS.md</code> into your project with <code>--agent agents-md --out .</code></p>
-          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>bun run dev init</pre></div>
+          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>mask init</pre></div>
         </div>
       </div>
       <div class="step reveal">
@@ -282,7 +282,24 @@ bun install</pre></div>
       <div class="card reveal d2"><h3>4 source kinds <small>injectable &amp; offline-tested</small></h3><div class="chips"><span class="chip">blog / RSS</span><span class="chip">YouTube</span><span class="chip">GitHub repo</span><span class="chip">PDF / book</span></div></div>
       <div class="card reveal d3"><h3>3 flavors <small>distilled per source</small></h3><div class="chips"><span class="chip">voice</span><span class="chip">code</span><span class="chip">blend</span></div></div>
     </div>
-    <p class="lead reveal" style="margin-top:30px; font-size:15px;">Plus re-distillation (update only what changed), opt-in headless scale mode for huge corpora, and coverage reporting. <a href="https://github.com/TTigger/mask#readme">Read the full docs →</a></p>
+    <p class="lead reveal" style="margin-top:30px; font-size:15px;">Plus re-distillation (update only what changed), a compounding knowledge wiki, opt-in headless scale mode for huge corpora, and coverage + wiki-integrity reporting. <a href="https://github.com/TTigger/mask#readme">Read the full docs →</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow reveal">See it in action</p>
+    <h2 class="reveal">Four real masks, ready to wear.</h2>
+    <p class="lead reveal">Distilled end-to-end with mask's own recipes — every claim evidence-bound (<code>[src:…]</code>), each passing <code>mask coverage</code> with zero orphan pages, broken <code>[[links]]</code>, or uncited claims. Install one in seconds:</p>
+    <div class="codeblock reveal" style="max-width:380px; margin-bottom:32px;"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>mask try hung-yi-lee
+mask wear hung-yi-lee</pre></div>
+    <div class="matrix">
+      <div class="card reveal d1"><h3>hung-yi-lee <small>voice · 李宏毅 NTU ML lectures</small></h3><p>Hung-yi Lee's Mandarin lectures on LLM internals — a white-board, example-driven teaching voice.</p></div>
+      <div class="card reveal d2"><h3>micrograd <small>code · karpathy/micrograd</small></h3><p>Karpathy's tiny scalar autograd engine — near-complete coverage of the house conventions.</p></div>
+      <div class="card reveal d3"><h3>open-slide <small>code · 1weiho/open-slide</small></h3><p>Yiwei Ho's agent-native slide framework — arbitrary React pages on a fixed canvas, no DSL.</p></div>
+      <div class="card reveal d1"><h3>audio-hallucination <small>code · kuan2jiu99</small></h3><p>Chun-Yi Kuan &amp; Hung-yi Lee's eval harnesses for two papers on hallucination in audio-language models.</p></div>
+    </div>
+    <p class="lead reveal" style="margin-top:30px; font-size:15px;">See the <a href="https://github.com/TTigger/mask/blob/main/docs/GALLERY.md">gallery</a> for the exact commands and sample answers.</p>
   </div>
 </section>
 
