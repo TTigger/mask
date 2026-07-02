@@ -14,12 +14,13 @@ jobs:
 
       # charmbracelet/vhs-action@v2 is broken (its ffmpeg installer hardcodes a
       # BtbN release asset name that no longer exists — vhs-action#459), so we
-      # install first-party artifacts directly: apt for ffmpeg/ttyd, the pinned
-      # official vhs .deb from charmbracelet/vhs releases.
+      # install first-party artifacts directly: apt for ffmpeg/ttyd (+ CJK fonts
+      # for the zh-TW tape), the pinned official vhs .deb from charmbracelet/vhs
+      # releases.
       - name: Install vhs
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg ttyd
+          sudo apt-get install -y ffmpeg ttyd fonts-noto-cjk
           curl -fsSL -o /tmp/vhs.deb https://github.com/charmbracelet/vhs/releases/download/v0.11.0/vhs_0.11.0_amd64.deb
           echo "fbc970f9e20ba59884af09b4d52c66117239a16cfe9a2a757f8af5b30b16d055  /tmp/vhs.deb" | sha256sum -c
           sudo dpkg -i /tmp/vhs.deb
@@ -27,10 +28,13 @@ jobs:
       - name: Render demo/demo.tape
         run: vhs demo/demo.tape
 
-      - name: Commit assets/demo.gif
+      - name: Render demo/demo.zh-tw.tape
+        run: vhs demo/demo.zh-tw.tape
+
+      - name: Commit the rendered GIFs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add assets/demo.gif
-          git diff --cached --quiet || git commit -m "assets: render demo.gif from demo/demo.tape"
+          git add assets/demo.gif assets/demo.zh-tw.gif
+          git diff --cached --quiet || git commit -m "assets: render demo GIFs from demo/*.tape"
           git push
