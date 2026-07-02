@@ -25,6 +25,6 @@
     <text x="606" y="300" font-family="'Space Grotesk', Helvetica, Arial, sans-serif" font-size="170" font-weight="700" fill="#F4F1EA" letter-spacing="-4">mask</text>
     <text x="612" y="372" font-family="'Space Grotesk', Helvetica, Arial, sans-serif" font-size="44" font-weight="600" fill="#C4BBE6">Distill anything. Wear anyone.</text>
     <text x="612" y="430" font-family="'Inter', Helvetica, Arial, sans-serif" font-size="27" fill="#9D93C9">agent-native persona distillation · no API key</text>
-    <text x="612" y="486" font-family="'Inter', Helvetica, Arial, sans-serif" font-size="25" fill="#9D93C9">voice · code · blend  ·  one AGENTS.md → 30+ agents  ·  4 source kinds</text>
+    <text x="612" y="486" font-family="'Inter', Helvetica, Arial, sans-serif" font-size="22" textLength="640" lengthAdjust="spacingAndGlyphs" fill="#9D93C9">voice · code · blend  ·  one AGENTS.md → 30+ agents  ·  4 source kinds</text>
   </g>
 </svg>
