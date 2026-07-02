@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- Render source for assets/social-preview.png (1280x640).
+     Re-render: load in a 1280x640 headless-browser viewport, wait for fonts
+     (document.fonts.ready), screenshot the viewport.
+     Keep the copy in sync with assets/social-preview.svg. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{ margin:0; padding:0; }
+  .card{ width:1280px; height:640px; overflow:hidden; display:flex; align-items:center;
+         background:linear-gradient(135deg,#3B2E6B 0%,#241B45 100%); }
+  .mark{ width:400px; height:400px; margin-left:96px; flex:none; }
+  .text{ margin-left:64px; }
+  .text h1{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:150px; line-height:1;
+            color:#F4F1EA; margin:0 0 10px; letter-spacing:-5px; }
+  .text .tag{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:42px; color:#C4BBE6; margin:0 0 26px; }
+  .text .sub{ font-family:'Inter',sans-serif; font-weight:400; font-size:25px; color:#9D93C9; margin:0 0 12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <svg class="mark" viewBox="0 0 512 512" aria-hidden="true">
+    <defs><path id="m" d="M256 120 C314 120 352 162 352 222 C352 300 316 366 256 392 C196 366 160 300 160 222 C160 162 198 120 256 120 Z"/></defs>
+    <use href="#m" fill="#6E63A6" transform="translate(104 -8) rotate(13 256 256)"/>
+    <use href="#m" fill="#9D93C9" transform="translate(54 -4) rotate(6.5 256 256)"/>
+    <use href="#m" fill="#F4F1EA"/>
+    <path d="M206 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#34285F"/>
+    <path d="M262 224 q24 -24 48 0 q-24 16 -48 0 Z" fill="#34285F"/>
+    <path d="M228 306 q28 20 56 0" stroke="#34285F" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </svg>
+  <div class="text">
+    <h1>mask</h1>
+    <p class="tag">Distill anything. Wear anyone.</p>
+    <p class="sub">agent-native persona distillation · no API key</p>
+    <p class="sub">voice · code · blend  ·  one AGENTS.md → 30+ agents  ·  4 source kinds</p>
+  </div>
+</div>
+</body>
+</html>
