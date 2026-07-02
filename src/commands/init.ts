@@ -5,6 +5,7 @@ import { dirname, join, resolve, sep } from "node:path";
 import { libraryRoot, configPath, registryPath, activePath } from "../lib/paths.ts";
 import { commitAll } from "../lib/git.ts";
 import { recipePath, frameworkRoot } from "../lib/framework.ts";
+import { ensureFrameworkAssets } from "../lib/framework-sync.ts";
 import { readConfig } from "../lib/config.ts";
 import { getAdapter, SUPPORTED_AGENTS } from "../adapters/index.ts";
 
@@ -55,6 +56,14 @@ async function init(opts: InitOpts): Promise<void> {
     console.warn(`mask: ⚠ config agent "${agent}" is not supported; falling back to ${detectAgent()}.`);
     agent = detectAgent();
   }
+
+  // Package mode (npm/bunx — no .git next to the assets): copy recipes/templates
+  // into <library>/_framework so the paths baked below outlive the install cache.
+  const assets = await ensureFrameworkAssets();
+  if (assets.synced && assets.written > 0) {
+    console.log(`mask: synced framework assets -> ${assets.root} (${assets.written} files)`);
+  }
+
   const adapter = getAdapter(agent);
   const target = await adapter.installOrchestrator();
   console.log(`mask: installed orchestrator into ${target}`);
@@ -71,12 +80,10 @@ async function init(opts: InitOpts): Promise<void> {
     );
   }
 
-  // The orchestrator embeds absolute recipe/template paths; warn loudly if they
-  // don't resolve (e.g. the standalone compiled binary without MASK_FRAMEWORK).
   if (!existsSync(recipePath())) {
     console.warn(
-      `mask: ⚠ framework assets not found under ${frameworkRoot()} — the orchestrator points at a recipe path that doesn't exist.\n` +
-        `  Running the compiled binary? Set MASK_FRAMEWORK to your cloned mask repo and re-run \`mask init\`.`,
+      `mask: ⚠ framework assets not found at ${recipePath()} — the orchestrator points at a recipe path that doesn't exist.\n` +
+        `  Re-run \`mask init\` from a healthy install, or set MASK_FRAMEWORK to a cloned mask repo and re-run \`mask init\`.`,
     );
   }
 }
