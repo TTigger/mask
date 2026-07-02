@@ -416,3 +416,7 @@ git push
 ## Post-plan manual step (user)
 
 GitHub → repo **Settings → Social preview** → upload the new `assets/social-preview.png`. No API exists for this; remind the user in the final summary.
+
+## As-built deviations
+
+- Social preview: the copy line wrapped at the plan's 25px/96px/64px geometry; as built, `.sub` is 22px with `white-space:nowrap` and margins are mark 64px / text 48px (commit adc4553). `assets/social-preview.html` is the render source of truth; the SVG's last text line uses font-size 22 with `textLength="640"` to match.
