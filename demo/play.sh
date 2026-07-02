@@ -8,7 +8,7 @@
 p()   { printf '%s\n' "$1"; }
 dim() { printf '\033[2m%s\033[0m\n' "$1"; }
 ok()  { printf '\033[32m%s\033[0m\n' "$1"; }
-prompt() { printf '\n\033[35m\xe2\x9d\xaf \033[0m'; }
+prompt() { printf '\n\033[35m\342\235\257 \033[0m'; }
 
 # round 1: "distill karpathy/micrograd for me"
 prompt; read -r _
