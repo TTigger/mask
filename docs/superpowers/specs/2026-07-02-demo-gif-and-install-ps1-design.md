@@ -60,9 +60,10 @@ user's environment; print the exact line instead.
    (override: `-InstallDir <dir>` param or `$env:INSTALL_DIR`; param wins).
    Launcher body: `@bun run "<repo>\src\cli.ts" %*` — runs from the checkout,
    so `git pull` updates it, no rebuild.
-5. PATH check against `$env:Path`: present → `✅ Done. Try: mask --version`;
-   absent → print the exact `setx PATH "...;<dir>"` line and "open a new
-   terminal" note. Do NOT run setx.
+5. PATH check against `$env:Path`: present → done message; absent → print the
+   exact `[Environment]::SetEnvironmentVariable('Path', …, 'User')` line and
+   an "open a new terminal" note. Do NOT modify PATH ourselves. (`setx` is
+   avoided: it truncates at 1024 chars and merges machine PATH into user PATH.)
 6. Print the same "Next: mask init …" footer as install.sh.
 
 **Files**
