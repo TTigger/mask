@@ -3,6 +3,7 @@ import { mkdtemp, readdir, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, relative, sep } from "node:path";
 import type { Sample } from "../../src/lib/digest.ts";
+import { runCapture } from "../../src/lib/proc.ts";
 
 /**
  * Repo ingest (knowledge-first, for `type: code` masks). Deterministically
@@ -92,12 +93,13 @@ async function readCapped(path: string, maxBytes: number): Promise<string> {
 async function defaultCloner(source: string): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), "mask-repo-"));
   // `--` ends options so a `-`-leading source can't be parsed as a git flag
-  // (e.g. --upload-pack=...); discard output so a verbose clone can't block.
-  const proc = Bun.spawn(["git", "clone", "--depth", "1", "--", source, dir], {
-    stdout: "ignore",
-    stderr: "ignore",
-  });
-  if ((await proc.exited) !== 0) throw new Error(`git clone failed: ${source}`);
+  // (e.g. --upload-pack=...); runCapture drains both streams so a verbose
+  // clone can't block.
+  try {
+    await runCapture(["git", "clone", "--depth", "1", "--", source, dir]);
+  } catch {
+    throw new Error(`git clone failed: ${source}`);
+  }
   return dir;
 }
 
