@@ -5,6 +5,9 @@
 # ids, the answer, its [src:] citations) is sourced from examples/micrograd --
 # see docs/superpowers/specs/2026-07-02-demo-gif-and-install-ps1-design.md.
 
+# clear + home first, so the (hidden) launch line never shows in the recording
+printf '\033[2J\033[H'
+
 p()   { printf '%s\n' "$1"; }
 dim() { printf '\033[2m%s\033[0m\n' "$1"; }
 ok()  { printf '\033[32m%s\033[0m\n' "$1"; }
