@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 import { Command } from "commander";
 import { registerCommands } from "./commands/index.ts";
 import pkg from "../package.json" with { type: "json" };
