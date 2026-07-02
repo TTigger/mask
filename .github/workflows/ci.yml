@@ -27,3 +27,29 @@ jobs:
 
       - name: Build (single executable)
         run: bun run build
+
+  # Proves the npm package runs on plain Node (no Bun at runtime), on both OSes:
+  # pack → install tarball → --version → init (package mode) → try.
+  node-smoke:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Bun (build toolchain for prepack)
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install (frozen lockfile)
+        run: bun install --frozen-lockfile
+
+      - name: Node smoke (pack -> install -> init -> try)
+        run: node test/smoke/node-smoke.mjs
