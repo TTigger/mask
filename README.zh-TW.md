@@ -136,7 +136,7 @@ CLI 是決定性的、**不呼叫任何 LLM** —— 智慧工作由你的 agent
 - `MASK_HOME` —— mask 庫位置（預設 `~/.mask`）。
 - `MASK_CLAUDE_MD` —— Claude Code 的 orchestrator 檔（預設 `~/.claude/CLAUDE.md`）。
 - `MASK_AGENTS_MD` —— AGENTS.md 安裝目標（預設 `./AGENTS.md`；`init --out <dir>` 會設定它）。
-- `MASK_FRAMEWORK` —— 跑**獨立編譯二進位**時設定，讓 agent 仍找得到磁碟上的 recipe/templates；指向 clone 的 repo。（用 `bun run`/launcher 時不需要，會自動解析。）
+- `MASK_FRAMEWORK` —— 手動指定磁碟上 recipe/templates 的位置；只有跑**獨立編譯二進位**時需要（指向 clone 的 repo）。npm/npx/bunx 安裝和 clone 都會自動解析（`mask init` 會在 `~/.mask/_framework/` 維護一份穩定副本）。
 
 ## 參與貢獻
 

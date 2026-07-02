@@ -146,7 +146,7 @@ The CLI is deterministic and calls **no LLM** — your agent does the intelligen
 - `MASK_HOME` — library location (default `~/.mask`).
 - `MASK_CLAUDE_MD` — Claude Code orchestrator file (default `~/.claude/CLAUDE.md`).
 - `MASK_AGENTS_MD` — the AGENTS.md install target (default `./AGENTS.md`; `init --out <dir>` sets this).
-- `MASK_FRAMEWORK` — set this when running the **standalone compiled binary** so the agent can still find the on-disk recipe/templates; point it at the cloned repo. (Unnecessary with `bun run`/`bunx`, which resolve them automatically.)
+- `MASK_FRAMEWORK` — manual override for where the on-disk recipe/templates live; only needed for the **standalone compiled binary** (point it at a cloned repo). npm/npx/bunx installs and clones resolve them automatically (`mask init` keeps a stable copy in `~/.mask/_framework/`).
 
 ## Contributing
 
