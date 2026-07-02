@@ -230,15 +230,14 @@
   <div class="wrap">
     <p class="eyebrow reveal">Quickstart</p>
     <h2 class="reveal">Running in three steps.</h2>
-    <p class="lead reveal">Requires <a href="https://bun.sh">Bun</a>. The framework is a cloned repo; your masks live separately in <code>~/.mask/</code>.</p>
+    <p class="lead reveal">Node ≥ 20 — no Bun required. Your masks live separately in <code>~/.mask/</code>.</p>
     <div class="steps">
       <div class="step reveal">
         <div class="n">1</div>
         <div>
-          <h3>Clone &amp; install</h3>
-          <p>Grab the framework and put a <code>mask</code> launcher on your PATH.</p>
-          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>git clone https://github.com/TTigger/mask &amp;&amp; cd mask
-./install.sh          <span class="tok"># Windows (PowerShell): .\install.ps1</span></pre></div>
+          <h3>Install</h3>
+          <p>One command from npm. Prefer to try first? <code>npx mask-cli init</code> works too.</p>
+          <div class="codeblock"><button class="copy" aria-label="Copy"><svg><use href="#i-copy"/></svg></button><pre>npm i -g mask-cli     <span class="tok"># or: bun add -g mask-cli</span></pre></div>
         </div>
       </div>
       <div class="step reveal">

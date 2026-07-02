@@ -66,15 +66,11 @@ mask wear hung-yi-lee
 
 ## 安裝與使用
 
-需要 [Bun](https://bun.sh)。框架以 clone 的 repo 散佈（工具本身）；你的 mask 另外存在 `~/.mask/`（它自己的 Git repo）。
-
 ```sh
-git clone https://github.com/TTigger/mask && cd mask
-./install.sh        # macOS/Linux — 裝相依 + 在 PATH 放一個 `mask` launcher
-# Windows（PowerShell）：  .\install.ps1
+npm i -g mask-cli        # 或：bun add -g mask-cli
 ```
 
-`install.sh` 放的 launcher 直接從這份 checkout 跑 CLI，所以 `git pull` 就更新、不用重 build。接著在任何專案裡：
+這樣就好 —— `mask` 已經在你的 PATH 上（Node ≥ 20；不需要 Bun）。想先試再裝：`npx mask-cli init`（或 `bunx mask-cli init`）。你的 mask 另外存在 `~/.mask/`（它自己的 Git repo）。接著在任何專案裡：
 
 ```sh
 mask init                              # Claude Code（預設）：orchestrator → ~/.claude/CLAUDE.md
@@ -83,7 +79,20 @@ cd 你的專案 && mask init --agent agents-md --out .   # 或在你的專案放
 
 > **接著開一個新的 agent session**，讓它讀到剛裝好的 orchestrator —— 然後就能說：*「幫我蒸餾這個部落格、讓我戴上它」*。`init` 只需跑一次（冪等；隨時可重跑來更新）。在你 init 之前，agent 並不認得 mask 工作流。
 
-（不想用安裝腳本？`bun run dev <command>` 直接從 clone 跑 CLI。）
+<details>
+<summary><b>從原始碼安裝</b>（貢獻者 —— 直接跑 checkout 裡的 CLI）</summary>
+
+需要 [Bun](https://bun.sh)。
+
+```sh
+git clone https://github.com/TTigger/mask && cd mask
+./install.sh        # macOS/Linux — 裝相依 + 在 PATH 放一個 `mask` launcher
+# Windows（PowerShell）：  .\install.ps1
+```
+
+launcher 直接從這份 checkout 跑 CLI，所以 `git pull` 就更新、不用重 build。（`bun run dev <command>` 也能直接從 clone 跑。）
+
+</details>
 
 兩個 adapter 覆蓋所有 agent：
 

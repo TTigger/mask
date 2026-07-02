@@ -68,15 +68,11 @@ See the **[gallery](docs/GALLERY.md)** for the exact commands and sample answers
 
 ## Install & run
 
-Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (the tool); your masks live separately in `~/.mask/` (its own Git repo).
-
 ```sh
-git clone https://github.com/TTigger/mask && cd mask
-./install.sh        # macOS/Linux — installs deps + puts a `mask` launcher on your PATH
-# Windows (PowerShell):  .\install.ps1
+npm i -g mask-cli        # or: bun add -g mask-cli
 ```
 
-`install.sh` drops a tiny launcher that runs the CLI from this checkout, so `git pull` updates it — no rebuild. Then, from any project:
+That's it — `mask` is on your PATH (Node ≥ 20; no Bun required). To try it without installing: `npx mask-cli init` (or `bunx mask-cli init`). Your masks live separately in `~/.mask/` (its own Git repo). Then, from any project:
 
 ```sh
 mask init                              # Claude Code (default): orchestrator → ~/.claude/CLAUDE.md
@@ -85,7 +81,20 @@ cd your-project && mask init --agent agents-md --out .   # or a universal AGENTS
 
 > **Then start a new agent session** so it picks up the freshly installed orchestrator — now just say *"distill this blog and let me wear it."* `init` only has to be run once (it's idempotent; re-run it anytime to refresh). Until you've run it, your agent doesn't know the mask workflow.
 
-(Prefer no installer? `bun run dev <command>` runs the CLI straight from the clone.)
+<details>
+<summary><b>From source</b> (contributors — runs the CLI from a live checkout)</summary>
+
+Requires [Bun](https://bun.sh).
+
+```sh
+git clone https://github.com/TTigger/mask && cd mask
+./install.sh        # macOS/Linux — installs deps + puts a `mask` launcher on your PATH
+# Windows (PowerShell):  .\install.ps1
+```
+
+The launcher runs the CLI from this checkout, so `git pull` updates it — no rebuild. (`bun run dev <command>` also works straight from the clone.)
+
+</details>
 
 Two adapters cover every agent:
 
