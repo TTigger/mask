@@ -72,7 +72,8 @@ Requires [Bun](https://bun.sh). The framework is distributed as a cloned repo (t
 
 ```sh
 git clone https://github.com/TTigger/mask && cd mask
-./install.sh        # installs deps + puts a `mask` launcher on your PATH
+./install.sh        # macOS/Linux — installs deps + puts a `mask` launcher on your PATH
+# Windows (PowerShell):  .\install.ps1
 ```
 
 `install.sh` drops a tiny launcher that runs the CLI from this checkout, so `git pull` updates it — no rebuild. Then, from any project:

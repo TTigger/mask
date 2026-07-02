@@ -70,7 +70,8 @@ mask wear hung-yi-lee
 
 ```sh
 git clone https://github.com/TTigger/mask && cd mask
-./install.sh        # 裝相依 + 在 PATH 放一個 `mask` launcher
+./install.sh        # macOS/Linux — 裝相依 + 在 PATH 放一個 `mask` launcher
+# Windows（PowerShell）：  .\install.ps1
 ```
 
 `install.sh` 放的 launcher 直接從這份 checkout 跑 CLI，所以 `git pull` 就更新、不用重 build。接著在任何專案裡：
