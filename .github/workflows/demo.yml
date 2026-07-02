@@ -12,10 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # charmbracelet/vhs-action@v2 is broken (its ffmpeg installer hardcodes a
+      # BtbN release asset name that no longer exists — vhs-action#459), so we
+      # install first-party artifacts directly: apt for ffmpeg/ttyd, the pinned
+      # official vhs .deb from charmbracelet/vhs releases.
+      - name: Install vhs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg ttyd
+          curl -fsSL -o /tmp/vhs.deb https://github.com/charmbracelet/vhs/releases/download/v0.11.0/vhs_0.11.0_amd64.deb
+          sudo dpkg -i /tmp/vhs.deb
+
       - name: Render demo/demo.tape
-        uses: charmbracelet/vhs-action@v2
-        with:
-          path: demo/demo.tape
+        run: vhs demo/demo.tape
 
       - name: Commit assets/demo.gif
         run: |
