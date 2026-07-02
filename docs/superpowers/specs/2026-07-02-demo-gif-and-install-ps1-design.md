@@ -13,8 +13,10 @@ install friction. No CLI code changes.
 **Approach**: scripted replay via [charmbracelet/vhs](https://github.com/charmbracelet/vhs).
 A `demo/demo.tape` file is checked into the repo and rendered to
 `assets/demo.gif` by a manually-triggered GitHub Actions workflow
-(`charmbracelet/vhs-action`), which commits the GIF back. Re-recording after a
-UI change = edit the tape, re-run the workflow. No local ttyd/ffmpeg needed
+which commits the GIF back. Originally the workflow used `charmbracelet/vhs-action`, but that
+action has a broken ffmpeg installer (vhs-action#459), so the workflow now installs
+pinned first-party artifacts directly (apt for ffmpeg/ttyd, charmbracelet vhs 0.11.0 .deb).
+Re-recording after a UI change = edit the tape, re-run the workflow. No local ttyd/ffmpeg needed
 (vhs is awkward on Windows).
 
 **Honesty constraint**: the replayed conversation is staged for pacing, but
@@ -23,7 +25,7 @@ verbatim (condensed) from `examples/micrograd`, which was really distilled with
 mask's own recipes and passes `mask coverage`. Nothing in the GIF claims
 anything the shipped example can't back.
 
-**Storyboard (~30 s)**
+**Storyboard (~30 s; as built: ~24 s)**
 
 | time | beat |
 |---|---|

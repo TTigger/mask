@@ -1,4 +1,4 @@
-# mask README demo -- rendered by .github/workflows/demo.yml (vhs-action).
+# mask README demo -- rendered by .github/workflows/demo.yml (installs vhs directly).
 # Edit this file + re-run the workflow to re-record.
 Output assets/demo.gif
 

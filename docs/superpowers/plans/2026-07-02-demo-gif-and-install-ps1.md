@@ -398,3 +398,11 @@ git push
 ```
 
 Expected: typecheck + tests pass; GIF visible on the GitHub repo page.
+
+## As-built deviations
+
+- (a) The workflow originally specified `charmbracelet/vhs-action@v2`, but that action has a broken ffmpeg installer (upstream issue vhs-action#459). The as-built workflow replaces it with direct pinned installs: `apt` for ffmpeg and ttyd, and charmbracelet/vhs 0.11.0 .deb verified by SHA256.
+
+- (b) `demo/play.sh` uses a POSIX octal escape `\xe2\x9d\xaf` for the prompt `❯` symbol, because the plan's `\xHH` hex escape breaks under POSIX dash; also clears the screen at start with `clear`.
+
+- (c) The actual rendered GIF is approximately 24 seconds, not the ~30 seconds estimated in the plan. The estimate double-counted script runtime that runs concurrently with tape sleep periods, reducing the net duration.
