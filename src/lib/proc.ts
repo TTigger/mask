@@ -10,8 +10,8 @@ import { spawn } from "node:child_process";
 export function runCapture(argv: string[]): Promise<string> {
   const [cmd, ...args] = argv;
   return new Promise((resolvePromise, reject) => {
-    // stdin "ignore" (standard default) so a prompt-happy tool can't wait on
-    // input. The explicit stdio tuple makes TS type the streams nullable —
+    // stdin "ignore" (Bun.spawn's old default) so a prompt-happy tool can't
+    // wait on input. The explicit stdio tuple makes TS type the streams nullable —
     // they are always present for "pipe", hence the assertions.
     const child = spawn(cmd, args, { stdio: ["ignore", "pipe", "pipe"] });
     let stdout = "";

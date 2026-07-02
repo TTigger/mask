@@ -42,6 +42,11 @@ export async function ensureFrameworkAssets(
   to: string = effectiveAssetsRoot(),
 ): Promise<{ synced: boolean; written: number; root: string }> {
   if (resolve(from) === resolve(to)) return { synced: false, written: 0, root: to };
+  if (!SYNC_DIRS.some((dir) => existsSync(join(from, dir)))) {
+    // Nothing found under from (e.g. a compiled binary whose walk-up found no
+    // adjacent assets) → don't write a .source marker claiming a sync happened.
+    return { synced: false, written: 0, root: to };
+  }
   let written = 0;
   for (const dir of SYNC_DIRS) {
     if (!existsSync(join(from, dir))) continue; // broken install → init's recipe warning fires

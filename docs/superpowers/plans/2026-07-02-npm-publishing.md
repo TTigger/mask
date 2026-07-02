@@ -923,3 +923,7 @@ git commit -m "docs+site: npm-first install (mask-cli); clone becomes the contri
 2. **Publish 0.4.0:** create and push the tag — `git tag v0.4.0 && git push origin v0.4.0` — the release workflow runs gates + smoke, then publishes. Verify with `npm view mask-cli version` (expect `0.4.0`) and a clean-machine `npx mask-cli --version`.
 3. If `mask-cli` turns out taken at publish time (squatted since 2026-07-02): rename to `@ttigger/mask-cli` in package.json + docs and re-tag (user-approved fallback).
 4. After the publish succeeds: STOP — launch week is discussed with the user before any launch action (explicit instruction).
+
+## As-built deviations
+
+- `ensureFrameworkAssets` writes nothing (incl. no `.source` marker) when `from` ships neither `recipes/` nor `templates/` — a compiled binary degrades to the missing-assets warning instead of a misleading marker; spec's compiled-binary sentence softened accordingly.

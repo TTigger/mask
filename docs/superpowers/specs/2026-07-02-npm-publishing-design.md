@@ -49,7 +49,7 @@ The orchestrator must never point into an evictable cache.
   - Sync is deterministic: write a file only when content differs (no timestamps, no `Date.now()`); a `_framework/.source` marker records the package version for debuggability.
   - Pure path getters never write; only `ensureFrameworkAssets()` does, and only init/compile call it (they are the two commands that emit paths into orchestrator/subagent files). If assets are missing because init never ran, the existing `existsSync(recipePath())` warning in init covers it; that warning's "set MASK_FRAMEWORK" wording updates to mention re-running `mask init`.
   - `examples/` is not synced: `mask try` reads it from the package dir at invocation time and copies into the library — no path is baked, so eviction can't hurt it.
-- This also retires the long-standing compiled-binary wart in `framework.ts` ("standalone binary should set MASK_FRAMEWORK"): a compiled binary now behaves like package mode once shipped alongside the assets, and `MASK_FRAMEWORK` remains the manual override.
+- This narrows the compiled-binary wart in `framework.ts` rather than fixing it: the binary's walk-up cannot see assets shipped next to the executable, so it degrades to the (now honest) missing-assets warning, and `MASK_FRAMEWORK` remains the manual override.
 
 ## Decision 4 — release flow
 

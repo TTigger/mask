@@ -48,4 +48,13 @@ describe("ensureFrameworkAssets", () => {
     expect(r.written).toBe(1);
     expect(readFileSync(join(to, "recipes", "voice", "RECIPE.md"), "utf8")).toBe("# recipe v2\n");
   });
+
+  test("nothing to sync (no recipes/ or templates/ at from) writes nothing", async () => {
+    const bare = join(tmp, "bare");
+    mkdirSync(bare, { recursive: true });
+    const r = await ensureFrameworkAssets(bare, to);
+    expect(r.synced).toBe(false);
+    expect(r.written).toBe(0);
+    expect(existsSync(to)).toBe(false);
+  });
 });
