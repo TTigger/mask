@@ -1,4 +1,5 @@
 <p align="center"><img src="assets/social-preview.png" alt="mask — Distill anything. Wear anyone." width="840"></p>
+<p align="center"><img src="assets/demo.gif" alt="demo: distill karpathy/micrograd, wear it, ask a question — the agent answers in its idiom with [src:] citations" width="840"></p>
 <p align="center">
   <a href="https://ttigger.github.io/mask"><b>Website</b></a>
   &nbsp;·&nbsp; <a href="https://github.com/TTigger/mask">GitHub</a>

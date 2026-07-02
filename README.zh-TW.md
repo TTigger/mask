@@ -1,4 +1,5 @@
 <p align="center"><img src="assets/social-preview.png" alt="mask — 蒸餾萬物，戴上任何人。" width="840"></p>
+<p align="center"><img src="assets/demo.gif" alt="demo：蒸餾 karpathy/micrograd、戴上它、提問——agent 以它的慣用語回答並附 [src:] 引用" width="840"></p>
 <p align="center">
   <a href="https://ttigger.github.io/mask"><b>網站</b></a>
   &nbsp;·&nbsp; <a href="https://github.com/TTigger/mask">GitHub</a>
